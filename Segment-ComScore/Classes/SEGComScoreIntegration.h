@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Analytics/SEGIntegration.h>
-#import <ComScore-iOS/ComScore.h>
+#import <ComScore-iOS/CSComScore.h>
 
 
 @interface SEGComScoreIntegration : NSObject <SEGIntegration>
@@ -18,6 +18,6 @@
 
 - (instancetype)initWithSettings:(NSDictionary *)settings;
 
-- (instancetype)initWithSettings:(NSDictionary *)settings andComscore:(id)comScoreClass;
+- (instancetype)initWithSettings:(NSDictionary *)settings andCSComscore:(id)comScoreClass;
 
 @end
