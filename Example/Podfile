@@ -4,7 +4,8 @@ target 'Segment-ComScore_Example' do
 
   target 'Segment-ComScore_Tests' do
     inherit! :search_paths
-
+  
+  pod 'OCMockito'
   pod 'Specta'
   pod 'Expecta'
   end

@@ -4,8 +4,9 @@
 
   #import <Specta/Specta.h>
   #import <Expecta/Expecta.h>
+  #import <OCMockito/OCMockito.h>
   #import <Analytics/SEGAnalytics.h>
-//  #import <Segment-ComsScore/SEGComScoreIntegrationFactory.h>
-//  #import <Segment-ComScore/SEGComScoreIntegration.h>
+  #import <Segment-ComScore/SEGComScoreIntegrationFactory.h>
+  #import <Segment-ComScore/SEGComScoreIntegration.h>
 
 #endif
