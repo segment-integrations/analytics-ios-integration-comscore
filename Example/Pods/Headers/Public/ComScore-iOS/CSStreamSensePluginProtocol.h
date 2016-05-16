@@ -1,0 +1,1 @@
+../../../ComScore-iOS/comScore/headers/CSStreamSensePluginProtocol.h

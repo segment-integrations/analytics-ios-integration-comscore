@@ -1,4 +1,3 @@
-use_frameworks!
 
 target 'Segment-ComScore_Example' do
   pod 'Segment-ComScore', :path => '../'
@@ -6,7 +5,7 @@ target 'Segment-ComScore_Example' do
   target 'Segment-ComScore_Tests' do
     inherit! :search_paths
 
-    pod 'Specta'
+  pod 'Specta'
   pod 'Expecta'
   end
 end
