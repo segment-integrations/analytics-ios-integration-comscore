@@ -48,6 +48,31 @@
 
 }
 
+- (void)identify:(SEGIdentifyPayload *)payload
+{
+ //[comScore setLabel: value:]
+  
+}
+
+
+- (void)track:(SEGTrackPayload *)payload
+{
+    //[comScore hiddenWithLabels]
+    // Have to convert props into all strings and send
+}
+
+- (void)screen:(SEGScreenPayload *)payload
+{
+    //[comScore viewWithLabels]
+    // Have to convert props into all strings and send
+}
+
+- (void)flush
+{
+    SEGLog(@"ComScore flushCache");
+    [self.comScoreClass flushCache];
+}
+
 - (NSString *)customerC2
 {
     return self.settings[@"customerC2"];
@@ -68,9 +93,9 @@
     return (NSNumber *)[self.settings objectForKey:@"autoUpdateInterval"];
 }
 
-- (NSNumber *)useHTTPS
+- (BOOL *)useHTTPS
 {
-    return (NSNumber *)[self.settings objectForKey:@"useHTTPS"];
+    return [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
 }
 
 @end
