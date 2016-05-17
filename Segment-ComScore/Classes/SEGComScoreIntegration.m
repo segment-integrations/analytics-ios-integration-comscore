@@ -48,10 +48,30 @@
 
 }
 
++ (NSDictionary *)mapToStrings:(NSDictionary *)dictionary
+{
+    NSMutableDictionary *mapped = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
+        id data = [mapped objectForKey:key];
+        if (!![data isKindOfClass:[NSString class]]) {
+            [mapped setObject:[NSString stringWithFormat:@"%@", data] forKey:key];
+        }
+    }];
+    
+    return [mapped copy];
+}
+
 - (void)identify:(SEGIdentifyPayload *)payload
 {
- //[comScore setLabel: value:]
-  
+    NSDictionary *mappedTraits = [SEGComScoreIntegration mapToStrings:payload.traits];
+    [mappedTraits enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
+        id data = [payload.traits objectForKey:key];
+        if (data != nil && [data length] != 0) {
+            [self.comScoreClass setLabel: key value: data];
+            SEGLog(@"[CSComScore setLabel: %@ value: %@]", key, data);
+        }
+    }];
 }
 
 
@@ -88,12 +108,12 @@
     return (NSString *)[self.settings objectForKey:@"autoUpdateMode"];
 }
 
-- (NSNumber *)autoUpdateInterval
+- (int)autoUpdateInterval
 {
-    return (NSNumber *)[self.settings objectForKey:@"autoUpdateInterval"];
+    return [(NSNumber *)[self.settings objectForKey:@"autoUpdateInterval"] intValue];
 }
 
-- (BOOL *)useHTTPS
+- (BOOL)useHTTPS
 {
     return [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
 }

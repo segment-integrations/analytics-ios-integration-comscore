@@ -18,6 +18,6 @@
 
 - (instancetype)initWithSettings:(NSDictionary *)settings;
 
-- (instancetype)initWithSettings:(NSDictionary *)settings andCSComscore:(id)comScoreClass;
+- (instancetype)initWithSettings:(NSDictionary *)settings andCSComScore:(id)comScoreClass;
 
 @end

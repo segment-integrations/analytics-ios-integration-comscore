@@ -41,6 +41,7 @@
 		1564BAC3F3C6E5D4FE25BF1D /* Segment-ComScore.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "Segment-ComScore.podspec"; path = "../Segment-ComScore.podspec"; sourceTree = "<group>"; };
 		1BEA44456C8AB3BDF3EC6BF9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		5878EFB790BE3547569A5DE4 /* Pods-Segment-ComScore_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		5C2BF0211CEBC81E0087DA8F /* SEGPayloadBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGPayloadBuilder.h; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* Segment-ComScore_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Segment-ComScore_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -168,6 +169,7 @@
 				6003F5B7195388D20070C39A /* Tests-Info.plist */,
 				6003F5B8195388D20070C39A /* InfoPlist.strings */,
 				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
+				5C2BF0211CEBC81E0087DA8F /* SEGPayloadBuilder.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
