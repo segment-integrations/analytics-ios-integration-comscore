@@ -1,4 +1,4 @@
-# Segment-ComScore
+# analytics-ios-integration-comscore
 
 [![CI Status](http://img.shields.io/travis/segment-integrations/analytics-ios-integration-comscore.svg?style=flat)](https://travis-ci.org/segment-integrations/analytics-ios-integration-comscore)
 [![Version](https://img.shields.io/cocoapods/v/Segment-ComScore.svg?style=flat)](http://cocoapods.org/pods/Segment-ComScore)
@@ -9,8 +9,6 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
-
 ## Installation
 
 Segment-ComScore is available through [CocoaPods](http://cocoapods.org). To install
@@ -19,10 +17,6 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "Segment-ComScore"
 ```
-
-## Author
-
-wcjohnson11, williamcouperjohnson@gmail.com
 
 ## License
 
