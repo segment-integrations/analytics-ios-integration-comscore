@@ -7,6 +7,7 @@
 //
 
 #import "SEGAppDelegate.h"
+#import <Analytics/SEGAnalytics.h>
 
 @implementation SEGAppDelegate
 

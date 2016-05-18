@@ -70,12 +70,15 @@ describe(@"SEGComScoreIntegration", ^{
                                                  @"Starship Type": @"Death Star"}];
     });
     
-    it(@"track with revenue", ^{
-//        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Starship Bought" properties:@{@"revenue": @20000} context:@{} integrations:@{}];
-//        
-//        [integration track:payload];
-//        
-//        [verify(mockTaplytics) logRevenue:@"Starship Bought" revenue:@20000 metaData:@{}];
+    it(@"screen with props", ^{
+        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Droid Planet" properties:@{@"resources":@"unlimited"} context:@{} integrations:@{}];
+        
+        [integration screen:payload];
+        
+        [verify(mockComScore) viewWithLabels:@{
+                                               @"name": @"Droid Planet",
+                                               @"resources": @"unlimited"
+                                               }];
     });
 
     

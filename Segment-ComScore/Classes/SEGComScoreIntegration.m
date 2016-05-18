@@ -29,8 +29,8 @@
             [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: YES];
             SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: YES]", [self autoUpdateInterval]);
         } else if ([[[self autoUpdateMode] lowercaseString] isEqualToString:@"background"]) {
-            [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: YES];
-            SEGLog(@"[CSComScore enableAutoUpdate: %@ backgroundOnly: YES]", [self autoUpdateInterval]);
+            [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: NO];
+            SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: NO]", [self autoUpdateInterval]);
         } else {
             [self.comScoreClass disableAutoUpdate];
         }
@@ -85,8 +85,9 @@
 
 - (void)screen:(SEGScreenPayload *)payload
 {
-    //[comScore viewWithLabels]
-    // Have to convert props into all strings and send
+    NSMutableDictionary *viewLabels = [@{@"name":payload.name} mutableCopy];
+    [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
+    [self.comScoreClass viewWithLabels:viewLabels];
 }
 
 - (void)flush
