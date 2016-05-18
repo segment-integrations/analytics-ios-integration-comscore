@@ -77,8 +77,10 @@
 
 - (void)track:(SEGTrackPayload *)payload
 {
-    //[comScore hiddenWithLabels]
-    // Have to convert props into all strings and send
+    NSMutableDictionary *hiddenLabels = [@{@"name":payload.event} mutableCopy];
+    [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
+    [self.comScoreClass hiddenWithLabels:hiddenLabels];
+    
 }
 
 - (void)screen:(SEGScreenPayload *)payload

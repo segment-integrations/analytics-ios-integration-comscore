@@ -61,11 +61,13 @@ describe(@"SEGComScoreIntegration", ^{
     });
     
     it(@"track with props", ^{
-//        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Starship Ordered" properties:@{@"Starship Type": @"Death Star"} context:@{} integrations:@{}];
-//        
-//        [integration track:payload];
-//        
-//        [verify(mockTaplytics) logEvent:@"Starship Ordered" value:nil metaData:@{@"Starship Type": @"Death Star"}];
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Starship Ordered" properties:@{@"Starship Type": @"Death Star"} context:@{} integrations:@{}];
+        
+        [integration track:payload];
+        
+        [verify(mockComScore) hiddenWithLabels:@{
+                                                 @"name": @"Starship Ordered",
+                                                 @"Starship Type": @"Death Star"}];
     });
     
     it(@"track with revenue", ^{
@@ -75,19 +77,12 @@ describe(@"SEGComScoreIntegration", ^{
 //        
 //        [verify(mockTaplytics) logRevenue:@"Starship Bought" revenue:@20000 metaData:@{}];
     });
+
     
-    it(@"track with value", ^{
-//        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Starship Refueled" properties:@{@"value": @200.15, @"Fuel Type":@"Solar Cells"} context:@{} integrations:@{}];
-//        
-//        [integration track:payload];
-//        
-//        [verify(mockTaplytics) logEvent:@"Starship Refueled" value:@200.15 metaData:@{@"Fuel Type": @"Solar Cells"}];
-    });
-    
-    it(@"reset", ^{
-//        [integration reset];
-//        
-//        [verify(mockTaplytics) resetUser:nil];
+    it(@"flush", ^{
+        [integration flush];
+        
+        [verify(mockComScore) flushCache];
     });
 });
 
