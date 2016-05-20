@@ -24,14 +24,18 @@ describe(@"SEGComScoreIntegrationFactory", ^{
             @"customerC2" : @"1234567",
             @"publisherSecret": @"publisherSecretString",
             @"setSecure": @"1",
-            @"autoUpdateInterval": @"background"
+            @"autoUpdate": @"1",
+            @"foregroundOnly": @"1",
+            @"autoUpdateInterval": @"2000"
         } forAnalytics:nil];
         
         expect(integration.settings).to.equal(@{
             @"customerC2": @"1234567",
             @"publisherSecret": @"publisherSecretString",
             @"setSecure": @"1",
-            @"autoUpdateInterval": @"background"
+            @"autoUpdate": @"1",
+            @"foregroundOnly": @"1",
+            @"autoUpdateInterval": @"2000"
         }); 
     });
 });

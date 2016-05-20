@@ -27,14 +27,14 @@
         SEGLog(@"[CSComScore setAppName: %@]", [self appName]);
         [self.comScoreClass setSecure: [self useHTTPS]];
         SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS]);
-        if ([[[self autoUpdateMode] lowercaseString] isEqualToString:@"foreground"]) {
-            [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: YES];
-            SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: YES]", [self autoUpdateInterval]);
-        } else if ([[[self autoUpdateMode] lowercaseString] isEqualToString:@"background"]) {
-            [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: NO];
-            SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: NO]", [self autoUpdateInterval]);
-        } else {
-            [self.comScoreClass disableAutoUpdate];
+        if ([self autoUpdate]) {
+            if ([self foregroundOnly]) {
+                [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: YES];
+                SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: YES]", [self autoUpdateInterval]);
+            } else {
+                [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: NO];
+                SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: NO]", [self autoUpdateInterval]);
+            }
         }
     }
     return self;
@@ -113,9 +113,14 @@
     return (NSString *)[self.settings objectForKey:@"appName"];
 }
 
-- (NSString *)autoUpdateMode
+- (BOOL)autoUpdate
 {
-    return (NSString *)[self.settings objectForKey:@"autoUpdateMode"];
+    return [(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue];
+}
+
+- (BOOL)foregroundOnly
+{
+    return [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue];
 }
 
 - (int)autoUpdateInterval
