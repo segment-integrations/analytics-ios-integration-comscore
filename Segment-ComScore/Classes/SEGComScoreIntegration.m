@@ -23,6 +23,8 @@
         SEGLog(@"[CSComScore setCustomerC2: %@]", [self customerC2]);
         [self.comScoreClass setPublisherSecret:[self publisherSecret]];
         SEGLog(@"[CSComScore setPublisherSecret: %@]", [self publisherSecret]);
+        [self.comScoreClass setAppName: [self appName]];
+        SEGLog(@"[CSComScore setAppName: %@]", [self appName]);
         [self.comScoreClass setSecure: [self useHTTPS]];
         SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS]);
         if ([[[self autoUpdateMode] lowercaseString] isEqualToString:@"foreground"]) {
@@ -104,6 +106,11 @@
 - (NSString *)publisherSecret
 {
     return (NSString *)[self.settings objectForKey:@"publisherSecret"];
+}
+
+- (NSString *)appName
+{
+    return (NSString *)[self.settings objectForKey:@"appName"];
 }
 
 - (NSString *)autoUpdateMode
