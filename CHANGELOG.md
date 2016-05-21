@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.4.0 *(20th May, 2016)*
+-------------------------------------------
+*(Supports analytics-ios 3.0.+ and ComScore 3.1510.231)*
+
+Rename CustomerC2 setting for consistency across platforms.
+
 Version 0.3.0 *(20th May, 2016)*
 -------------------------------------------
 *(Supports analytics-ios 3.0.+ and ComScore 3.1510.231)*

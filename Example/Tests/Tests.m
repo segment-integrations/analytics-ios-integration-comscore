@@ -21,7 +21,7 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 describe(@"SEGComScoreIntegrationFactory", ^{
     it(@"factory creates integration with basic settings", ^{
         SEGComScoreIntegration *integration = [[SEGComScoreIntegrationFactory instance] createWithSettings:@{
-            @"customerC2" : @"1234567",
+            @"c2" : @"1234567",
             @"publisherSecret": @"publisherSecretString",
             @"setSecure": @"1",
             @"autoUpdate": @"1",
@@ -30,7 +30,7 @@ describe(@"SEGComScoreIntegrationFactory", ^{
         } forAnalytics:nil];
         
         expect(integration.settings).to.equal(@{
-            @"customerC2": @"1234567",
+            @"c2": @"1234567",
             @"publisherSecret": @"publisherSecretString",
             @"setSecure": @"1",
             @"autoUpdate": @"1",

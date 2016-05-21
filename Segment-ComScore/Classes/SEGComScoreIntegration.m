@@ -100,7 +100,7 @@
 
 - (NSString *)customerC2
 {
-    return self.settings[@"customerC2"];
+    return self.settings[@"c2"];
 }
 
 - (NSString *)publisherSecret
