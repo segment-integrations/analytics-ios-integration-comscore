@@ -30,7 +30,6 @@
  */
 - (void)send:(CSApplicationEventType)eventType
       labels:(NSDictionary *)labels
-    pixelURL:(NSString *)pixelURL
        cache:(BOOL)cache
   background:(BOOL)background;
 

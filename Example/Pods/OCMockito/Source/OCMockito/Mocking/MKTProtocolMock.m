@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTProtocolMock.h"
 
@@ -52,5 +52,13 @@
 {
     return [self methodSignatureForSelector:aSelector] != nil;
 }
+
+#pragma mark Support being called as isEqual: argument
+
+- (BOOL)isNSArray__ { return NO; }
+- (BOOL)isNSData__ { return NO; }
+- (BOOL)isNSDictionary__ { return NO; }
+- (BOOL)isNSNumber__ { return NO; }
+- (BOOL)isNSString__ { return NO; }
 
 @end

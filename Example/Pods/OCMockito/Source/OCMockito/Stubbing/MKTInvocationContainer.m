@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTInvocationContainer.h"
 
@@ -63,6 +63,12 @@
         if ([s matches:invocation])
             return s;
     return nil;
+}
+
+- (BOOL)isStubbingCopyMethod
+{
+    return self.registeredInvocations.count > 0 &&
+            [self.registeredInvocations[0] invocation].selector == @selector(copy);
 }
 
 @end
