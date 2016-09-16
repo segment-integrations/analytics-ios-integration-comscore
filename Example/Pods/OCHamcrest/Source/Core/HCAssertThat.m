@@ -3,13 +3,12 @@
 
 #import "HCAssertThat.h"
 
+#import "HCRunloopRunner.h"
 #import "HCStringDescription.h"
 #import "HCMatcher.h"
 #import "HCTestFailure.h"
 #import "HCTestFailureReporter.h"
 #import "HCTestFailureReporterChain.h"
-#import <libkern/OSAtomic.h>
-
 
 static void reportMismatch(id testCase, id actual, id <HCMatcher> matcher,
                            char const *fileName, int lineNumber)
@@ -33,21 +32,19 @@ void HC_assertWithTimeoutAndLocation(id testCase, NSTimeInterval timeout,
         HCFutureValue actualBlock, id <HCMatcher> matcher,
         const char *fileName, int lineNumber)
 {
-    BOOL match;
-    id actual;
-    NSDate *expiryDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (1)
+    __block BOOL match = [matcher matches:actualBlock()];
+
+    if (!match)
     {
-        actual = actualBlock();
-        match = [matcher matches:actual];
-        if (match || ([[NSDate date] compare:expiryDate] == NSOrderedDescending))
-            break;
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-        OSMemoryBarrier();
+        HCRunloopRunner *runner = [[HCRunloopRunner alloc] initWithFulfillmentBlock:^{
+            match = [matcher matches:actualBlock()];
+            return match;
+        }];
+        [runner runUntilFulfilledOrTimeout:timeout];
     }
 
     if (!match)
-        reportMismatch(testCase, actual, matcher, fileName, lineNumber);
+        reportMismatch(testCase, actualBlock(), matcher, fileName, lineNumber);
 }
 
 NSString *HCDescribeMismatch(id <HCMatcher> matcher, id actual)

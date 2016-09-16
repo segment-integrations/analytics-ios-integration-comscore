@@ -1,8 +1,4 @@
 //
-//  ComScore-tvOS.h
-//  ComScore-tvOS
-//
-//  Created by Illanes, Juan Pablo on 2/19/16.
 //  Copyright © 2016 comScore. All rights reserved.
 //
 

@@ -32,8 +32,9 @@ Most people will want OCHamcrest in their test targets, and not include any pods
 targets:
 
 ```ruby
-target :MyTests, :exclusive => true do
-  pod 'OCHamcrest', '~> 5.0'
+target 'MyTests' do
+  inherit! :search_paths
+  pod 'OCHamcrest', '~> 6.0'
 end
 ```
 
@@ -46,7 +47,7 @@ Use the following import:
 Add the following to your Cartfile:
 
 ```
-github "hamcrest/OCHamcrest" ~> 5.0
+github "hamcrest/OCHamcrest" ~> 6.0
 ```
 
 Then drag the the built framework from the appropriate Carthage/Build directory into your project,
@@ -185,6 +186,7 @@ OCHamcrest comes with a library of useful matchers:
   * `hasKey` - match dictionary with a key
   * `hasValue` - match dictionary with a value
   * `isEmpty` - match empty collection
+  * `isIn` - match when object is in given collection
   * `onlyContains`, `onlyContainsIn` - match if collection's items appear in given list
 
 * Decorator

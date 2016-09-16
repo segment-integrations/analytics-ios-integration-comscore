@@ -1,6 +1,10 @@
-![mockito](http://docs.mockito.googlecode.com/hg/latest/org/mockito/logo.jpg)
+![mockito](https://raw.githubusercontent.com/mockito/mockito.github.io/master/img/logo.png)
 
-[![Build Status](https://travis-ci.org/jonreid/OCMockito.svg?branch=master)](https://travis-ci.org/jonreid/OCMockito) [![Coverage Status](https://coveralls.io/repos/jonreid/OCMockito/badge.svg?branch=master)](https://coveralls.io/r/jonreid/OCMockito?branch=master) [![Cocoapods Version](https://cocoapod-badges.herokuapp.com/v/OCMockito/badge.png)](http://cocoapods.org/pods/OCMockito)
+[![Build Status](https://travis-ci.org/jonreid/OCMockito.svg?branch=master)](https://travis-ci.org/jonreid/OCMockito)
+[![Coverage Status](https://coveralls.io/repos/jonreid/OCMockito/badge.svg?branch=master)](https://coveralls.io/r/jonreid/OCMockito?branch=master)
+[![Cocoapods Version](https://cocoapod-badges.herokuapp.com/v/OCMockito/badge.png)](http://cocoapods.org/pods/OCMockito)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 
 OCMockito is an iOS and Mac OS X implementation of Mockito, supporting creation,
 verification and stubbing of mock objects.
@@ -31,8 +35,9 @@ to your Podfile. Most people will want OCMockito in their test targets, and not
 include any pods from their main targets:
 
 ```ruby
-target :MyTests, :exclusive => true do
-  pod 'OCMockito', '~> 3.0'
+target 'MyTests' do
+  inherit! :search_paths
+  pod 'OCMockito', '~> 4.0'
 end
 ```
 
@@ -40,6 +45,18 @@ Use the following imports:
 
     #import <OCHamcrest/OCHamcrest.h>
     #import <OCMockito/OCMockito.h>
+
+### Carthage
+
+Add the following to your Cartfile:
+
+```
+github "jonreid/OCMockito" ~> 4.0
+```
+
+Then drag the the built frameworks (both OCHamcrest and OCMockito) from the
+appropriate Carthage/Build directory into your project, but with "Copy items
+into destination group's folder" disabled.
 
 ### Prebuilt Frameworks
 
@@ -192,11 +209,15 @@ SomeStruct aStruct = {...};
 How do you stub a property so that KVO works?
 ---------------------------------------------
 
-Use `stubProperty(instance, property, value)`. For example:
+Use `stubProperty(mock, property, stubbedValue)`. For example, say you have a
+mock object named `mockEmployee`. It has a property `firstName`. You want to
+stub it to return the value "FIRST-NAME":
 
 ```obj-c
-stubProperty(mockEmployee, firstName, @"fake-firstname");
+stubProperty(mockEmployee, firstName, @"FIRST-NAME");
 ```
+
+This stubs the `firstName` property, `valueForKey:` and `valueForKeyPath:`.
 
 
 Argument matchers
@@ -339,7 +360,7 @@ invocation arguments by calling `mkt_arguments` from NSInvocation+OCMockito.h.
 Whatever the block returns will be used as the stubbed return value.
 
 ```obj-c
-[[given([mockObject someMethod:anything()]) willDo:^id (NSInvocation *invocation){
+[given([mockObject someMethod:anything()]) willDo:^id (NSInvocation *invocation){
     NSArray *args = [invocation mkt_arguments];
     return @([args[0] intValue] * 2);
 }];
@@ -358,3 +379,33 @@ Use `stopMocking(…)` if a `-dealloc` of your System Under Test is trying to
 message an object that is mocked. It disables message handling on the mock and
 frees its retained arguments. This prevents retain cycles and crashes during
 test clean-up. See StopMockingTests.m for an example.
+
+
+How do you mock a singleton?
+----------------------------
+
+The short answer is: Don't. Instead of your class deciding who it's going to
+talk to, inject those dependencies.
+
+The longer answer is: Well. Legacy code. Call `stubSingleton` on a mock class
+object, specifying the name of the factory method.
+
+```obj-c
+__strong Class mockUserDefaultsClass = mockClass([NSUserDefaults class]);
+NSUserDefaults* mockDefaults = mock([NSUserDefaults class]);
+
+stubSingleton(mockUserDefaultsClass, standardUserDefaults);
+[given([NSUserDefaults standardUserDefaults]) willReturn:mockDefaults];
+```
+
+Beware! This uses swizzling. You need to make sure the mock class object gets
+deallocated so that the swizzling is undone.
+
+In the example above, `mockUserDefaultsClass` will go out scope and be
+destroyed. But what if you kept it in the test fixture, as an ivar or a
+property? Due to a bug in XCTest, it won't be implicitly destroyed. You need to
+explicitly set it to nil in `-tearDown`, or the swizzling will bleed over to
+your other tests, compromising their integrity.
+
+If you need more control over when the swizzling is undone, call
+`stopMocking(…)` on the mock class.
