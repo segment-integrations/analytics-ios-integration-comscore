@@ -1,9 +1,10 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTInvocationMatcher.h"
 
 #import "NSInvocation+OCMockito.h"
+#import <OCHamcrest/HCArgumentCaptor.h>
 #import <OCHamcrest/HCAssertThat.h>
 #import <OCHamcrest/HCIsNil.h>
 #import <OCHamcrest/HCWrapInMatcher.h>
@@ -113,6 +114,16 @@
             return NO;
     }
     return YES;
+}
+
+- (void)stopArgumentCapture
+{
+    for (id <HCMatcher> matcher in self.argumentMatchers)
+        if ([matcher isKindOfClass:[HCArgumentCaptor class]])
+        {
+            HCArgumentCaptor *captor = (HCArgumentCaptor *)matcher;
+            captor.captureEnabled = NO;
+        }
 }
 
 - (void)enumerateMismatchesOf:(NSInvocation *)actual
