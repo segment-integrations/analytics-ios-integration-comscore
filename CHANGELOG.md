@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.0.1 *(18th September, 2016)*
+-------------------------------------------
+*(Supports analytics-ios 3.0+ and ComScore 3.1607.27)* 
+
+Updates ComScore SDK
+
 Version 1.0.0 *(15th June, 2016)*
 -------------------------------------------
 *(Supports analytics-ios 3.+ and ComScore 3.1510.231)*
