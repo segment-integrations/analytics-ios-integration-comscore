@@ -26,7 +26,7 @@
         [self.comScoreClass setAppName: [self appName]];
         SEGLog(@"[CSComScore setAppName: %@]", [self appName]);
         [self.comScoreClass setSecure: [self useHTTPS]];
-        SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS]);
+        SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS] ? @YES : @NO);
         if ([self autoUpdate]) {
             if ([self foregroundOnly]) {
                 [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly: YES];
