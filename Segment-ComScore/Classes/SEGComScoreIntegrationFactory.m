@@ -34,7 +34,7 @@
 
 - (NSString *)key
 {
-    return @"ComScore";
+    return @"comScore";
 }
 
 @end
