@@ -11,7 +11,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-To install the Segment-Mixpanel integration, simply add this line to your [CocoaPods](http://cocoapods.org) `Podfile`:
+To install the Segment-ComScore integration, simply add this line to your [CocoaPods](http://cocoapods.org) `Podfile`:
 
 ```ruby
 pod "Segment-ComScore"
@@ -19,7 +19,7 @@ pod "Segment-ComScore"
 
 ## Usage
 
-After adding the dependency, you must register the integration with our SDK.  To do this, import the Mixpanel integration in your `AppDelegate`:
+After adding the dependency, you must register the integration with our SDK.  To do this, import the ComScore integration in your `AppDelegate`:
 
 ```
 #import <Segment-ComScore/SEGComScoreIntegrationFactory.h>
