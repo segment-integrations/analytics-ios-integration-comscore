@@ -12,40 +12,34 @@
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass
 {
     if (self = [super init]) {
         self.settings = settings;
-        self.comScoreClass = [CSComScore class];
+        self.scorAnalyticsClass = scorAnalyticsClass;
 
-        [self.comScoreClass setAppContext];
-        SEGLog(@"[CSComScore setAppContext]");
-        [self.comScoreClass setCustomerC2:[self customerC2]];
-        SEGLog(@"[CSComScore setCustomerC2: %@]", [self customerC2]);
-        [self.comScoreClass setPublisherSecret:[self publisherSecret]];
-        SEGLog(@"[CSComScore setPublisherSecret: %@]", [self publisherSecret]);
-        [self.comScoreClass setAppName:[self appName]];
-        SEGLog(@"[CSComScore setAppName: %@]", [self appName]);
-        [self.comScoreClass setSecure:[self useHTTPS]];
-        SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS] ? @YES : @NO);
-        if ([self autoUpdate]) {
-            if ([self foregroundOnly]) {
-                [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly:YES];
-                SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: YES]", [self autoUpdateInterval]);
+        SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
+            // publisherId is also known as c2 value
+            builder.publisherId = settings[@"c2"];
+            builder.publisherSecret = settings[@"publisherSecret"];
+            builder.applicationName = settings[@"appName:"];
+            builder.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] integerValue];
+            builder.secureTransmission = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
+            builder.liveTransmissionMode = SCORLiveTransmissionModeLan;
+
+            if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
+                builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
+            } else if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue]) {
+                builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundAndBackground;
             } else {
-                [self.comScoreClass enableAutoUpdate:[self autoUpdateInterval] foregroundOnly:NO];
-                SEGLog(@"[CSComScore enableAutoUpdate: %@ foregroundOnly: NO]", [self autoUpdateInterval]);
+                builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeDisabled;
             }
-        }
-    }
-    return self;
-}
+        }];
 
-- (instancetype)initWithSettings:(NSDictionary *)settings andCSComScore:(Class)comScoreClass
-{
-    if (self = [super init]) {
-        self.settings = settings;
-        self.comScoreClass = comScoreClass;
+        [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
+
+        [self.scorAnalyticsClass start];
+
     }
     return self;
 }
@@ -70,8 +64,9 @@
     [mappedTraits enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         id data = [payload.traits objectForKey:key];
         if (data != nil && [data length] != 0) {
-            [self.comScoreClass setLabel:key value:data];
-            SEGLog(@"[CSComScore setLabel: %@ value: %@]", key, data);
+            SCORConfiguration *configuration = [self.scorAnalyticsClass configuration];
+            [configuration setPersistentLabelWithName:key value:data];
+            SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@]", key, data);
         }
     }];
 }
@@ -79,57 +74,25 @@
 
 - (void)track:(SEGTrackPayload *)payload
 {
-    NSMutableDictionary *hiddenLabels = [@{ @"name" : payload.event } mutableCopy];
+    NSMutableDictionary *hiddenLabels = [@{@"name": payload.event} mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
-    [self.comScoreClass hiddenWithLabels:hiddenLabels];
+    [self.scorAnalyticsClass notifyHiddenEventWithLabels:hiddenLabels];
+    SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@]",hiddenLabels);
 }
 
 - (void)screen:(SEGScreenPayload *)payload
 {
     NSMutableDictionary *viewLabels = [@{ @"name" : payload.name } mutableCopy];
     [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
-    [self.comScoreClass viewWithLabels:viewLabels];
+    [self.scorAnalyticsClass notifyViewEventWithLabels:viewLabels];
+    SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@]", viewLabels);
 }
+
 
 - (void)flush
 {
-    SEGLog(@"ComScore flushCache");
-    [self.comScoreClass flushCache];
-}
-
-- (NSString *)customerC2
-{
-    return self.settings[@"c2"];
-}
-
-- (NSString *)publisherSecret
-{
-    return (NSString *)[self.settings objectForKey:@"publisherSecret"];
-}
-
-- (NSString *)appName
-{
-    return (NSString *)[self.settings objectForKey:@"appName"];
-}
-
-- (BOOL)autoUpdate
-{
-    return [(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue];
-}
-
-- (BOOL)foregroundOnly
-{
-    return [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue];
-}
-
-- (int)autoUpdateInterval
-{
-    return [(NSNumber *)[self.settings objectForKey:@"autoUpdateInterval"] intValue];
-}
-
-- (BOOL)useHTTPS
-{
-    return [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
+    SEGLog(@"[SCORAnalytics flushOfflineCache]");
+    [self.scorAnalyticsClass flushOfflineCache];
 }
 
 @end
