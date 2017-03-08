@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTInvocationMatcher.h"
 
@@ -29,7 +29,7 @@
 @interface MKTInvocationMatcher ()
 @property (nonatomic, strong, readwrite) NSInvocation *expected;
 @property (nonatomic, assign, readwrite) NSUInteger numberOfArguments;
-@property (nonatomic, strong, readonly) NSMutableArray<id <HCMatcher>> *argumentMatchers;
+@property (nonatomic, strong, readonly) NSMutableArray *argumentMatchers;
 @end
 
 @implementation MKTInvocationMatcher
@@ -44,7 +44,7 @@
     return self;
 }
 
-- (NSArray<id <HCMatcher>> *)matchers
+- (NSArray *)matchers
 {
     return self.argumentMatchers;
 }

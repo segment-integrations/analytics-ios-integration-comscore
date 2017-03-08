@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Calculates the logical conjunction of multiple matchers.
@@ -13,13 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface HCAllOf : HCDiagnosingMatcher
 
-- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)matchers NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithMatchers:(NSArray *)matchers;
 
 @end
 
 
-FOUNDATION_EXPORT id HC_allOfIn(NSArray<id <HCMatcher>> *matchers);
+FOUNDATION_EXPORT id HC_allOfIn(NSArray *matchers);
 
 #ifndef HC_DISABLE_SHORT_SYNTAX
 /*!
@@ -60,5 +57,3 @@ FOUNDATION_EXPORT id HC_allOf(id matchers, ...) NS_REQUIRES_NIL_TERMINATION;
  */
 #define allOf(matchers...) HC_allOf(matchers)
 #endif
-
-NS_ASSUME_NONNULL_END

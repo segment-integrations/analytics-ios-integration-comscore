@@ -1,12 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCBoolReturnGetter.h"
 
 
 @implementation HCBoolReturnGetter
 
-- (instancetype)initWithSuccessor:(nullable HCReturnValueGetter *)successor
+- (instancetype)initWithSuccessor:(HCReturnValueGetter *)successor
 {
     self = [super initWithType:@encode(BOOL) successor:successor];
     return self;

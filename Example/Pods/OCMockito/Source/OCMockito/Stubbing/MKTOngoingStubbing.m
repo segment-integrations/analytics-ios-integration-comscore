@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import <OCHamcrest/OCHamcrest.h>
 #import "MKTOngoingStubbing.h"
@@ -25,7 +25,7 @@
     return self;
 }
 
-- (MKTOngoingStubbing *)willReturn:(nullable id)object
+- (MKTOngoingStubbing *)willReturn:(id)object
 {
     // Workaround for over-releasing mock object that is stubbed as return value for copy method.
     if (self.invocationContainer.isStubbingCopyMethod && [MKTBaseMockObject isMockObject:object])

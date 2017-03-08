@@ -1,18 +1,15 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches if every item in a collection satisfies a list of nested matchers, in order.
  */
 @interface HCIsCollectionContainingInRelativeOrder : HCDiagnosingMatcher
 
-- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithMatchers:(NSArray *)itemMatchers;
 
 @end
 
@@ -44,5 +41,3 @@ static inline id containsInRelativeOrder(NSArray *itemMatchers)
     return HC_containsInRelativeOrder(itemMatchers);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

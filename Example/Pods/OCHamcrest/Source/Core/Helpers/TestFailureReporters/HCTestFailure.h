@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  @abstract Test failure location and reason.
@@ -38,5 +36,3 @@ NS_ASSUME_NONNULL_BEGIN
                           reason:(NSString *)reason;
 
 @end
-
-NS_ASSUME_NONNULL_END

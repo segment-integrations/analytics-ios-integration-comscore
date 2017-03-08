@@ -6,8 +6,6 @@
 #import "SEGIdentifyPayload.h"
 #import "SEGGroupPayload.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @protocol SEGIntegration <NSObject>
 
 @optional
@@ -74,5 +72,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)openURL:(NSURL *)url options:(NSDictionary *)options;
 
 @end
-
-NS_ASSUME_NONNULL_END

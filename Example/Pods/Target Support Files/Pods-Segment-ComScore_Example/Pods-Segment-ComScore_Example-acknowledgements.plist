@@ -36,8 +36,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </string>
-			<key>License</key>
-			<string>MIT</string>
 			<key>Title</key>
 			<string>Analytics</string>
 			<key>Type</key>
@@ -47,10 +45,8 @@ SOFTWARE.
 			<key>FooterText</key>
 			<string>Copyright (c) 2016 comScore, Inc.
 FOR MORE INFORMATION, PLEASE VISIT DIRECT.COMSCORE.COM</string>
-			<key>License</key>
-			<string>Custom</string>
 			<key>Title</key>
-			<string>ComScore</string>
+			<string>ComScore-iOS</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -76,8 +72,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </string>
-			<key>License</key>
-			<string>MIT</string>
 			<key>Title</key>
 			<string>Segment-ComScore</string>
 			<key>Type</key>

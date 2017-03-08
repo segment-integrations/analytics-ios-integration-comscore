@@ -1,12 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCIsInstanceOf.h"
 
 
 @implementation HCIsInstanceOf
 
-- (BOOL)matches:(nullable id)item
+- (BOOL)matches:(id)item
 {
     return [item isKindOfClass:self.theClass];
 }

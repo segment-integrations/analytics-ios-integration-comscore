@@ -1,12 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseDescription.h>
 
 @protocol HCSelfDescribing;
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract An HCDescription that is stored as a string.
@@ -31,8 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract Initializes a newly allocated HCStringDescription that is initially empty.
  */
-- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)init;
 
 @end
-
-NS_ASSUME_NONNULL_END

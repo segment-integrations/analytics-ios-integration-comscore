@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches if dictionary contains entries that satisfy the list of keys and value
@@ -13,8 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HCIsDictionaryContainingEntries : HCDiagnosingMatcher
 
 - (instancetype)initWithKeys:(NSArray *)keys
-               valueMatchers:(NSArray<id <HCMatcher>> *)valueMatchers NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+               valueMatchers:(NSArray *)valueMatchers;
 
 @end
 
@@ -64,5 +61,3 @@ FOUNDATION_EXPORT id HC_hasEntries(id keysAndValueMatchers, ...) NS_REQUIRES_NIL
  */
 #define hasEntries(keysAndValueMatchers...) HC_hasEntries(keysAndValueMatchers)
 #endif
-
-NS_ASSUME_NONNULL_END

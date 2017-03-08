@@ -42,10 +42,7 @@
     [self spt_dequeueFailures];
   };
 
-  BOOL isMainThread = [NSThread isMainThread];
-  BOOL isSpectaTest = [self isKindOfClass:[SPTSpec class]];
-
-  if (!isSpectaTest || isMainThread) {
+  if ([NSThread isMainThread]) {
     dequeueFailures();
   } else {
     dispatch_sync(dispatch_get_main_queue(), dequeueFailures);

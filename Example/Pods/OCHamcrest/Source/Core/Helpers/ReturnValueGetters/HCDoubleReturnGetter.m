@@ -1,12 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCDoubleReturnGetter.h"
 
 
 @implementation HCDoubleReturnGetter
 
-- (instancetype)initWithSuccessor:(nullable HCReturnValueGetter *)successor
+- (instancetype)initWithSuccessor:(HCReturnValueGetter *)successor
 {
     self = [super initWithType:@encode(double) successor:successor];
     return self;

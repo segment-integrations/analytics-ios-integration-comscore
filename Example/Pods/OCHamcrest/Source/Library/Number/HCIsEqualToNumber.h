@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT id HC_equalToChar(char value);
 
@@ -285,5 +283,3 @@ static inline id equalToUnsignedInteger(NSUInteger value)
     return HC_equalToUnsignedInteger(value);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

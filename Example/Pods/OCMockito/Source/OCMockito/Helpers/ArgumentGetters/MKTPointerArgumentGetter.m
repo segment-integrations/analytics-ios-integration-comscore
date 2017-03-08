@@ -1,12 +1,12 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTPointerArgumentGetter.h"
 
 
 @implementation MKTPointerArgumentGetter
 
-- (instancetype)initWithSuccessor:(nullable MKTArgumentGetter *)successor
+- (instancetype)initWithSuccessor:(MKTArgumentGetter *)successor
 {
     self = [super initWithType:@encode(void *) successor:successor];
     return self;

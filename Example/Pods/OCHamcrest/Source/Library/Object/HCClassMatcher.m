@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCClassMatcher.h"
 
@@ -29,7 +29,7 @@
                   appendText:NSStringFromClass(self.theClass)];
 }
 
-- (void)describeMismatchOf:(nullable id)item to:(nullable id <HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     [mismatchDescription appendText:@"was "];
     if (item)

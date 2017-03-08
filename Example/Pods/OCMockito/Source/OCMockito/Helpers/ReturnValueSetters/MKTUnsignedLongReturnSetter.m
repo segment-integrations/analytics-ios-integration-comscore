@@ -1,12 +1,12 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTUnsignedLongReturnSetter.h"
 
 
 @implementation MKTUnsignedLongReturnSetter
 
-- (instancetype)initWithSuccessor:(nullable MKTReturnValueSetter *)successor
+- (instancetype)initWithSuccessor:(MKTReturnValueSetter *)successor
 {
     self = [super initWithType:@encode(unsigned long) successor:successor];
     return self;

@@ -1,18 +1,15 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches if any item in a collection satisfies a nested matcher.
  */
 @interface HCIsCollectionContaining : HCDiagnosingMatcher
 
-- (instancetype)initWithMatcher:(id <HCMatcher>)elementMatcher NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithMatcher:(id <HCMatcher>)elementMatcher;
 
 @end
 
@@ -91,5 +88,3 @@ FOUNDATION_EXPORT id HC_hasItems(id itemMatchers, ...) NS_REQUIRES_NIL_TERMINATI
  */
 #define hasItems(itemMatchers...) HC_hasItems(itemMatchers)
 #endif
-
-NS_ASSUME_NONNULL_END

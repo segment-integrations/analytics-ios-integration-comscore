@@ -47,8 +47,6 @@
     enum _name : _type
 #endif
 
-NS_ASSUME_NONNULL_BEGIN
-
 extern NSString *const kSEGReachabilityChangedNotification;
 
 typedef NS_ENUM(NSInteger, SEGNetworkStatus) {
@@ -66,8 +64,8 @@ typedef void (^SEGNetworkUnreachable)(SEGReachability *reachability);
 
 @interface SEGReachability : NSObject
 
-@property (nonatomic, copy, nullable) SEGNetworkReachable reachableBlock;
-@property (nonatomic, copy, nullable) SEGNetworkUnreachable unreachableBlock;
+@property (nonatomic, copy) SEGNetworkReachable reachableBlock;
+@property (nonatomic, copy) SEGNetworkUnreachable unreachableBlock;
 
 
 @property (nonatomic, assign) BOOL reachableOnWWAN;
@@ -100,5 +98,3 @@ typedef void (^SEGNetworkUnreachable)(SEGReachability *reachability);
 - (NSString *)currentReachabilityFlags;
 
 @end
-
-NS_ASSUME_NONNULL_END

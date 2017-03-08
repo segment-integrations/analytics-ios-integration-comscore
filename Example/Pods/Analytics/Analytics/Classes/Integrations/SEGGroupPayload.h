@@ -1,19 +1,16 @@
 #import <Foundation/Foundation.h>
 #import "SEGPayload.h"
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface SEGGroupPayload : SEGPayload
 
 @property (nonatomic, readonly) NSString *groupId;
 
-@property (nonatomic, readonly, nullable) JSON_DICT traits;
+@property (nonatomic, readonly) NSDictionary *traits;
 
 - (instancetype)initWithGroupId:(NSString *)groupId
-                         traits:(JSON_DICT _Nullable)traits
-                        context:(JSON_DICT)context
-                   integrations:(JSON_DICT)integrations;
+                         traits:(NSDictionary *)traits
+                        context:(NSDictionary *)context
+                   integrations:(NSDictionary *)integrations;
 
 @end
-
-NS_ASSUME_NONNULL_END
