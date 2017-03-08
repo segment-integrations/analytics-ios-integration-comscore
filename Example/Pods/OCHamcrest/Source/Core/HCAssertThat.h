@@ -1,9 +1,11 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
 @protocol HCMatcher;
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @header
@@ -12,7 +14,7 @@
  */
 
 
-FOUNDATION_EXPORT void HC_assertThatWithLocation(id testCase, id actual, id <HCMatcher> matcher,
+FOUNDATION_EXPORT void HC_assertThatWithLocation(id testCase, _Nullable id actual, id <HCMatcher> matcher,
                                                  const char *fileName, int lineNumber);
 
 #define HC_assertThat(actual, matcher)  \
@@ -38,7 +40,7 @@ FOUNDATION_EXPORT void HC_assertThatWithLocation(id testCase, id actual, id <HCM
 #endif
 
 
-typedef id (^HCFutureValue)();
+typedef _Nonnull id (^HCFutureValue)();
 
 FOUNDATION_EXPORT void HC_assertWithTimeoutAndLocation(id testCase, NSTimeInterval timeout,
         HCFutureValue actualBlock, id <HCMatcher> matcher,
@@ -90,3 +92,5 @@ FOUNDATION_EXPORT void HC_assertWithTimeoutAndLocation(id testCase, NSTimeInterv
  * @discussion Helper function to let you describe mismatches the way <tt>assertThat</tt> does.
  */
 FOUNDATION_EXPORT NSString *HCDescribeMismatch(id <HCMatcher> matcher, id actual);
+
+NS_ASSUME_NONNULL_END

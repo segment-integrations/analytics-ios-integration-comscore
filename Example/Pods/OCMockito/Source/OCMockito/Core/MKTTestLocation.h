@@ -1,8 +1,10 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef struct
 {
@@ -23,3 +25,5 @@ static inline MKTTestLocation MKTTestLocationMake(id test, const char *file, int
 
 void MKTFailTest(id testCase, const char *fileName, int lineNumber, NSString *description);
 void MKTFailTestLocation(MKTTestLocation testLocation, NSString *description);
+
+NS_ASSUME_NONNULL_END

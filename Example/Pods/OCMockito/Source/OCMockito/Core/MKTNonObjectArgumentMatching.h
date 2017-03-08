@@ -1,8 +1,10 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 @protocol HCMatcher;
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Ability to specify OCHamcrest matchers for non-object arguments.
@@ -38,3 +40,5 @@
 - (id)withMatcher:(id <HCMatcher>)matcher;
 
 @end
+
+NS_ASSUME_NONNULL_END

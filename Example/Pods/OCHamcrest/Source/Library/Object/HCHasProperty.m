@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 //  Contribution by Justin Shacklette
 
 #import "HCHasProperty.h"
@@ -29,7 +29,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
+- (BOOL)matches:(nullable id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
 {
     SEL propertyGetter = NSSelectorFromString(self.propertyName);
     if (![item respondsToSelector:propertyGetter])
@@ -65,7 +65,7 @@
 @end
 
 
-id HC_hasProperty(NSString *propertyName, id valueMatcher)
+id HC_hasProperty(NSString *propertyName, _Nullable id valueMatcher)
 {
     return [[HCHasProperty alloc] initWithProperty:propertyName value:HCWrapInMatcher(valueMatcher)];
 }

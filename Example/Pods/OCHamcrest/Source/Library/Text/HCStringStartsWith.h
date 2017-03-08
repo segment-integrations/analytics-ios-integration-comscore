@@ -1,8 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCSubstringMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Tests string starts with a substring.
@@ -34,3 +36,5 @@ static inline id startsWith(NSString *prefix)
     return HC_startsWith(prefix);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

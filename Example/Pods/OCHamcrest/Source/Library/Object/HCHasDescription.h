@@ -1,15 +1,18 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCInvocationMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches objects whose description satisfies a nested matcher.
  */
 @interface HCHasDescription : HCInvocationMatcher
 
-- (instancetype)initWithDescription:(id <HCMatcher>)descriptionMatcher;
+- (instancetype)initWithDescription:(id <HCMatcher>)descriptionMatcher NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithInvocation:(NSInvocation *)anInvocation matching:(id <HCMatcher>)aMatcher NS_UNAVAILABLE;
 
 @end
 
@@ -38,3 +41,5 @@ static inline id hasDescription(id descriptionMatcher)
     return HC_hasDescription(descriptionMatcher);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

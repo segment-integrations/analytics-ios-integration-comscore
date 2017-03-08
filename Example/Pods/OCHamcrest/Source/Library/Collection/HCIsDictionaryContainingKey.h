@@ -1,15 +1,18 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches if any entry in a dictionary has a key satisfying the nested matcher.
  */
 @interface HCIsDictionaryContainingKey : HCBaseMatcher
 
-- (instancetype)initWithKeyMatcher:(id <HCMatcher>)keyMatcher;
+- (instancetype)initWithKeyMatcher:(id <HCMatcher>)keyMatcher NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -37,3 +40,5 @@ static inline id hasKey(id keyMatcher)
     return HC_hasKey(keyMatcher);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

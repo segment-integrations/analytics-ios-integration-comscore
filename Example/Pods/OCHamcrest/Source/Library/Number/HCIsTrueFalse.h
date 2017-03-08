@@ -1,8 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches true values.
@@ -49,3 +51,5 @@ static inline id isFalse(void)
     return HC_isFalse();
 }
 #endif
+
+NS_ASSUME_NONNULL_END

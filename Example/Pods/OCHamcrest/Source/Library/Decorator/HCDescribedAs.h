@@ -1,8 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Provides a custom description to another matcher.
@@ -11,7 +13,8 @@
 
 - (instancetype)initWithDescription:(NSString *)description
                          forMatcher:(id <HCMatcher>)matcher
-                         overValues:(NSArray *)templateValues;
+                         overValues:(NSArray *)templateValues NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -34,3 +37,5 @@ FOUNDATION_EXPORT id HC_describedAs(NSString *description, id <HCMatcher> matche
  */
 #define describedAs(description, matcher, ...) HC_describedAs(description, matcher, ##__VA_ARGS__)
 #endif
+
+NS_ASSUME_NONNULL_END

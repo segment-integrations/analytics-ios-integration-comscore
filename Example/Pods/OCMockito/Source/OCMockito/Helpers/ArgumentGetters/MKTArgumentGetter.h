@@ -1,8 +1,10 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Chain-of-responsibility for converting NSInvocation argument to object.
@@ -14,7 +16,8 @@
  * @param handlerType Argument type managed by this getter. Assign with \@encode compiler directive.
  * @param successor Successor in chain to handle argument type.
  */
-- (instancetype)initWithType:(char const *)handlerType successor:(MKTArgumentGetter *)successor;
+- (instancetype)initWithType:(char const *)handlerType successor:(nullable MKTArgumentGetter *)successor NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 /*!
  * @abstract Retrieve designated argument of specified type from NSInvocation, or pass to successor.
@@ -22,3 +25,5 @@
 - (id)retrieveArgumentAtIndex:(NSInteger)idx ofType:(char const *)type onInvocation:(NSInvocation *)invocation;
 
 @end
+
+NS_ASSUME_NONNULL_END

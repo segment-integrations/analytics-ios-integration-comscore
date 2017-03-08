@@ -1,8 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Supporting class for matching a feature of an object.
@@ -25,7 +27,8 @@
 /*!
  * @abstract Initializes a newly allocated HCInvocationMatcher with an invocation and a matcher.
  */
-- (instancetype)initWithInvocation:(NSInvocation *)anInvocation matching:(id <HCMatcher>)aMatcher;
+- (instancetype)initWithInvocation:(NSInvocation *)anInvocation matching:(id <HCMatcher>)aMatcher NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 /*!
  * @abstract Invokes stored invocation on the specified item and returns the result.
@@ -38,3 +41,5 @@
 - (NSString *)stringFromSelector;
 
 @end
+
+NS_ASSUME_NONNULL_END

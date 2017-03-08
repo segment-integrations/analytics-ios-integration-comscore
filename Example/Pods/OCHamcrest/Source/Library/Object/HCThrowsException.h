@@ -1,15 +1,18 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Does executing a block throw an exception which satisfies a nested matcher?
  */
 @interface HCThrowsException : HCDiagnosingMatcher
 
-- (id)initWithExceptionMatcher:(id)exceptionMatcher;
+- (id)initWithExceptionMatcher:(id)exceptionMatcher NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -34,3 +37,5 @@ static inline id throwsException(id exceptionMatcher)
     return HC_throwsException(exceptionMatcher);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

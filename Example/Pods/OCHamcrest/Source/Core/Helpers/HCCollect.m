@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCCollect.h"
 
@@ -34,9 +34,9 @@ NSArray * HCCollectItems(id item, va_list args)
     return HCCollectWrappedItems(item, args, passThrough);
 }
 
-NSArray * HCWrapIntoMatchers(NSArray *items)
+NSArray<id <HCMatcher>> * HCWrapIntoMatchers(NSArray *items)
 {
-    NSMutableArray *matchers = [[NSMutableArray alloc] init];
+    NSMutableArray<id <HCMatcher>> *matchers = [[NSMutableArray alloc] init];
     for (id item in items)
         [matchers addObject:HCWrapInMatcher(item)];
     return matchers;
