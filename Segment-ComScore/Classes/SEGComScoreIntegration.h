@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Analytics/SEGIntegration.h>
-//#import <ComScore/ComScore.h>
+#import <ComScore/ComScore.h>
 
 
 @interface SEGComScoreIntegration : NSObject <SEGIntegration>
