@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCAnyOf.h"
 
@@ -7,12 +7,12 @@
 
 
 @interface HCAnyOf ()
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @end
 
 @implementation HCAnyOf
 
-- (instancetype)initWithMatchers:(NSArray *)matchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)matchers
 {
     self = [super init];
     if (self)
@@ -20,7 +20,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     for (id <HCMatcher> oneMatcher in self.matchers)
         if ([oneMatcher matches:item])

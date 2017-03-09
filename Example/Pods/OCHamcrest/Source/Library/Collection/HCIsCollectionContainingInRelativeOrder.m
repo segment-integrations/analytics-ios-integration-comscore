@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContainingInRelativeOrder.h"
 
@@ -18,7 +18,7 @@ static void HCRequireNonEmptyArray(NSArray *array)
 
 
 @interface HCMatchSequenceInRelativeOrder : NSObject
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @property (nonatomic, strong, readonly) id <HCDescription> mismatchDescription;
 @property (nonatomic, assign) NSUInteger nextMatchIndex;
 @property (nonatomic, strong) id lastMatchedItem;
@@ -26,7 +26,7 @@ static void HCRequireNonEmptyArray(NSArray *array)
 
 @implementation HCMatchSequenceInRelativeOrder
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
              mismatchDescription:(id <HCDescription>)description
 {
     self = [super init];
@@ -76,12 +76,12 @@ static void HCRequireNonEmptyArray(NSArray *array)
 
 
 @interface HCIsCollectionContainingInRelativeOrder ()
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @end
 
 @implementation HCIsCollectionContainingInRelativeOrder
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
 {
     HCRequireNonEmptyArray(itemMatchers);
 

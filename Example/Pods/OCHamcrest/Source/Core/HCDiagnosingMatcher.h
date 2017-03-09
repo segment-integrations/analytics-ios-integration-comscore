@@ -1,8 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Base class for matchers that generate mismatch descriptions during the matching.
@@ -13,3 +15,5 @@
 */
 @interface HCDiagnosingMatcher : HCBaseMatcher
 @end
+
+NS_ASSUME_NONNULL_END

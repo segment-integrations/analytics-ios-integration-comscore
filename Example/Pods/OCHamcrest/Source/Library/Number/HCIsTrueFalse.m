@@ -1,12 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsTrueFalse.h"
 
 
 @implementation HCIsTrue
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSNumber class]])
         return NO;
@@ -32,7 +32,7 @@ FOUNDATION_EXPORT id HC_isTrue(void)
 
 @implementation HCIsFalse
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSNumber class]])
         return NO;

@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTNumberOfInvocationsChecker.h"
 
@@ -15,7 +15,7 @@
     return self;
 }
 
-- (NSString *)checkInvocations:(NSArray *)invocations
+- (NSString *)checkInvocations:(NSArray<MKTInvocation *> *)invocations
                         wanted:(MKTInvocationMatcher *)wanted
                    wantedCount:(NSUInteger)wantedCount
 {

@@ -1,16 +1,19 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 //  Contribution by Todd Farrell
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches objects that conform to specified protocol.
  */
 @interface HCConformsToProtocol : HCBaseMatcher
 
-- (instancetype)initWithProtocol:(Protocol *)protocol;
+- (instancetype)initWithProtocol:(Protocol *)protocol NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -35,3 +38,5 @@ static inline id conformsTo(Protocol *aProtocol)
     return HC_conformsTo(aProtocol);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

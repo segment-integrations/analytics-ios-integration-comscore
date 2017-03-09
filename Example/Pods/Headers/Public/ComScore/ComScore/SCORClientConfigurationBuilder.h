@@ -1,0 +1,1 @@
+../../../../ComScore/ComScore/iOS/ComScore.framework/Versions/A/Headers/SCORClientConfigurationBuilder.h

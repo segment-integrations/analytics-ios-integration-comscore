@@ -21,18 +21,17 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 describe(@"SEGComScoreIntegrationFactory", ^{
     it(@"factory creates integration with basic settings", ^{
         SEGComScoreIntegration *integration = [[SEGComScoreIntegrationFactory instance] createWithSettings:@{
-            @"c2" : @"1234567",
+            @"publisherId" : @"1234567",
             @"publisherSecret": @"publisherSecretString",
-            @"setSecure": @"1",
             @"autoUpdate": @"1",
             @"foregroundOnly": @"1",
             @"autoUpdateInterval": @"2000"
+            
         } forAnalytics:nil];
         
         expect(integration.settings).to.equal(@{
-            @"c2": @"1234567",
+            @"publisherId": @"1234567",
             @"publisherSecret": @"publisherSecretString",
-            @"setSecure": @"1",
             @"autoUpdate": @"1",
             @"foregroundOnly": @"1",
             @"autoUpdateInterval": @"2000"
@@ -41,12 +40,12 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 });
 
 describe(@"SEGComScoreIntegration", ^{
-    __block Class mockComScore;
     __block SEGComScoreIntegration *integration;
+    __block SCORAnalytics *mockComScore;
     
     beforeEach(^{
-        mockComScore = mockClass([CSComScore class]);
-        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{} andCSComScore: mockComScore];
+        mockComScore = mock([SCORAnalytics class]);
+        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{} andComScore: mockComScore];
     });
     
     it(@"identify with Traits", ^{
@@ -59,9 +58,9 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration identify:payload];
         
-        [verify(mockComScore) setLabel: @"name" value: @"Kylo Ren"];
-        [verify(mockComScore) setLabel: @"gender" value: @"male"];
-        [verify(mockComScore) setLabel: @"emotion" value: @"angsty"];
+        [verify(mockComScore) setPersistentLabelWithName: @"name" value: @"Kylo Ren"];
+        [verify(mockComScore) setPersistentLabelWithName: @"gender" value: @"male"];
+        [verify(mockComScore) setPersistentLabelWithName: @"emotion" value: @"angsty"];
     });
     
     it(@"track with props", ^{
@@ -69,7 +68,7 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration track:payload];
         
-        [verify(mockComScore) hiddenWithLabels:@{
+        [verify(mockComScore) notifyHiddenEventWithLabels:@{
                                                  @"name": @"Starship Ordered",
                                                  @"Starship Type": @"Death Star"}];
     });
@@ -79,7 +78,7 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration screen:payload];
         
-        [verify(mockComScore) viewWithLabels:@{
+        [verify(mockComScore) notifyViewEventWithLabels:@{
                                                @"name": @"Droid Planet",
                                                @"resources": @"unlimited"
                                                }];
@@ -89,7 +88,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"flush", ^{
         [integration flush];
         
-        [verify(mockComScore) flushCache];
+        [verify(mockComScore) flushOfflineCache];
     });
 });
 

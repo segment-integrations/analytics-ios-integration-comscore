@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCAssertThat.h"
 
@@ -21,7 +21,7 @@ static void reportMismatch(id testCase, id actual, id <HCMatcher> matcher,
     [chain handleFailure:failure];
 }
 
-void HC_assertThatWithLocation(id testCase, id actual, id <HCMatcher> matcher,
+void HC_assertThatWithLocation(id testCase, _Nullable id actual, id <HCMatcher> matcher,
                                const char *fileName, int lineNumber)
 {
     if (![matcher matches:actual])

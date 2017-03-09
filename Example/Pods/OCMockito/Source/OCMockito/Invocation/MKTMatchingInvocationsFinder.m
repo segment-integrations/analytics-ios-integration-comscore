@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTMatchingInvocationsFinder.h"
 
@@ -8,14 +8,14 @@
 
 
 @interface MKTMatchingInvocationsFinder ()
-@property (nonatomic, copy) NSArray *invocations;
+@property (nonatomic, copy) NSArray<MKTInvocation *> *invocations;
 @end
 
 @implementation MKTMatchingInvocationsFinder
 
 @dynamic count;
 
-- (void)findInvocationsInList:(NSArray *)invocations matching:(MKTInvocationMatcher *)wanted
+- (void)findInvocationsInList:(NSArray<MKTInvocation *> *)invocations matching:(MKTInvocationMatcher *)wanted
 {
     self.invocations = [invocations filteredArrayUsingPredicate:
             [NSPredicate predicateWithBlock:^BOOL(id obj, NSDictionary *bindings) {

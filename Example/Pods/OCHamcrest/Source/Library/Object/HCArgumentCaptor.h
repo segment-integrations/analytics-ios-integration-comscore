@@ -1,8 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCIsAnything.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches anything, capturing all values.
@@ -22,7 +24,7 @@
  * If <code>-matches:</code> was never invoked and so no value was captured, this property returns
  * <code>nil</code>. But if <code>nil</code> was captured, this property returns NSNull.
  */
-@property (nonatomic, readonly) id value;
+@property (nullable, nonatomic, readonly) id value;
 
 /*!
  * @abstract Returns all captured values.
@@ -38,3 +40,5 @@
 @property (nonatomic, assign) BOOL captureEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END

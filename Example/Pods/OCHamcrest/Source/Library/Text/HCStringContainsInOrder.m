@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCStringContainsInOrder.h"
 
@@ -21,12 +21,12 @@ static void requireElementsToBeStrings(NSArray *array)
 
 
 @interface HCStringContainsInOrder ()
-@property (nonatomic, copy, readonly) NSArray *substrings;
+@property (nonatomic, copy, readonly) NSArray<NSString *> *substrings;
 @end
 
 @implementation HCStringContainsInOrder
 
-- (instancetype)initWithSubstrings:(NSArray *)substrings
+- (instancetype)initWithSubstrings:(NSArray<NSString *> *)substrings
 {
     self = [super init];
     if (self)
@@ -37,7 +37,7 @@ static void requireElementsToBeStrings(NSArray *array)
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSString class]])
         return NO;
@@ -62,7 +62,7 @@ static void requireElementsToBeStrings(NSArray *array)
 @end
 
 
-id HC_stringContainsInOrderIn(NSArray *substrings)
+id HC_stringContainsInOrderIn(NSArray<NSString *> *substrings)
 {
     return [[HCStringContainsInOrder alloc] initWithSubstrings:substrings];
 }

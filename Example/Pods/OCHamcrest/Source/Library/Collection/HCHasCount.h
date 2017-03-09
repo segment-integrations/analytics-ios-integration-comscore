@@ -1,15 +1,18 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches if collection size satisfies a nested matcher.
  */
 @interface HCHasCount : HCBaseMatcher
 
-- (instancetype)initWithMatcher:(id <HCMatcher>)countMatcher;
+- (instancetype)initWithMatcher:(id <HCMatcher>)countMatcher NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -56,3 +59,5 @@ static inline id hasCountOf(NSUInteger value)
     return HC_hasCountOf(value);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

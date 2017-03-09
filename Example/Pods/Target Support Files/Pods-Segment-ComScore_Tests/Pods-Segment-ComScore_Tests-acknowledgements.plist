@@ -34,6 +34,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>Expecta</string>
 			<key>Type</key>
@@ -42,7 +44,7 @@ THE SOFTWARE.
 		<dict>
 			<key>FooterText</key>
 			<string>OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-Copyright 2016 hamcrest.org
+Copyright 2017 hamcrest.org
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -55,6 +57,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 (BSD License)
 </string>
+			<key>License</key>
+			<string>BSD</string>
 			<key>Title</key>
 			<string>OCHamcrest</string>
 			<key>Type</key>
@@ -79,7 +83,7 @@ TPDWeakProxy:
 
 The MIT License (MIT)
 
-Copyright &#169; 2013 Tetherpad
+Copyright © 2013 Tetherpad
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -98,6 +102,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>OCMockito</string>
 			<key>Type</key>
@@ -126,6 +132,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>Specta</string>
 			<key>Type</key>

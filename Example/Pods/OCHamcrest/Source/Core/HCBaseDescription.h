@@ -1,9 +1,11 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 #import <OCHamcrest/HCDescription.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Base class for all HCDescription implementations.
@@ -23,3 +25,5 @@
 - (void)append:(NSString *)str;
 
 @end
+
+NS_ASSUME_NONNULL_END

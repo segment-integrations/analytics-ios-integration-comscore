@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTReturnValueSetter.h"
 
@@ -10,13 +10,13 @@
 
 @interface MKTReturnValueSetter ()
 @property (nonatomic, assign, readonly) char const *handlerType;
-@property (nonatomic, strong, readonly) MKTReturnValueSetter *successor;
+@property (nullable, nonatomic, strong, readonly) MKTReturnValueSetter *successor;
 @end
 
 
 @implementation MKTReturnValueSetter
 
-- (instancetype)initWithType:(char const *)handlerType successor:(MKTReturnValueSetter *)successor
+- (instancetype)initWithType:(char const *)handlerType successor:(nullable MKTReturnValueSetter *)successor
 {
     self = [super init];
     if (self)

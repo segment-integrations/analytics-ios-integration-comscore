@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 //  Contribution by David Hart
 
 #import "MKTClassObjectMock.h"
@@ -28,14 +28,14 @@
     return _swizzler;
 }
 
-- (void)mkt_stopMocking
+- (void)stopMocking
 {
     if (_swizzler)
     {
         [_swizzler unswizzleSingletonsForMock]; // Explicitly call for 32-bit iOS because dealloc is called too late.
         _swizzler = nil;
     }
-    [super mkt_stopMocking];
+    [super stopMocking];
 }
 
 - (NSString *)description

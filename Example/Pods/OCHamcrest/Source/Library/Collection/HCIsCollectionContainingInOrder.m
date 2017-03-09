@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContainingInOrder.h"
 
@@ -7,14 +7,14 @@
 
 
 @interface HCMatchSequence : NSObject
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @property (nonatomic, strong, readonly) id <HCDescription> mismatchDescription;
 @property (nonatomic, assign) NSUInteger nextMatchIndex;
 @end
 
 @implementation HCMatchSequence
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
              mismatchDescription:(id <HCDescription>)description
 {
     self = [super init];
@@ -26,7 +26,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     return [self isNotSurplus:item] && [self isMatched:item];
 }
@@ -78,12 +78,12 @@
 
 
 @interface HCIsCollectionContainingInOrder ()
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @end
 
 @implementation HCIsCollectionContainingInOrder
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
 {
     self = [super init];
     if (self)

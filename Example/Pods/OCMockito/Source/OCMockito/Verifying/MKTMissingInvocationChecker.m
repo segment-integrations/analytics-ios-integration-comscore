@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTMissingInvocationChecker.h"
 
@@ -12,7 +12,13 @@
 
 @implementation MKTMissingInvocationChecker
 
-- (NSString *)checkInvocations:(NSArray *)invocations wanted:(MKTInvocationMatcher *)wanted
+- (instancetype)init
+{
+    self = [super initWithWantedDescription:@"Missing"];
+    return self;
+}
+
+- (NSString *)checkInvocations:(NSArray<MKTInvocation *> *)invocations wanted:(MKTInvocationMatcher *)wanted
 {
     [self.invocationsFinder findInvocationsInList:invocations matching:wanted];
     NSString *description;
@@ -30,7 +36,7 @@
 - (NSString *)argumentsAreDifferent:(MKTInvocation *)actual wanted:(MKTInvocationMatcher *)wanted
 {
     MKTPrinter *printer = [[MKTPrinter alloc] init];
-    NSArray *description = @[
+    NSArray<NSString *> *description = @[
             @"Argument(s) are different!",
             [@"Wanted: " stringByAppendingString:[printer printMatcher:wanted]],
             @"Actual invocation has different arguments:",
@@ -42,10 +48,11 @@
     return [description componentsJoinedByString:@"\n"];
 }
 
-- (NSString *)wantedButNotInvoked:(MKTInvocationMatcher *)wanted otherInvocations:(NSArray *)invocations
+- (NSString *)wantedButNotInvoked:(MKTInvocationMatcher *)wanted
+                 otherInvocations:(NSArray<MKTInvocation *> *)invocations
 {
     MKTPrinter *printer = [[MKTPrinter alloc] init];
-    NSMutableArray *description = [@[
+    NSMutableArray<NSString *> *description = [@[
             @"Wanted but not invoked:",
             [printer printMatcher:wanted],
     ] mutableCopy];
@@ -58,8 +65,8 @@
     return [description componentsJoinedByString:@"\n"];
 }
 
-- (void)reportOtherInvocations:(NSArray *)invocations
-            toDescriptionArray:(NSMutableArray *)description
+- (void)reportOtherInvocations:(NSArray<MKTInvocation *> *)invocations
+            toDescriptionArray:(NSMutableArray<NSString *> *)description
 {
     MKTPrinter *printer = [[MKTPrinter alloc] init];
     [description addObject:@"However, there were other interactions with this mock (✓ means already verified):"];
@@ -74,7 +81,7 @@
 @end
 
 
-MKTInvocation *MKTFindSimilarInvocation(NSArray *invocations, MKTInvocationMatcher *wanted)
+MKTInvocation *MKTFindSimilarInvocation(NSArray<MKTInvocation *> *invocations, MKTInvocationMatcher *wanted)
 {
     NSUInteger index = [invocations indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         MKTInvocation *inv = obj;

@@ -1,10 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2016 hamcrest.org. See LICENSE.txt
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
 @protocol HCMatcher;
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT void HC_assertThatBoolWithLocation(id testCase, BOOL actual,
         id <HCMatcher> matcher, char const *fileName, int lineNumber);
@@ -334,3 +336,5 @@ FOUNDATION_EXPORT void HC_assertThatUnsignedIntegerWithLocation(id testCase, NSU
  */
 #define assertThatUnsignedInteger(actual, matcher) HC_assertThatUnsignedInteger(actual, matcher)
 #endif
+
+NS_ASSUME_NONNULL_END
