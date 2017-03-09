@@ -11,28 +11,26 @@
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings 
-{
+- (instancetype)initWithSettings:(NSDictionary *)settings config:(SCORConfiguration *)config {
     if (self = [super init]) {
         self.settings = settings;
-        self.comScore = [SCORAnalytics class];
         
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
             builder.publisherId = settings[@"publisherId"];
             builder.publisherSecret = settings[@"publisherSecret"];
             builder.applicationName = settings[@"appName:"];
-            
-            if ([settings[@"autoUpdate"] boolValue] && [settings[@"foregroundOnly"] boolValue]) {
+           // if ([(NSNumber *)[self.settings objectForKey:@"trackAllPages"] boolValue]) {
+            if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
-            } else if ([settings[@"autoUpdate"] boolValue]) {
+            } else if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue]) {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundAndBackground;
             } else {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeDisabled;
             }
             builder.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] integerValue];
             
-            builder.secureTransmission = [settings[@"useHTTPS"] boolValue];
+            builder.secureTransmission = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
             
             //        TODO: What are these? And do they have equivalents
             
