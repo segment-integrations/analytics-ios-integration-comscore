@@ -11,15 +11,17 @@
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings
+- (instancetype)initWithSettings:(NSDictionary *)settings 
 {
     if (self = [super init]) {
         self.settings = settings;
+        self.comScore = [SCORAnalytics class];
         
-        SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder * builder) {
-            builder.publisherId = settings[@"appName"]; // @ladan please config this is actually the case. Or we need new config with publisherId
+        SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
+            // publisherId is also known as c2 value
+            builder.publisherId = settings[@"publisherId"];
             builder.publisherSecret = settings[@"publisherSecret"];
-            
+            builder.applicationName = settings[@"appName:"];
             
             if ([settings[@"autoUpdate"] boolValue] && [settings[@"foregroundOnly"] boolValue]) {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
@@ -33,14 +35,15 @@
             builder.secureTransmission = [settings[@"useHTTPS"] boolValue];
             
             //        TODO: What are these? And do they have equivalents
+            
+            //        [self.comScoreClass setSecure: [self useHTTPS]];
+            //        SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS] ? @YES : @NO);
             //        [self.comScoreClass setAppContext];
             //        SEGLog(@"[CSComScore setAppContext]");
+            
             //        [self.comScoreClass setCustomerC2:[self customerC2]];
             //        SEGLog(@"[CSComScore setCustomerC2: %@]", [self customerC2]);
-            //        [self.comScoreClass setPublisherSecret:[self publisherSecret]];
-            //        SEGLog(@"[CSComScore setPublisherSecret: %@]", [self publisherSecret]);
-            //        [self.comScoreClass setAppName: [self appName]];
-            //        SEGLog(@"[CSComScore setAppName: %@]", [self appName]);
+            
 
         }];
         [[SCORAnalytics configuration] addClientWithConfiguration:config];
@@ -84,6 +87,7 @@
     NSMutableDictionary *hiddenLabels = [@{@"name": payload.event} mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [SCORAnalytics notifyHiddenEventWithLabels:hiddenLabels];
+    SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@ value: %@]",hiddenLabels);
     
 }
 
@@ -92,6 +96,7 @@
     NSMutableDictionary *viewLabels = [@{@"name":payload.name} mutableCopy];
     [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [SCORAnalytics notifyViewEventWithLabels:viewLabels];
+    SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@ value: %@]", viewLabels);
 }
 
 

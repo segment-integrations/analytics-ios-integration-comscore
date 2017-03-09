@@ -32,6 +32,7 @@
     return [[SEGComScoreIntegration alloc] initWithSettings:settings];
 }
 
+
 - (NSString *)key
 {
     return @"comScore";

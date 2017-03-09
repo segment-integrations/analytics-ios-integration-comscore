@@ -41,12 +41,12 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 });
 
 describe(@"SEGComScoreIntegration", ^{
-    __block Class mockComScore;
+    __block SCORAnalytics *comScore;
     __block SEGComScoreIntegration *integration;
     
     beforeEach(^{
-        mockComScore = mockClass([CSComScore class]);
-        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{} andCSComScore: mockComScore];
+        comScore = mock([SCORAnalytics class]);
+        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{} andComScore: comScore];
     });
     
     it(@"identify with Traits", ^{
@@ -59,9 +59,9 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration identify:payload];
         
-        [verify(mockComScore) setLabel: @"name" value: @"Kylo Ren"];
-        [verify(mockComScore) setLabel: @"gender" value: @"male"];
-        [verify(mockComScore) setLabel: @"emotion" value: @"angsty"];
+        [verify(comScore) setPersistentLabelWithName: @"name" value: @"Kylo Ren"];
+        [verify(comScore) setPersistentLabelWithName: @"gender" value: @"male"];
+        [verify(comScore) setPersistentLabelWithName: @"emotion" value: @"angsty"];
     });
     
     it(@"track with props", ^{
@@ -69,7 +69,7 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration track:payload];
         
-        [verify(mockComScore) hiddenWithLabels:@{
+        [verify(comScore) notifyHiddenEventWithLabels:@{
                                                  @"name": @"Starship Ordered",
                                                  @"Starship Type": @"Death Star"}];
     });
@@ -79,7 +79,7 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration screen:payload];
         
-        [verify(mockComScore) viewWithLabels:@{
+        [verify(comScore) notifyViewEventWithLabels:@{
                                                @"name": @"Droid Planet",
                                                @"resources": @"unlimited"
                                                }];
@@ -89,7 +89,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"flush", ^{
         [integration flush];
         
-        [verify(mockComScore) flushCache];
+        [verify(comScore) flushOfflineCache];
     });
 });
 
