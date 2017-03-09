@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCIsNot.h"
 
@@ -20,7 +20,7 @@
     return self;
 }
 
-- (BOOL)matches:(nullable id)item
+- (BOOL)matches:(id)item
 {
     return ![self.matcher matches:item];
 }
@@ -30,14 +30,14 @@
     [[description appendText:@"not "] appendDescriptionOf:self.matcher];
 }
 
-- (void)describeMismatchOf:(nullable id)item to:(nullable id <HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     [self.matcher describeMismatchOf:item to:mismatchDescription];
 }
 @end
 
 
-id HC_isNot(_Nullable id value)
+id HC_isNot(id value)
 {
     return [[HCIsNot alloc] initWithMatcher:HCWrapInMatcher(value)];
 }

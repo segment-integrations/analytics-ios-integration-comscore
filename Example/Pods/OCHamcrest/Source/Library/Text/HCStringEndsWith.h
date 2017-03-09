@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCSubstringMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Tests if string ends with a substring.
@@ -36,5 +34,3 @@ static inline id endsWith(NSString *suffix)
     return HC_endsWith(suffix);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

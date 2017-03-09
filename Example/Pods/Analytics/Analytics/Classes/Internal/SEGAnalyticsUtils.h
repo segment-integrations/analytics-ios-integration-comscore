@@ -1,7 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "SEGSerializableValue.h"
-
-NS_ASSUME_NONNULL_BEGIN
 
 NSString *GenerateUUIDString();
 
@@ -10,7 +7,7 @@ NSString *iso8601FormattedString(NSDate *date);
 
 // Async Utils
 dispatch_queue_t seg_dispatch_queue_create_specific(const char *label,
-                                                    dispatch_queue_attr_t _Nullable attr);
+                                                    dispatch_queue_attr_t attr);
 BOOL seg_dispatch_is_on_specific_queue(dispatch_queue_t queue);
 void seg_dispatch_specific(dispatch_queue_t queue, dispatch_block_t block,
                            BOOL waitForCompletion);
@@ -25,10 +22,8 @@ void SEGLog(NSString *format, ...);
 
 // JSON Utils
 
-JSON_DICT SEGCoerceDictionary(NSDictionary *dict);
+NSDictionary *SEGCoerceDictionary(NSDictionary *dict);
 
 NSString *SEGIDFA(void);
 
 NSString *SEGEventNameForScreenTitle(NSString *title);
-
-NS_ASSUME_NONNULL_END

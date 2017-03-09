@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCAllOf.h"
 
@@ -7,12 +7,12 @@
 
 
 @interface HCAllOf ()
-@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
+@property (nonatomic, copy, readonly) NSArray *matchers;
 @end
 
 @implementation HCAllOf
 
-- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)matchers
+- (instancetype)initWithMatchers:(NSArray *)matchers
 {
     self = [super init];
     if (self)
@@ -20,7 +20,7 @@
     return self;
 }
 
-- (BOOL)matches:(nullable id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
+- (BOOL)matches:(id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
 {
     for (id <HCMatcher> oneMatcher in self.matchers)
     {

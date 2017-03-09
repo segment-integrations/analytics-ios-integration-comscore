@@ -11,7 +11,7 @@
     return self;
 }
 
-- (NSString *)checkInvocations:(NSArray<MKTInvocation *> *)invocations
+- (NSString *)checkInvocations:(NSArray *)invocations
                         wanted:(MKTInvocationMatcher *)wanted
                    wantedCount:(NSUInteger)wantedCount
 {

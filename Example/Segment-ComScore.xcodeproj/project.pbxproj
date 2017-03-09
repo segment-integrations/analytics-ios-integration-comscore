@@ -20,10 +20,9 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		7434E2F290D9418BDD99DA91 /* libPods-Segment-ComScore_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DDF39FAB4AD0870105437AC /* libPods-Segment-ComScore_Example.a */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		88970245F523438217A6F04F /* libPods-Segment-ComScore_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0545EF907EFC900F792E40E5 /* libPods-Segment-ComScore_Tests.a */; };
-		95C766441E71F595005C68ED /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		D3BB15E1DFA2C861B3C19D33 /* libPods-Segment-ComScore_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DDF39FAB4AD0870105437AC /* libPods-Segment-ComScore_Example.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,8 +64,6 @@
 		7DAE3E57CAA225EF6603C049 /* Pods-Segment-ComScore_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		833F9A102EFC8FE5686FFBF9 /* Pods-Segment-ComScore_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		95C766401E71E9FE005C68ED /* libPods-Segment-ComScore_Tests.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Segment-ComScore_Tests.a"; path = "../../../../../../Library/Developer/Xcode/DerivedData/Segment-ComScore-akbrqnybbgzinxfzmliadfmhdvte/Build/Products/Debug-iphonesimulator/libPods-Segment-ComScore_Tests.a"; sourceTree = "<group>"; };
-		95C766421E71EA07005C68ED /* libSegment-ComScore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libSegment-ComScore.a"; path = "../../../../../../Library/Developer/Xcode/DerivedData/Segment-ComScore-akbrqnybbgzinxfzmliadfmhdvte/Build/Products/Debug-iphonesimulator/Segment-ComScore/libSegment-ComScore.a"; sourceTree = "<group>"; };
 		B0D20145F55E7BB5DD07BED3 /* Pods-Segment-ComScore_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example.release.xcconfig"; sourceTree = "<group>"; };
 		F92BA7CFB417C9480FB73821 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,7 +76,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				D3BB15E1DFA2C861B3C19D33 /* libPods-Segment-ComScore_Example.a in Frameworks */,
+				7434E2F290D9418BDD99DA91 /* libPods-Segment-ComScore_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,8 +118,6 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				95C766421E71EA07005C68ED /* libSegment-ComScore.a */,
-				95C766401E71E9FE005C68ED /* libPods-Segment-ComScore_Tests.a */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -357,7 +352,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6E9F082B4D1523DB5369CA0F /* [CP] Embed Pods Frameworks */ = {
@@ -387,7 +382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -397,7 +392,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95C766441E71F595005C68ED /* Tests.m in Sources */,
 				6003F59E195388D20070C39A /* SEGAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* SEGViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,

@@ -1,18 +1,15 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matchers numbers close to a value, within a delta range.
  */
 @interface HCIsCloseTo : HCBaseMatcher
 
-- (instancetype)initWithValue:(double)value delta:(double)delta NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithValue:(double)value delta:(double)delta;
 
 @end
 
@@ -39,5 +36,3 @@ static inline id closeTo(double value, double delta)
     return HC_closeTo(value, delta);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

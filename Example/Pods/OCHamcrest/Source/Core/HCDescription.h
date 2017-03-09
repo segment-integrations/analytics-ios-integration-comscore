@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract A description of an HCMatcher.
@@ -23,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion If the value implements the HCSelfDescribing protocol, then it will be used.
  * @return <code>self</code>, for chaining.
  */
-- (id <HCDescription>)appendDescriptionOf:(nullable id)value;
+- (id <HCDescription>)appendDescriptionOf:(id)value;
 
 /*!
  * @abstract Appends a list of objects to the description.
@@ -35,5 +33,3 @@ NS_ASSUME_NONNULL_BEGIN
                             end:(NSString *)end;
 
 @end
-
-NS_ASSUME_NONNULL_END

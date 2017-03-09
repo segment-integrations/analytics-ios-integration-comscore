@@ -2,8 +2,6 @@
 #import "SEGIntegration.h"
 #import "SEGAnalytics.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SEGAnalytics;
 
 @protocol SEGIntegrationFactory
@@ -18,5 +16,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)key;
 
 @end
-
-NS_ASSUME_NONNULL_END

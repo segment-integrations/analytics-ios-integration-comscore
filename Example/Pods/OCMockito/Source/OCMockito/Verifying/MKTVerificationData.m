@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTVerificationData.h"
 
@@ -27,7 +27,7 @@
     return self;
 }
 
-- (NSArray<MKTInvocation *> *)invocations
+- (NSArray *)invocations
 {
     return self.invocationContainer.registeredInvocations;
 }

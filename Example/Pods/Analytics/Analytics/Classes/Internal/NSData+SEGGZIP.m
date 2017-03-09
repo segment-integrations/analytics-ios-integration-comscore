@@ -38,7 +38,10 @@
 
 #pragma clang diagnostic ignored "-Wcast-qual"
 
-void *_Nullable seg_libzOpen()
+
+@implementation NSData (GZIP)
+
+static void *seg_libzOpen()
 {
     static void *libz;
     static dispatch_once_t onceToken;
@@ -47,9 +50,6 @@ void *_Nullable seg_libzOpen()
     });
     return libz;
 }
-
-
-@implementation NSData (GZIP)
 
 - (NSData *)seg_gzippedDataWithCompressionLevel:(float)level
 {

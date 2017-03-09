@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContainingInAnyOrder.h"
 
@@ -7,13 +7,13 @@
 
 
 @interface HCMatchingInAnyOrder : NSObject
-@property (nonatomic, copy, readonly) NSMutableArray<id <HCMatcher>> *matchers;
+@property (nonatomic, copy, readonly) NSMutableArray *matchers;
 @property (nonatomic, strong, readonly) id <HCDescription> mismatchDescription;
 @end
 
 @implementation HCMatchingInAnyOrder
 
-- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray *)itemMatchers
              mismatchDescription:(id <HCDescription>)description
 {
     self = [super init];
@@ -25,7 +25,7 @@
     return self;
 }
 
-- (BOOL)matches:(nullable id)item
+- (BOOL)matches:(id)item
 {
     NSUInteger index = 0;
     for (id <HCMatcher> matcher in self.matchers)
@@ -58,12 +58,12 @@
 
 
 @interface HCIsCollectionContainingInAnyOrder ()
-@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
+@property (nonatomic, copy, readonly) NSArray *matchers;
 @end
 
 @implementation HCIsCollectionContainingInAnyOrder
 
-- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray *)itemMatchers
 {
     self = [super init];
     if (self)

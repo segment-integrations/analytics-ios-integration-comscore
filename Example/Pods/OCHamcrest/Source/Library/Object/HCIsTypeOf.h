@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCClassMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches objects that are of a given class.
@@ -33,5 +31,3 @@ static inline id isA(Class expectedClass)
     return HC_isA(expectedClass);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

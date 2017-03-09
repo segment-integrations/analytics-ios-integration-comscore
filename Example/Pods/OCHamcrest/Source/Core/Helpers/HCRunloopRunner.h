@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Runs runloop until fulfilled, or timeout is reached.
@@ -12,10 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface HCRunloopRunner : NSObject
 
-- (instancetype)initWithFulfillmentBlock:(BOOL (^)())fulfillmentBlock NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithFulfillmentBlock:(BOOL (^)())fulfillmentBlock;
 - (void)runUntilFulfilledOrTimeout:(CFTimeInterval)timeout;
 
 @end
-
-NS_ASSUME_NONNULL_END

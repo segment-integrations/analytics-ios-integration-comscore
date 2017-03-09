@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCIsSame.h"
 
@@ -10,7 +10,7 @@
 
 @implementation HCIsSame
 
-- (instancetype)initSameAs:(nullable id)object
+- (instancetype)initSameAs:(id)object
 {
     self = [super init];
     if (self)
@@ -18,12 +18,12 @@
     return self;
 }
 
-- (BOOL)matches:(nullable id)item
+- (BOOL)matches:(id)item
 {
     return item == self.object;
 }
 
-- (void)describeMismatchOf:(nullable id)item to:(nullable id <HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     [mismatchDescription appendText:@"was "];
     if (item)
@@ -40,7 +40,7 @@
 @end
 
 
-id HC_sameInstance(_Nullable id expectedInstance)
+id HC_sameInstance(id expectedInstance)
 {
     return [[HCIsSame alloc] initSameAs:expectedInstance];
 }

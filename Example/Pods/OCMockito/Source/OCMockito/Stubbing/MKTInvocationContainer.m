@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTInvocationContainer.h"
 
@@ -9,9 +9,9 @@
 
 
 @interface MKTInvocationContainer ()
-@property (nonatomic, strong, readonly) NSMutableArray<MKTInvocation *> *mutableRegisteredInvocations;
+@property (nonatomic, strong, readonly) NSMutableArray *mutableRegisteredInvocations;
 @property (nonatomic, strong) MKTStubbedInvocationMatcher *invocationForStubbing;
-@property (nonatomic, strong, readonly) NSMutableArray<MKTStubbedInvocationMatcher *> *stubbed;
+@property (nonatomic, strong, readonly) NSMutableArray *stubbed;
 @end
 
 @implementation MKTInvocationContainer
@@ -28,7 +28,7 @@
     return self;
 }
 
-- (NSArray<MKTInvocation *> *)registeredInvocations
+- (NSArray *)registeredInvocations
 {
     return self.mutableRegisteredInvocations;
 }

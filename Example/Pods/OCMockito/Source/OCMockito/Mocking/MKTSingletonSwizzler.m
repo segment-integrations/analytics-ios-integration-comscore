@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 //  Contribution by Igor Sales
 
 #import "MKTSingletonSwizzler.h"
@@ -7,9 +7,8 @@
 #import "MKTClassObjectMock.h"
 #import <objc/runtime.h>
 
-@class MKTSingletonMapEntry;
 
-static NSMutableDictionary<NSString *, MKTSingletonMapEntry *> *singletonMap = nil;
+static NSMutableDictionary *singletonMap = nil;
 
 static NSString *singletonKey(Class aClass, SEL aSelector)
 {
@@ -126,7 +125,7 @@ static NSString *singletonKey(Class aClass, SEL aSelector)
 - (void)unswizzleSingletonsForMock
 {
     void *theMockPtr = self.classMockPtr;
-    NSMutableArray<NSString *> *keysToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
     
     [singletonMap enumerateKeysAndObjectsUsingBlock:^(NSString *key,
             MKTSingletonMapEntry *swizzled,

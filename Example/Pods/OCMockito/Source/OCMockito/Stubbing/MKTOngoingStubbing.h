@@ -1,13 +1,11 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 #import "MKTNonObjectArgumentMatching.h"
 
 @class MKTInvocationContainer;
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Methods to invoke on <code>given(methodCall)</code> to stub return values or behaviors.
@@ -16,8 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MKTOngoingStubbing : NSObject <MKTNonObjectArgumentMatching>
 
-- (instancetype)initWithInvocationContainer:(MKTInvocationContainer *)invocationContainer NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithInvocationContainer:(MKTInvocationContainer *)invocationContainer;
 
 /*!
  * @abstract Sets an object to return when the method is called.
@@ -25,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  * <pre>[given([mock someMethod]) willReturn:@"FOO"];</pre>
  * @return MKTOngoingStubbing object to allow stubbing consecutive calls
  */
-- (MKTOngoingStubbing *)willReturn:(nullable id)object;
+- (MKTOngoingStubbing *)willReturn:(id)object;
 
 /*!
  * @abstract Sets a struct to return when the method is called.
@@ -147,6 +144,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (MKTOngoingStubbing *)willDo:(id (^)(NSInvocation *))block;
 
 @end
-
-NS_ASSUME_NONNULL_END
-

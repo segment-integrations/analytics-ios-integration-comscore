@@ -1,5 +1,5 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTDynamicProperties.h"
 
@@ -7,25 +7,25 @@
 
 
 @interface MKTDynamicProperties ()
-@property (nonatomic, copy, readonly) NSDictionary<NSString *, NSMethodSignature *> *selectorToSignature;
+@property (nonatomic, copy, readonly) NSDictionary *selectorToSignature;
 @end
 
 @implementation MKTDynamicProperties
 
-+ (NSDictionary<NSString *, NSMethodSignature *> *)dynamicPropertySelectorsForClass:(Class)aClass
++ (NSDictionary *)dynamicPropertySelectorsForClass:(Class)aClass
 {
-    NSMutableDictionary<NSString *, NSMethodSignature *> *result = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     for (Class cls = aClass; cls != Nil; cls = [cls superclass])
     {
-        NSDictionary<NSString *, NSMethodSignature *> *properties = [self dynamicPropertySelectorsForSingleClass:cls];
+        NSDictionary *properties = [self dynamicPropertySelectorsForSingleClass:cls];
         [result addEntriesFromDictionary:properties];
     }
     return result;
 }
 
-+ (NSDictionary<NSString *, NSMethodSignature *> *)dynamicPropertySelectorsForSingleClass:(Class)aClass
++ (NSDictionary *)dynamicPropertySelectorsForSingleClass:(Class)aClass
 {
-    NSMutableDictionary<NSString *, NSMethodSignature *> *result = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     unsigned int propertyCount;
     objc_property_t *properties = class_copyPropertyList(aClass, &propertyCount);
     for (unsigned int i = 0; i < propertyCount; ++i)
@@ -34,8 +34,7 @@
     return result;
 }
 
-+ (void)addSelectorsForDynamicProperty:(objc_property_t)aProperty
-                          toDictionary:(NSMutableDictionary<NSString *, NSMethodSignature *> *)dict
++ (void)addSelectorsForDynamicProperty:(objc_property_t)aProperty toDictionary:(NSMutableDictionary *)dict
 {
     BOOL isDynamic = [self isAttributeSet:"D" onProperty:aProperty];
     if (isDynamic)
@@ -60,8 +59,7 @@
     return attributeString;
 }
 
-+ (void)addSelectorsForProperty:(objc_property_t)aProperty
-                   toDictionary:(NSMutableDictionary<NSString *, NSMethodSignature *> *)dict
++ (void)addSelectorsForProperty:(objc_property_t)aProperty toDictionary:(NSMutableDictionary *)dict
 {
     dict[ [self getterNameForProperty:aProperty] ] = [self getterSignatureForProperty:aProperty];
     BOOL isReadonly = [self isAttributeSet:"R" onProperty:aProperty];

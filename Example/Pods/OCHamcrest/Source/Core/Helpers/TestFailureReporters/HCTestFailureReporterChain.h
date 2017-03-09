@@ -1,12 +1,10 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
 @class HCTestFailureReporter;
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Manage chain-of-responsibility for reporting test failures.
@@ -32,5 +30,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)reset;
 
 @end
-
-NS_ASSUME_NONNULL_END

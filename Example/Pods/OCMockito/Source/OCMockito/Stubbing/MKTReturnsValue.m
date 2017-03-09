@@ -1,16 +1,16 @@
 //  OCMockito by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 Jonathan M. Reid. See LICENSE.txt
+//  Copyright 2016 Jonathan M. Reid. See LICENSE.txt
 
 #import "MKTReturnsValue.h"
 
 
 @interface MKTReturnsValue ()
-@property (nullable, nonatomic, strong, readonly) id value;
+@property (nonatomic, strong, readonly) id value;
 @end
 
 @implementation MKTReturnsValue
 
-- (instancetype)initWithValue:(nullable id)value
+- (instancetype)initWithValue:(id)value
 {
     self = [super init];
     if (self)

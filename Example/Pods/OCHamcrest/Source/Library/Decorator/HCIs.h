@@ -1,23 +1,20 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Decorates another matcher.
  */
 @interface HCIs : HCBaseMatcher
 
-- (instancetype)initWithMatcher:(id <HCMatcher>)matcher NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithMatcher:(id <HCMatcher>)matcher;
 
 @end
 
 
-FOUNDATION_EXPORT id HC_is(_Nullable id value);
+FOUNDATION_EXPORT id HC_is(id value);
 
 #ifndef HC_DISABLE_SHORT_SYNTAX
 /*!
@@ -46,10 +43,8 @@ FOUNDATION_EXPORT id HC_is(_Nullable id value);
  * In the event of a name clash, <code>#define HC_DISABLE_SHORT_SYNTAX</code> and use the synonym
  * HC_is instead.
  */
-static inline id is(_Nullable id value)
+static inline id is(id value)
 {
     return HC_is(value);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

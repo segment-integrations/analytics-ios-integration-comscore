@@ -1,13 +1,11 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 #import <OCHamcrest/HCMatcher.h>
 
 #define HC_ABSTRACT_METHOD [self subclassResponsibility:_cmd]
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Base class for all HCMatcher implementations.
@@ -21,5 +19,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)subclassResponsibility:(SEL)command;
 
 @end
-
-NS_ASSUME_NONNULL_END

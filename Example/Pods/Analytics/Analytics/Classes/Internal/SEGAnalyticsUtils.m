@@ -43,17 +43,12 @@ BOOL seg_dispatch_is_on_specific_queue(dispatch_queue_t queue)
 void seg_dispatch_specific(dispatch_queue_t queue, dispatch_block_t block,
                            BOOL waitForCompletion)
 {
-    dispatch_block_t autoreleasing_block = ^{
-      @autoreleasepool {
-        block();
-      }
-    };
     if (dispatch_get_specific((__bridge const void *)queue)) {
-        autoreleasing_block();
+        block();
     } else if (waitForCompletion) {
-        dispatch_sync(queue, autoreleasing_block);
+        dispatch_sync(queue, block);
     } else {
-        dispatch_async(queue, autoreleasing_block);
+        dispatch_async(queue, block);
     }
 }
 

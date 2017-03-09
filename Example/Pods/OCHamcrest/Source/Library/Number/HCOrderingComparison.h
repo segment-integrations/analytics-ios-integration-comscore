@@ -1,10 +1,8 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches values with <code>-compare:</code>.
@@ -14,8 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initComparing:(id)expectedValue
                    minCompare:(NSComparisonResult)min
                    maxCompare:(NSComparisonResult)max
-        comparisonDescription:(NSString *)comparisonDescription NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+        comparisonDescription:(NSString *)comparisonDescription;
 
 @end
 
@@ -110,5 +107,3 @@ static inline id lessThanOrEqualTo(id value)
     return HC_lessThanOrEqualTo(value);
 }
 #endif
-
-NS_ASSUME_NONNULL_END

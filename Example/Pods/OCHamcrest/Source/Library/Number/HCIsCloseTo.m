@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2017 hamcrest.org. See LICENSE.txt
+//  Copyright 2016 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCloseTo.h"
 
@@ -22,7 +22,7 @@
     return self;
 }
 
-- (BOOL)matches:(nullable id)item
+- (BOOL)matches:(id)item
 {
     if ([self itemIsNotNumber:item])
         return NO;
@@ -40,7 +40,7 @@
     return ![item isKindOfClass:[NSNumber class]];
 }
 
-- (void)describeMismatchOf:(nullable id)item to:(nullable id <HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     if ([self itemIsNotNumber:item])
         [super describeMismatchOf:item to:mismatchDescription];
