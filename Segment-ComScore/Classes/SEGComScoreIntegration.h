@@ -14,10 +14,8 @@
 @interface SEGComScoreIntegration : NSObject <SEGIntegration>
 
 @property (nonatomic, strong) NSDictionary *settings;
-@property (nonatomic, strong) SCORAnalytics *comScore;
+@property (nonatomic, strong) Class scorAnalyticsClass;
 
-- (instancetype)initWithSettings:(NSDictionary *)settings;
-
-- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(SCORAnalytics *)comScore;
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass;
 
 @end

@@ -11,12 +11,13 @@
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(SCORAnalytics *)comScore
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass
 {
     if (self = [super init]) {
-        self.settings = settings;
-        self.comScore = _comScore;
         
+        self.settings = settings;
+        self.scorAnalyticsClass = scorAnalyticsClass;
+    
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
             builder.publisherId = settings[@"c2"];
@@ -35,9 +36,9 @@
             }
         }];
         
-        [[SCORAnalytics configuration] addClientWithConfiguration:config];
+        [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
         
-        [SCORAnalytics start];
+        [self.scorAnalyticsClass start];
         
     }
     return self;
@@ -64,7 +65,8 @@
     [mappedTraits enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         id data = [payload.traits objectForKey:key];
         if (data != nil && [data length] != 0) {
-            [[SCORAnalytics configuration] setPersistentLabelWithName:key value:data];
+            SCORConfiguration *configuration = [self.scorAnalyticsClass configuration];
+            [configuration setPersistentLabelWithName:key value:data];
             SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@]", key, data);
         }
     }];
@@ -75,7 +77,7 @@
 {
     NSMutableDictionary *hiddenLabels = [@{@"name": payload.event} mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
-    [SCORAnalytics notifyHiddenEventWithLabels:hiddenLabels];
+    [self.scorAnalyticsClass notifyHiddenEventWithLabels:hiddenLabels];
     SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@]",hiddenLabels);
     
 }
@@ -84,15 +86,15 @@
 {
     NSMutableDictionary *viewLabels = [@{@"name":payload.name} mutableCopy];
     [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
-    [SCORAnalytics notifyViewEventWithLabels:viewLabels];
+    [self.scorAnalyticsClass notifyViewEventWithLabels:viewLabels];
     SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@]", viewLabels);
 }
 
 
 - (void)flush
 {
-    SEGLog(@"ComScore flushCache");
-    [SCORAnalytics flushOfflineCache];
+    SEGLog(@"[SCORAnalytics flushOfflineCache]");
+    [self.scorAnalyticsClass flushOfflineCache];
 }
 
 @end

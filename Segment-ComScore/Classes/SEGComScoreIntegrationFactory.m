@@ -29,7 +29,7 @@
 
 - (id<SEGIntegration>)createWithSettings:(NSDictionary *)settings forAnalytics:(SEGAnalytics *)analytics
 {
-    return [[SEGComScoreIntegration alloc] initWithSettings:settings];
+    return [[SEGComScoreIntegration alloc] initWithSettings:settings andComScore:[SCORAnalytics class]];
 }
 
 
