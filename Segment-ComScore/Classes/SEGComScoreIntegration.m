@@ -4,23 +4,27 @@
 //
 //  Created by William Johnson on 5/16/16.
 //
-//
+// 
 
 #import "SEGComScoreIntegration.h"
 #import <Analytics/SEGAnalyticsUtils.h>
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings config:(SCORConfiguration *)config {
+- (instancetype)initWithSettings:(NSDictionary *)settings
+{
     if (self = [super init]) {
         self.settings = settings;
+        self.comScore = _comScore;
         
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
-            builder.publisherId = settings[@"publisherId"];
+            builder.publisherId = settings[@"c2"];
             builder.publisherSecret = settings[@"publisherSecret"];
             builder.applicationName = settings[@"appName:"];
-           // if ([(NSNumber *)[self.settings objectForKey:@"trackAllPages"] boolValue]) {
+            builder.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] integerValue];
+            builder.secureTransmission = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
+
             if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
             } else if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue]) {
@@ -28,9 +32,8 @@
             } else {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeDisabled;
             }
-            builder.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] integerValue];
             
-            builder.secureTransmission = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
+
             
             //        TODO: What are these? And do they have equivalents
             
