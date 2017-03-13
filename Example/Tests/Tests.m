@@ -11,14 +11,6 @@
 SpecBegin(InitialSpecs)
 
 describe(@"SEGComScoreIntegrationFactory", ^{
-    it(@"factory creates integration with empty settings", ^{
-        SEGComScoreIntegration *integration = [[SEGComScoreIntegrationFactory instance] createWithSettings:@{} forAnalytics:nil];
-        
-        expect(integration.settings).to.equal(@{});
-    });
-});
-
-describe(@"SEGComScoreIntegrationFactory", ^{
     it(@"factory creates integration with basic settings", ^{
         SEGComScoreIntegration *integration = [[SEGComScoreIntegrationFactory instance] createWithSettings:@{
             @"c2" : @"1234567",
@@ -46,42 +38,46 @@ describe(@"SEGComScoreIntegration", ^{
     
     beforeEach(^{
         comScore = mock([SCORAnalytics class]);
-        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{} andComScore: comScore];
+        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
+                                                                         @"c2" : @"23243060",
+                                                                         @"publisherSecret": @"7e529e62366db3423ef3728ca910b8b8"
+                                                                         
+        } andComScore:comScore];
     });
     
     it(@"identify with Traits", ^{
-        SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"1111"
+        SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"44"
                                                                      anonymousId:nil
-                                                                          traits:@{@"name":@"Kylo Ren",
+                                                                          traits:@{@"name":@"Milhouse Van Houten",
                                                                                    @"gender": @"male",
-                                                                                   @"emotion": @"angsty"}
+                                                                                   @"emotion": @"nerdy"}
                                                                          context:@{} integrations:@{}];
         
         [integration identify:payload];
         
-        [verify(comScore) setPersistentLabelWithName: @"name" value: @"Kylo Ren"];
+        [verify(comScore) setPersistentLabelWithName: @"name" value: @"Milhouse Van Houten"];
         [verify(comScore) setPersistentLabelWithName: @"gender" value: @"male"];
-        [verify(comScore) setPersistentLabelWithName: @"emotion" value: @"angsty"];
+        [verify(comScore) setPersistentLabelWithName: @"emotion" value: @"nerdy"];
     });
     
     it(@"track with props", ^{
-        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Starship Ordered" properties:@{@"Starship Type": @"Death Star"} context:@{} integrations:@{}];
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Order Completed" properties:@{@"Type": @"Flood"} context:@{} integrations:@{}];
         
         [integration track:payload];
         
         [verify(comScore) notifyHiddenEventWithLabels:@{
-                                                 @"name": @"Starship Ordered",
-                                                 @"Starship Type": @"Death Star"}];
+                                                 @"name": @"Order Completed",
+                                                 @"Type": @"Flood"}];
     });
     
     it(@"screen with props", ^{
-        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Droid Planet" properties:@{@"resources":@"unlimited"} context:@{} integrations:@{}];
+        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Home" properties:@{@"Ad":@"Flood Pants"} context:@{} integrations:@{}];
         
         [integration screen:payload];
         
         [verify(comScore) notifyViewEventWithLabels:@{
-                                               @"name": @"Droid Planet",
-                                               @"resources": @"unlimited"
+                                               @"name": @"Home",
+                                               @"Ad": @"Flood Pants"
                                                }];
     });
 

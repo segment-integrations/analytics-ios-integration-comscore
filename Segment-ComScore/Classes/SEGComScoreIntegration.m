@@ -11,7 +11,7 @@
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(SCORAnalytics *)comScore
 {
     if (self = [super init]) {
         self.settings = settings;
