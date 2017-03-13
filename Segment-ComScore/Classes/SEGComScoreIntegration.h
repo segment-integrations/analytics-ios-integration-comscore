@@ -18,5 +18,6 @@
 
 - (instancetype)initWithSettings:(NSDictionary *)settings;
 
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(SCORAnalytics *)comScore;
 
 @end

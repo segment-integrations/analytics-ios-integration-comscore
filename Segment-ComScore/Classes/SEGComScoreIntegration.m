@@ -24,7 +24,8 @@
             builder.applicationName = settings[@"appName:"];
             builder.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] integerValue];
             builder.secureTransmission = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
-
+            builder.liveTransmissionMode = SCORLiveTransmissionModeLan;
+            
             if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
             } else if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue]) {
@@ -32,21 +33,8 @@
             } else {
                 builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeDisabled;
             }
-            
-
-            
-            //        TODO: What are these? And do they have equivalents
-            
-            //        [self.comScoreClass setSecure: [self useHTTPS]];
-            //        SEGLog(@"[CSComScore setSecure: %@]", [self useHTTPS] ? @YES : @NO);
-            //        [self.comScoreClass setAppContext];
-            //        SEGLog(@"[CSComScore setAppContext]");
-            
-            //        [self.comScoreClass setCustomerC2:[self customerC2]];
-            //        SEGLog(@"[CSComScore setCustomerC2: %@]", [self customerC2]);
-            
-
         }];
+        
         [[SCORAnalytics configuration] addClientWithConfiguration:config];
         
         [SCORAnalytics start];
@@ -77,7 +65,7 @@
         id data = [payload.traits objectForKey:key];
         if (data != nil && [data length] != 0) {
             [[SCORAnalytics configuration] setPersistentLabelWithName:key value:data];
-            SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@ value: %@]", key, data);
+            SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@]", key, data);
         }
     }];
 }
@@ -88,7 +76,7 @@
     NSMutableDictionary *hiddenLabels = [@{@"name": payload.event} mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [SCORAnalytics notifyHiddenEventWithLabels:hiddenLabels];
-    SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@ value: %@]",hiddenLabels);
+    SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@]",hiddenLabels);
     
 }
 
@@ -97,7 +85,7 @@
     NSMutableDictionary *viewLabels = [@{@"name":payload.name} mutableCopy];
     [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [SCORAnalytics notifyViewEventWithLabels:viewLabels];
-    SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@ value: %@]", viewLabels);
+    SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@]", viewLabels);
 }
 
 
