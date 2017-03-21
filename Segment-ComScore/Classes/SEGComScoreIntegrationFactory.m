@@ -9,6 +9,7 @@
 #import "SEGComScoreIntegrationFactory.h"
 #import "SEGComScoreIntegration.h"
 
+
 @implementation SEGComScoreIntegrationFactory
 
 + (instancetype)instance
