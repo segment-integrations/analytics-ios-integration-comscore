@@ -17,6 +17,7 @@
 @property (nonatomic, strong) Class scorAnalyticsClass;
 @property (nonatomic, strong) SCORStreamingAnalytics *streamAnalytics;
 
+
 - (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass;
 
 @end

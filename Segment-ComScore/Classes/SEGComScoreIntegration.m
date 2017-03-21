@@ -43,11 +43,12 @@
                                                        builder.partnerId = @"23243060"; // Segment Test Account c2 id
                                                     }];
         
-
         [[SCORAnalytics configuration] addClientWithConfiguration:partnerConfig];
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
+=
+        [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
         
-        [self.scorAnalyticsClass start];
+=        [self.scorAnalyticsClass start];
         
     }
     return self;
@@ -319,6 +320,7 @@
                          @"ns_st_cl", @"length", nil];
     
     [self.streamAnalytics notifyEndWithLabels:map];
+
 }
 
 -(void)videoAdStarted: (NSDictionary *)properties

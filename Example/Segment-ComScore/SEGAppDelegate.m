@@ -8,6 +8,7 @@
 
 #import "SEGAppDelegate.h"
 #import <Analytics/SEGAnalytics.h>
+#import "Segment-ComScore/SEGComScoreIntegrationFactory.h"
 
 @implementation SEGAppDelegate
 
@@ -19,8 +20,10 @@
     configuration.trackApplicationLifecycleEvents = YES;
     configuration.trackAttributionData = YES;
     configuration.flushAt = 1;
+    [configuration use:[SEGComScoreIntegrationFactory instance]];
     
     [SEGAnalytics setupWithConfiguration:configuration];
+    
     [[SEGAnalytics sharedAnalytics] identify:@"234"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Launched"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing"];

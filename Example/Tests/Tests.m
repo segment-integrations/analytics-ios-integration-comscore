@@ -34,18 +34,23 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 
 describe(@"SEGComScoreIntegration", ^{
     __block SCORAnalytics *comScore;
+    __block Class scorAnalyticsClassMock;
     __block SEGComScoreIntegration *integration;
     
     beforeEach(^{
-        comScore = mock([SCORAnalytics class]);
+        comScore = mockClass([SCORAnalytics class]);
+        scorAnalyticsClassMock = comScore;
         integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
                                                                          @"c2" : @"23243060",
                                                                          @"publisherSecret": @"7e529e62366db3423ef3728ca910b8b8"
-                                                                         
         } andComScore:comScore];
     });
     
     it(@"identify with Traits", ^{
+        
+        SCORConfiguration *configuration = mock([SCORConfiguration class]);
+        [given([scorAnalyticsClassMock configuration]) willReturn:configuration];
+        
         SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"44"
                                                                      anonymousId:nil
                                                                           traits:@{@"name":@"Milhouse Van Houten",
@@ -55,9 +60,11 @@ describe(@"SEGComScoreIntegration", ^{
         
         [integration identify:payload];
         
-        [verify(comScore) setPersistentLabelWithName: @"name" value: @"Milhouse Van Houten"];
-        [verify(comScore) setPersistentLabelWithName: @"gender" value: @"male"];
-        [verify(comScore) setPersistentLabelWithName: @"emotion" value: @"nerdy"];
+
+        
+        [verify(configuration) setPersistentLabelWithName: @"name" value: @"Milhouse Van Houten"];
+        [verify(configuration) setPersistentLabelWithName: @"gender" value: @"male"];
+        [verify(configuration) setPersistentLabelWithName: @"emotion" value: @"nerdy"];
     });
     
     it(@"track with props", ^{
