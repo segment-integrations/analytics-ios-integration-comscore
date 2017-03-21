@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <Analytics/SEGIntegrationFactory.h>
 
-@interface SEGComScoreIntegrationFactory : NSObject<SEGIntegrationFactory>
+
+@interface SEGComScoreIntegrationFactory : NSObject <SEGIntegrationFactory>
 
 + (instancetype)instance;
 
