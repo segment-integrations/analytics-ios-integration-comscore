@@ -39,7 +39,6 @@
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
 
         [self.scorAnalyticsClass start];
-
     }
     return self;
 }
@@ -74,10 +73,10 @@
 
 - (void)track:(SEGTrackPayload *)payload
 {
-    NSMutableDictionary *hiddenLabels = [@{@"name": payload.event} mutableCopy];
+    NSMutableDictionary *hiddenLabels = [@{ @"name" : payload.event } mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [self.scorAnalyticsClass notifyHiddenEventWithLabels:hiddenLabels];
-    SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@]",hiddenLabels);
+    SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@]", hiddenLabels);
 }
 
 - (void)screen:(SEGScreenPayload *)payload

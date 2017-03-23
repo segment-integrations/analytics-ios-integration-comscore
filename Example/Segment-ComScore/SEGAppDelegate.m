@@ -13,18 +13,18 @@
 
 @implementation SEGAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     [SEGAnalytics debug:YES];
-    
+
     SEGAnalyticsConfiguration *configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:@"ACIG3kwqCUsWZBfYxZDu0anuGwP3XtWW"];
     configuration.trackApplicationLifecycleEvents = YES;
     configuration.trackAttributionData = YES;
     configuration.flushAt = 1;
     [configuration use:[SEGComScoreIntegrationFactory instance]];
-    
+
     [SEGAnalytics setupWithConfiguration:configuration];
-    
+
     [[SEGAnalytics sharedAnalytics] identify:@"234"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Launched"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing"];
@@ -36,4 +36,3 @@
 
 
 @end
-

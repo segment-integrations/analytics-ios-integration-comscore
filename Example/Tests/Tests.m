@@ -41,50 +41,51 @@ describe(@"SEGComScoreIntegration", ^{
         comScore = mockClass([SCORAnalytics class]);
         scorAnalyticsClassMock = comScore;
         integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
-                                                                         @"c2" : @"23243060",
-                                                                         @"publisherSecret": @"7e529e62366db3423ef3728ca910b8b8"
+            @"c2" : @"23243060",
+            @"publisherSecret" : @"7e529e62366db3423ef3728ca910b8b8"
         } andComScore:comScore];
     });
 
     it(@"identify with Traits", ^{
         SCORConfiguration *configuration = mock([SCORConfiguration class]);
         [given([scorAnalyticsClassMock configuration]) willReturn:configuration];
-        
-        SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"44"
-                                                                     anonymousId:nil
-                                                                          traits:@{@"name":@"Milhouse Van Houten",
-                                                                                   @"gender": @"male",
-                                                                                   @"emotion": @"nerdy"}
-                                                                         context:@{} integrations:@{}];
-        
-        [integration identify:payload];
-        
 
-        
-        [verify(configuration) setPersistentLabelWithName: @"name" value: @"Milhouse Van Houten"];
-        [verify(configuration) setPersistentLabelWithName: @"gender" value: @"male"];
-        [verify(configuration) setPersistentLabelWithName: @"emotion" value: @"nerdy"];
+        SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"44"
+            anonymousId:nil
+            traits:@{ @"name" : @"Milhouse Van Houten",
+                      @"gender" : @"male",
+                      @"emotion" : @"nerdy" }
+            context:@{}
+            integrations:@{}];
+
+        [integration identify:payload];
+
+
+        [verify(configuration) setPersistentLabelWithName:@"name" value:@"Milhouse Van Houten"];
+        [verify(configuration) setPersistentLabelWithName:@"gender" value:@"male"];
+        [verify(configuration) setPersistentLabelWithName:@"emotion" value:@"nerdy"];
     });
 
     it(@"track with props", ^{
-        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Order Completed" properties:@{@"Type": @"Flood"} context:@{} integrations:@{}];
-        
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Order Completed" properties:@{ @"Type" : @"Flood" } context:@{} integrations:@{}];
+
         [integration track:payload];
-        
+
         [verify(comScore) notifyHiddenEventWithLabels:@{
-                                                 @"name": @"Order Completed",
-                                                 @"Type": @"Flood"}];
+            @"name" : @"Order Completed",
+            @"Type" : @"Flood"
+        }];
     });
 
     it(@"screen with props", ^{
-        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Home" properties:@{@"Ad":@"Flood Pants"} context:@{} integrations:@{}];
-        
+        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Home" properties:@{ @"Ad" : @"Flood Pants" } context:@{} integrations:@{}];
+
         [integration screen:payload];
-        
+
         [verify(comScore) notifyViewEventWithLabels:@{
-                                               @"name": @"Home",
-                                               @"Ad": @"Flood Pants"
-                                               }];
+            @"name" : @"Home",
+            @"Ad" : @"Flood Pants"
+        }];
     });
 
 
