@@ -8,6 +8,7 @@
 
 #import "SEGComScoreIntegration.h"
 #import <Analytics/SEGAnalyticsUtils.h>
+#import <ComScore/SCORStreamingAnalytics.h>
 
 
 @implementation SEGComScoreIntegration
@@ -81,6 +82,72 @@
 
 - (void)track:(SEGTrackPayload *)payload
 {
+    if ([payload.event isEqualToString:@"Video Playback Started"]) {
+        [self videoPlaybackStarted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Playback Paused"]) {
+        [self videoPlaybackPaused:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Playback Buffer Started"]) {
+        [self videoPlaybackBufferStarted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Playback Buffer Completed"]) {
+        [self videoPlaybackBufferCompleted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Playback Seek Started"]) {
+        [self videoPlaybackSeekStarted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Playback Seek Completed"]) {
+        [self videoPlaybackSeekCompleted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Playback Resumed"]) {
+        [self videoPlaybackResumed:payload.properties];
+        return;
+    }
+
+
+    if ([payload.event isEqualToString:@"Video Content Started"]) {
+        [self videoContentStarted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Content Playing"]) {
+        [self videoContentPlaying:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Content Completed"]) {
+        [self videoContentCompleted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Ad Started"]) {
+        [self videoAdStarted:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Ad Playing"]) {
+        [self videoAdPlaying:payload.properties];
+        return;
+    }
+
+    if ([payload.event isEqualToString:@"Video Ad Completed"]) {
+        [self videoAdCompleted:payload.properties];
+        return;
+    }
+
     NSMutableDictionary *hiddenLabels = [@{ @"name" : payload.event } mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [self.scorAnalyticsClass notifyHiddenEventWithLabels:hiddenLabels];
@@ -98,8 +165,196 @@
 
 - (void)flush
 {
-    SEGLog(@"[SCORAnalytics flushOfflineCache]");
     [self.scorAnalyticsClass flushOfflineCache];
+    SEGLog(@"[SCORAnalytics flushOfflineCache]");
+}
+
+#pragma mark - Video Tracking
+
+#pragma Playback Events
+
+- (void)videoPlaybackStarted:(NSDictionary *)properties
+{
+    self.streamAnalytics = [[SCORStreamingAnalytics alloc] init];
+
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"content_pod_id",
+                                          @"ns_st_ad", @"ad_type",
+                                          @"ns_st_cl", @"length",
+                                          @"ns_st_st", @"video_player", nil];
+
+    [self.streamAnalytics createPlaybackSessionWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
+}
+
+
+- (void)videoPlaybackPaused:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"content_pod_id",
+                                          @"ns_st_ad", @"ad_type",
+                                          @"ns_st_cl", @"length",
+                                          @"ns_st_st", @"video_player", nil];
+
+    [self.streamAnalytics notifyEndWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@]", map);
+}
+
+- (void)videoPlaybackBufferStarted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"content_pod_id",
+                                          @"ns_st_ad", @"ad_type",
+                                          @"ns_st_cl", @"length",
+                                          @"ns_st_st", @"video_player", nil];
+
+    [self.streamAnalytics notifyBufferStartWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithLabels: %@]", map);
+}
+
+- (void)videoPlaybackBufferCompleted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"content_pod_id",
+                                          @"ns_st_ad", @"ad_type",
+                                          @"ns_st_cl", @"length",
+                                          @"ns_st_st", @"video_player", nil];
+
+    [self.streamAnalytics notifyBufferStopWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStopWithLabels: %@]", map);
+}
+
+
+- (void)videoPlaybackSeekStarted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"content_pod_id",
+                                          @"ns_st_ad", @"ad_type",
+                                          @"ns_st_cl", @"length",
+                                          @"ns_st_st", @"video_player", nil];
+
+    [self.streamAnalytics notifySeekStartWithLabels:map];
+    SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStartWithLabels: %@", map);
+}
+
+
+// Pinging comScore for comparable event to map to
+- (void)videoPlaybackSeekCompleted:(NSDictionary *)properites
+{
+}
+
+- (void)videoPlaybackResumed:(NSDictionary *)properites
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"content_pod_id",
+                                          @"ns_st_ad", @"ad_type",
+                                          @"ns_st_cl", @"length",
+                                          @"ns_st_st", @"video_player", nil];
+
+    [self.streamAnalytics notifyPlayWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@]", map);
+}
+
+#pragma Content Events
+
+- (void)videoContentStarted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"pod_id",
+                                          @"ns_st_ep", @"title",
+                                          @"ns_st_ge", @"keywords",
+                                          @"ns_st_sn", @"season",
+                                          @"ns_st_ep", @"episode",
+                                          @"ns_st_ge", @"genre",
+                                          @"ns_st_pr", @"program",
+                                          @"ns_st_pu", @"channel",
+                                          @"ns_st_ce", @"full_episode", nil];
+
+    [self.streamAnalytics notifyPlayWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
+}
+
+- (void)videoContentPlaying:(NSDictionary *)properites
+{
+    int playPosition;
+
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_ci", @"asset_id",
+                                          @"ns_st_pn", @"pod_id",
+                                          @"ns_st_ep", @"title",
+                                          @"ns_st_ge", @"keywords",
+                                          @"ns_st_sn", @"season",
+                                          @"ns_st_ep", @"episode",
+                                          @"ns_st_ge", @"genre",
+                                          @"ns_st_pr", @"program",
+                                          @"ns_st_pu", @"channel",
+                                          @"ns_st_ce", @"full_episode", nil];
+
+    [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %@", playPosition);
+}
+
+#pragma Ad Events
+
+- (void)videoContentCompleted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_cl", @"asset_id",
+                                          @"ns_st_pn", @"pod_id",
+                                          @"ns_st_ad", @"type",
+                                          @"ns_st_pu", @"publisher",
+                                          @"ns_st_cl", @"length", nil];
+
+    [self.streamAnalytics notifyEndWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@", map);
+}
+
+- (void)videoAdStarted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_cl", @"asset_id",
+                                          @"ns_st_pn", @"pod_id",
+                                          @"ns_st_ad", @"type",
+                                          @"ns_st_pu", @"publisher",
+                                          @"ns_st_cl", @"length", nil];
+
+    [self.streamAnalytics notifyPlayWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
+}
+
+- (void)videoAdPlaying:(NSDictionary *)properties
+{
+    int playPosition;
+
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_cl", @"asset_id",
+                                          @"ns_st_pn", @"pod_id",
+                                          @"ns_st_ad", @"type",
+                                          @"ns_st_pu", @"publisher",
+                                          @"ns_st_cl", @"length", nil];
+
+    [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %@", playPosition);
+}
+
+- (void)videoAdCompleted:(NSDictionary *)properties
+{
+    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          @"ns_st_cl", @"asset_id",
+                                          @"ns_st_pn", @"pod_id",
+                                          @"ns_st_ad", @"type",
+                                          @"ns_st_pu", @"publisher",
+                                          @"ns_st_cl", @"length", nil];
+
+    [self.streamAnalytics notifyEndWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@", map);
 }
 
 @end
