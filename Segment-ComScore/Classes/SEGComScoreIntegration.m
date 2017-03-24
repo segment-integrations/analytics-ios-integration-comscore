@@ -36,6 +36,14 @@
             }
         }];
 
+        SCORPartnerConfiguration *partnerConfig = [SCORPartnerConfiguration partnerConfigurationWithBuilderBlock:^(SCORPartnerConfigurationBuilder *builder) {
+            builder.partnerId = @"23243060";
+
+            [[SCORAnalytics configuration] addClientWithConfiguration:config];
+            [self.scorAnalyticsClass configuration];
+        }];
+
+        [[self.scorAnalyticsClass configuration] addClientWithConfiguration:partnerConfig];
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
 
         [self.scorAnalyticsClass start];
