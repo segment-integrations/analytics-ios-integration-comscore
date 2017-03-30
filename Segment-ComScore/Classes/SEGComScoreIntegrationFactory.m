@@ -30,7 +30,7 @@
 
 - (id<SEGIntegration>)createWithSettings:(NSDictionary *)settings forAnalytics:(SEGAnalytics *)analytics
 {
-    return [[SEGComScoreIntegration alloc] initWithSettings:settings andComScore:[SCORAnalytics class]];
+    return [[SEGComScoreIntegration alloc] initWithSettings:settings andComScore:[SCORAnalytics class] andStreamAnalytics:[SCORStreamingAnalytics class]];
 }
 
 

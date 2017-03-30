@@ -43,10 +43,13 @@ describe(@"SEGComScoreIntegration", ^{
         comScore = mockClass([SCORAnalytics class]);
         scorAnalyticsClassMock = comScore;
 
+        streamAnalytics = mockClass([SCORStreamingAnalytics class]);
+        scorStreamAnalyticsClassMock = streamAnalytics;
+
         integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
             @"c2" : @"23243060",
             @"publisherSecret" : @"7e529e62366db3423ef3728ca910b8b8"
-        } andComScore:comScore];
+        } andComScore:comScore andStreamAnalytics:streamAnalytics];
     });
 
     it(@"identify with Traits", ^{
@@ -81,9 +84,6 @@ describe(@"SEGComScoreIntegration", ^{
     });
 
     it(@"videoPlaybackStarted", ^{
-        SCORStreamingAnalytics *streamAnalytics = mock([SCORStreamingAnalytics class]);
-        [given([scorStreamAnalyticsClassMock streamAnalytics]) willReturn:streamAnalytics];
-
 
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
             @"asset_id" : @"1234",

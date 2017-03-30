@@ -13,7 +13,7 @@
 
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass andStreamAnalytics:(id)scorStreamAnalyticsClass
 {
     if (self = [super init]) {
         self.settings = settings;
