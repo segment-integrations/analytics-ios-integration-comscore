@@ -35,11 +35,14 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 describe(@"SEGComScoreIntegration", ^{
     __block SCORAnalytics *comScore;
     __block Class scorAnalyticsClassMock;
+    __block SCORStreamingAnalytics *streamAnalytics;
+    __block Class scorStreamAnalyticsClassMock;
     __block SEGComScoreIntegration *integration;
 
     beforeEach(^{
         comScore = mockClass([SCORAnalytics class]);
         scorAnalyticsClassMock = comScore;
+
         integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
             @"c2" : @"23243060",
             @"publisherSecret" : @"7e529e62366db3423ef3728ca910b8b8"
@@ -75,6 +78,32 @@ describe(@"SEGComScoreIntegration", ^{
             @"name" : @"Order Completed",
             @"Type" : @"Flood"
         }];
+    });
+
+    it(@"videoPlaybackStarted", ^{
+        SCORStreamingAnalytics *streamAnalytics = mock([SCORStreamingAnalytics class]);
+        [given([scorStreamAnalyticsClassMock streamAnalytics]) willReturn:streamAnalytics];
+
+
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
+            @"asset_id" : @"1234",
+            @"content_pod_id" : @"45567",
+            @"ad_type" : @"pre-roll",
+            @"length" : @"100",
+            @"video_play" : @"youtube"
+        } context:@{}
+            integrations:@{}];
+
+
+        [integration track:payload];
+        [verify(streamAnalytics) createPlaybackSessionWithLabels:@{
+            @"ns_st_ci" : @"1234",
+            @"ns_st_pn" : @"45567",
+            @"ns_st_ad" : @"pre-roll",
+            @"ns_st_cl" : @"100",
+            @"ns_st_st" : @"youtube"
+        }];
+
     });
 
     it(@"screen with props", ^{

@@ -184,6 +184,7 @@
                                           @"ns_st_cl", @"length",
                                           @"ns_st_st", @"video_player", nil];
 
+
     [self.streamAnalytics createPlaybackSessionWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
 }
