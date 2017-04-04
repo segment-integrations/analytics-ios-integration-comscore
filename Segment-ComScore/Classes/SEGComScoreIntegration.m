@@ -11,13 +11,24 @@
 #import <ComScore/SCORStreamingAnalytics.h>
 
 
+@implementation SEGRealStreamingAnalyticsFactory
+
+- (SCORStreamingAnalytics *)create;
+{
+    return [[SCORStreamingAnalytics alloc] init];
+}
+
+@end
+
+
 @implementation SEGComScoreIntegration
 
-- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass andStreamAnalytics:(id)scorStreamAnalyticsClass
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass andStreamingAnalyticsFactory:(id<SEGStreamingAnalyticsFactory>)streamingAnalyticsFactory
 {
     if (self = [super init]) {
         self.settings = settings;
         self.scorAnalyticsClass = scorAnalyticsClass;
+        self.streamingAnalyticsFactory = streamingAnalyticsFactory;
 
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
@@ -39,9 +50,6 @@
 
         SCORPartnerConfiguration *partnerConfig = [SCORPartnerConfiguration partnerConfigurationWithBuilderBlock:^(SCORPartnerConfigurationBuilder *builder) {
             builder.partnerId = @"23243060";
-
-            [[SCORAnalytics configuration] addClientWithConfiguration:config];
-            [self.scorAnalyticsClass configuration];
         }];
 
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:partnerConfig];
@@ -51,6 +59,7 @@
     }
     return self;
 }
+
 
 + (NSDictionary *)mapToStrings:(NSDictionary *)dictionary
 {
@@ -175,15 +184,15 @@
 
 - (void)videoPlaybackStarted:(NSDictionary *)properties
 {
-    self.streamAnalytics = [[SCORStreamingAnalytics alloc] init];
+    self.streamAnalytics = [self.streamingAnalyticsFactory create];
 
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"content_pod_id",
-                                          @"ns_st_ad", @"ad_type",
-                                          @"ns_st_cl", @"length",
-                                          @"ns_st_st", @"video_player", nil];
-
+    NSDictionary *map = @{
+        @"ns_st_ci" : properties[@"asset_id"],
+        @"ns_st_pn" : properties[@"content_pod_id"],
+        @"ns_st_ad" : properties[@"ad_type"],
+        @"ns_st_cl" : properties[@"length"],
+        @"ns_st_st" : properties[@"video_player"]
+    };
 
     [self.streamAnalytics createPlaybackSessionWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
@@ -192,12 +201,13 @@
 
 - (void)videoPlaybackPaused:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"content_pod_id",
-                                          @"ns_st_ad", @"ad_type",
-                                          @"ns_st_cl", @"length",
-                                          @"ns_st_st", @"video_player", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"content_pod_id"],
+                           @"ns_st_ad" : properties[@"ad_type"],
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_st" : properties[@"video_player"]
+    };
+
 
     [self.streamAnalytics notifyEndWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@]", map);
@@ -205,12 +215,12 @@
 
 - (void)videoPlaybackBufferStarted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"content_pod_id",
-                                          @"ns_st_ad", @"ad_type",
-                                          @"ns_st_cl", @"length",
-                                          @"ns_st_st", @"video_player", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"content_pod_id"],
+                           @"ns_st_ad" : properties[@"ad_type"],
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_st" : properties[@"video_player"]
+    };
 
     [self.streamAnalytics notifyBufferStartWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithLabels: %@]", map);
@@ -218,12 +228,12 @@
 
 - (void)videoPlaybackBufferCompleted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"content_pod_id",
-                                          @"ns_st_ad", @"ad_type",
-                                          @"ns_st_cl", @"length",
-                                          @"ns_st_st", @"video_player", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"content_pod_id"],
+                           @"ns_st_ad" : properties[@"ad_type"],
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_st" : properties[@"video_player"]
+    };
 
     [self.streamAnalytics notifyBufferStopWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStopWithLabels: %@]", map);
@@ -232,12 +242,13 @@
 
 - (void)videoPlaybackSeekStarted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"content_pod_id",
-                                          @"ns_st_ad", @"ad_type",
-                                          @"ns_st_cl", @"length",
-                                          @"ns_st_st", @"video_player", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"content_pod_id"],
+                           @"ns_st_ad" : properties[@"ad_type"],
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_st" : properties[@"video_player"]
+    };
+
 
     [self.streamAnalytics notifySeekStartWithLabels:map];
     SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStartWithLabels: %@", map);
@@ -249,14 +260,14 @@
 {
 }
 
-- (void)videoPlaybackResumed:(NSDictionary *)properites
+- (void)videoPlaybackResumed:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"content_pod_id",
-                                          @"ns_st_ad", @"ad_type",
-                                          @"ns_st_cl", @"length",
-                                          @"ns_st_st", @"video_player", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"content_pod_id"],
+                           @"ns_st_ad" : properties[@"ad_type"],
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_st" : properties[@"video_player"]
+    };
 
     [self.streamAnalytics notifyPlayWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@]", map);
@@ -266,37 +277,36 @@
 
 - (void)videoContentStarted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"pod_id",
-                                          @"ns_st_ep", @"title",
-                                          @"ns_st_ge", @"keywords",
-                                          @"ns_st_sn", @"season",
-                                          @"ns_st_ep", @"episode",
-                                          @"ns_st_ge", @"genre",
-                                          @"ns_st_pr", @"program",
-                                          @"ns_st_pu", @"channel",
-                                          @"ns_st_ce", @"full_episode", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"pod_id"],
+                           @"ns_st_ep" : properties[@"title"],
+                           @"ns_st_ge" : properties[@"keywords"],
+                           @"ns_st_sn" : properties[@"season"],
+                           @"ns_st_ep" : properties[@"episode"],
+                           @"ns_st_ge" : properties[@"genre"],
+                           @"ns_st_pr" : properties[@"program"],
+                           @"ns_st_pu" : properties[@"channel"],
+                           @"ns_st_ce" : properties[@"full_episode"] };
+
 
     [self.streamAnalytics notifyPlayWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
 }
 
-- (void)videoContentPlaying:(NSDictionary *)properites
+- (void)videoContentPlaying:(NSDictionary *)properties
 {
     int playPosition;
 
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_ci", @"asset_id",
-                                          @"ns_st_pn", @"pod_id",
-                                          @"ns_st_ep", @"title",
-                                          @"ns_st_ge", @"keywords",
-                                          @"ns_st_sn", @"season",
-                                          @"ns_st_ep", @"episode",
-                                          @"ns_st_ge", @"genre",
-                                          @"ns_st_pr", @"program",
-                                          @"ns_st_pu", @"channel",
-                                          @"ns_st_ce", @"full_episode", nil];
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"pod_id"],
+                           @"ns_st_ep" : properties[@"title"],
+                           @"ns_st_ge" : properties[@"keywords"],
+                           @"ns_st_sn" : properties[@"season"],
+                           @"ns_st_ep" : properties[@"episode"],
+                           @"ns_st_ge" : properties[@"genre"],
+                           @"ns_st_pr" : properties[@"program"],
+                           @"ns_st_pu" : properties[@"channel"],
+                           @"ns_st_ce" : properties[@"full_episode"] };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %@", playPosition);
@@ -306,12 +316,13 @@
 
 - (void)videoContentCompleted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_cl", @"asset_id",
-                                          @"ns_st_pn", @"pod_id",
-                                          @"ns_st_ad", @"type",
-                                          @"ns_st_pu", @"publisher",
-                                          @"ns_st_cl", @"length", nil];
+    NSDictionary *map = @{ @"ns_st_cl" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"pod_id"],
+                           @"ns_st_ad" : properties[@"type"],
+                           @"ns_st_pu" : properties[@"publisher"],
+                           @"ns_st_cl" : properties[@"length"]
+    };
+
 
     [self.streamAnalytics notifyEndWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@", map);
@@ -319,12 +330,12 @@
 
 - (void)videoAdStarted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_cl", @"asset_id",
-                                          @"ns_st_pn", @"pod_id",
-                                          @"ns_st_ad", @"type",
-                                          @"ns_st_pu", @"publisher",
-                                          @"ns_st_cl", @"length", nil];
+    NSDictionary *map = @{ @"ns_st_cl" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"pod_id"],
+                           @"ns_st_ad" : properties[@"type"],
+                           @"ns_st_pu" : properties[@"publisher"],
+                           @"ns_st_cl" : properties[@"length"]
+    };
 
     [self.streamAnalytics notifyPlayWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
@@ -334,12 +345,12 @@
 {
     int playPosition;
 
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_cl", @"asset_id",
-                                          @"ns_st_pn", @"pod_id",
-                                          @"ns_st_ad", @"type",
-                                          @"ns_st_pu", @"publisher",
-                                          @"ns_st_cl", @"length", nil];
+    NSDictionary *map = @{ @"ns_st_cl" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"pod_id"],
+                           @"ns_st_ad" : properties[@"type"],
+                           @"ns_st_pu" : properties[@"publisher"],
+                           @"ns_st_cl" : properties[@"length"]
+    };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %@", playPosition);
@@ -347,12 +358,12 @@
 
 - (void)videoAdCompleted:(NSDictionary *)properties
 {
-    NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          @"ns_st_cl", @"asset_id",
-                                          @"ns_st_pn", @"pod_id",
-                                          @"ns_st_ad", @"type",
-                                          @"ns_st_pu", @"publisher",
-                                          @"ns_st_cl", @"length", nil];
+    NSDictionary *map = @{ @"ns_st_cl" : properties[@"asset_id"],
+                           @"ns_st_pn" : properties[@"pod_id"],
+                           @"ns_st_ad" : properties[@"type"],
+                           @"ns_st_pu" : properties[@"publisher"],
+                           @"ns_st_cl" : properties[@"length"]
+    };
 
     [self.streamAnalytics notifyEndWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@", map);
