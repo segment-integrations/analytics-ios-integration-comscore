@@ -25,6 +25,20 @@
 
 @end
 
+void setupWithVideoPlaybackStarted(SEGComScoreIntegration *integration, SCORStreamingAnalytics *streamingAnalytics)
+{
+    SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
+        @"asset_id" : @"1234",
+        @"content_pod_id" : @"45567",
+        @"ad_type" : @"pre-roll",
+        @"length" : @"100",
+        @"video_player" : @"youtube"
+    } context:@{}
+        integrations:@{}];
+
+    [integration track:payload];
+};
+
 SpecBegin(InitialSpecs);
 
 describe(@"SEGComScoreIntegrationFactory", ^{
@@ -97,9 +111,26 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    //    +(void)setupWithVideoPlaybackStarted:(NSDictionary *)properties
-    //    {
-    //    };
+    it(@"screen with props", ^{
+        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Home" properties:@{ @"Ad" : @"Flood Pants" } context:@{} integrations:@{}];
+
+        [integration screen:payload];
+
+        [verify(scorAnalyticsClassMock) notifyViewEventWithLabels:@{
+            @"name" : @"Home",
+            @"Ad" : @"Flood Pants"
+        }];
+    });
+
+    it(@"flush", ^{
+        [integration flush];
+        [verify(scorAnalyticsClassMock) flushOfflineCache];
+    });
+
+#pragma mark - Video Tracking
+
+
+#pragma Playback Events
 
     it(@"videoPlaybackStarted", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
@@ -125,42 +156,100 @@ describe(@"SEGComScoreIntegration", ^{
 
     });
 
-    //    it(@"videoPlaybackPaused", ^{
-    //        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
-    //            @"asset_id" : @"7890",
-    //            @"content_pod_id" : @"4324",
-    //            @"ad_type" : @"mid-roll",
-    //            @"length" : @"200",
-    //            @"video_player" : @"vimeo"
-    //        } context:@{}
-    //            integrations:@{}];
-    //        [integration track:payload];
-    //
-    //        [verify(streamingAnalytics) notifyEndWithLabels:@{
-    //            @"ns_st_ci" : @"7890",
-    //            @"ns_st_pn" : @"4324",
-    //            @"ns_st_ad" : @"mid-roll",
-    //            @"ns_st_cl" : @"200",
-    //            @"ns_st_st" : @"vimeo"
-    //        }];
-    //    });
+    it(@"videoPlaybackPaused", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
+            @"asset_id" : @"7890",
+            @"content_pod_id" : @"4324",
+            @"ad_type" : @"mid-roll",
+            @"length" : @"200",
+            @"video_player" : @"vimeo"
+        } context:@{}
+            integrations:@{}];
+        [integration track:payload];
 
-    it(@"screen with props", ^{
-        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Home" properties:@{ @"Ad" : @"Flood Pants" } context:@{} integrations:@{}];
-
-        [integration screen:payload];
-
-        [verify(scorAnalyticsClassMock) notifyViewEventWithLabels:@{
-            @"name" : @"Home",
-            @"Ad" : @"Flood Pants"
+        [verify(streamingAnalytics) notifyEndWithLabels:@{
+            @"ns_st_ci" : @"7890",
+            @"ns_st_pn" : @"4324",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"200",
+            @"ns_st_st" : @"vimeo"
         }];
     });
 
 
-    it(@"flush", ^{
-        [integration flush];
-        [verify(scorAnalyticsClassMock) flushOfflineCache];
+    it(@"videoPlaybackBufferStarted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
+            @"asset_id" : @"2340",
+            @"content_pod_id" : @"6859",
+            @"ad_type" : @"post-roll",
+            @"length" : @"300",
+            @"video_player" : @"youtube"
+        } context:@{}
+            integrations:@{}];
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyBufferStartWithLabels:@{
+            @"ns_st_ci" : @"2340",
+            @"ns_st_pn" : @"6859",
+            @"ns_st_ad" : @"post-roll",
+            @"ns_st_cl" : @"300",
+            @"ns_st_st" : @"youtube"
+        }];
+
     });
+
+    it(@"videoPlaybackBufferCompleted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
+            @"asset_id" : @"1230",
+            @"content_pod_id" : @"0912",
+            @"ad_type" : @"mid-roll",
+            @"length" : @"400",
+            @"video_player" : @"youtube"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyBufferStopWithLabels:@{
+            @"ns_st_ci" : @"1230",
+            @"ns_st_pn" : @"0912",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"400",
+            @"ns_st_st" : @"youtube"
+        }];
+    });
+    //
+    //    it(@"videoPlaybackSeekStarted", ^{
+    //    });
+    //
+    //    it(@"videoPlaybackSeekCompleted", ^{
+    //    });
+    //
+    //    it(@"videoPlaybackResumed", ^{
+    //    });
+    //
+    //#pragma Content Events
+    //
+    //    it(@"videoContentStarted", ^{
+    //    });
+    //
+    //    it(@"videoContentPlaying", ^{
+    //    });
+    //
+    //    it(@"videoContentCompleted", ^{
+    //    });
+    //
+    //#pragma Ad Events
+    //
+    //    it(@"videoAdStarted", ^{
+    //    });
+    //
+    //    it(@"videoAdPlaying", ^{
+    //    });
+    //
+    //    it(@"videoAdCompleted", ^{
+    //    });
 });
 
 SpecEnd

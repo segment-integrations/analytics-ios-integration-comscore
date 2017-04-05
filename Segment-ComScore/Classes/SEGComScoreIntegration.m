@@ -312,7 +312,6 @@
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %@", playPosition);
 }
 
-#pragma Ad Events
 
 - (void)videoContentCompleted:(NSDictionary *)properties
 {
@@ -327,6 +326,9 @@
     [self.streamAnalytics notifyEndWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels: %@", map);
 }
+
+#pragma Ad Events
+
 
 - (void)videoAdStarted:(NSDictionary *)properties
 {
