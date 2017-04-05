@@ -288,7 +288,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
-            @"ns_st_ep" : @"7",
+            @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
             @"ns_st_pu" : @"Adult Swim",
@@ -308,7 +308,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
             @"channel" : @"Adult Swim",
-            @"full_episode" : @"true"
+            @"full_episode" : @"true",
+            @"play_position" : @100
         } context:@{}
             integrations:@{}];
 
@@ -319,7 +320,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
-            @"ns_st_ep" : @"7",
+            @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
             @"ns_st_pu" : @"Adult Swim",
@@ -330,7 +331,6 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoContentCompleted", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
-            @"asset_id" : @"2123141",
             @"pod_id" : @"23425",
             @"type" : @"mid-roll",
             @"publisher" : @"Adult Swim",
@@ -340,7 +340,6 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyEndWithLabels:@{
-            @"ns_st_ci" : @"2123141",
             @"ns_st_pn" : @"23425",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Adult Swim",
@@ -354,7 +353,7 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
             @"asset_id" : @"1231312",
-            @"content_pod_id" : @"43434234534",
+            @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
             @"length" : @"110"
@@ -375,10 +374,11 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
             @"asset_id" : @"1231312",
-            @"content_pod_id" : @"43434234534",
+            @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
-            @"length" : @"110"
+            @"length" : @"110",
+            @"play_position" : @50
         } context:@{}
             integrations:@{}];
 
@@ -396,7 +396,7 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
             @"asset_id" : @"1231312",
-            @"content_pod_id" : @"43434234534",
+            @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
             @"length" : @"110"
