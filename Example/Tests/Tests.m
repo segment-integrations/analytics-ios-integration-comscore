@@ -219,37 +219,199 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_st" : @"youtube"
         }];
     });
-    //
-    //    it(@"videoPlaybackSeekStarted", ^{
-    //    });
-    //
-    //    it(@"videoPlaybackSeekCompleted", ^{
-    //    });
-    //
-    //    it(@"videoPlaybackResumed", ^{
-    //    });
-    //
+
+    it(@"videoPlaybackSeekStarted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
+            @"asset_id" : @"6352",
+            @"content_pod_id" : @"12309",
+            @"ad_type" : @"pre-roll",
+            @"length" : @"200",
+            @"video_player" : @"vimeo"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifySeekStartWithLabels:@{
+            @"ns_st_ci" : @"6352",
+            @"ns_st_pn" : @"12309",
+            @"ns_st_ad" : @"pre-roll",
+            @"ns_st_cl" : @"200",
+            @"ns_st_st" : @"vimeo"
+        }];
+    });
+
+
+    it(@"videoPlaybackResumed", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
+            @"asset_id" : @"2141",
+            @"content_pod_id" : @"43534",
+            @"ad_type" : @"mid-roll",
+            @"length" : @"100",
+            @"video_player" : @"youtube"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ci" : @"2141",
+            @"ns_st_pn" : @"43534",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"100",
+            @"ns_st_st" : @"youtube"
+        }];
+    });
+
     //#pragma Content Events
-    //
-    //    it(@"videoContentStarted", ^{
-    //    });
-    //
-    //    it(@"videoContentPlaying", ^{
-    //    });
-    //
-    //    it(@"videoContentCompleted", ^{
-    //    });
-    //
+
+    it(@"videoContentStarted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{
+            @"asset_id" : @"3543",
+            @"pod_id" : @"65462",
+            @"title" : @"Big Trouble in Little Sanchez",
+            @"keywords" : @"sci-fi",
+            @"season" : @"2",
+            @"episode" : @"7",
+            @"genre" : @"cartoon",
+            @"program" : @"Rick and Morty",
+            @"channel" : @"Adult Swim",
+            @"full_episode" : @"true"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ci" : @"3543",
+            @"ns_st_pn" : @"65462",
+            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+            @"ns_st_ge" : @"sci-fi",
+            @"ns_st_sn" : @"2",
+            @"ns_st_ep" : @"7",
+            @"ns_st_ge" : @"cartoon",
+            @"ns_st_pr" : @"Rick and Morty",
+            @"ns_st_pu" : @"Adult Swim",
+            @"ns_st_ce" : @"true"
+        }];
+    });
+
+    it(@"videoContentPlaying", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
+            @"asset_id" : @"3543",
+            @"pod_id" : @"65462",
+            @"title" : @"Big Trouble in Little Sanchez",
+            @"keywords" : @"sci-fi",
+            @"season" : @"2",
+            @"episode" : @"7",
+            @"genre" : @"cartoon",
+            @"program" : @"Rick and Morty",
+            @"channel" : @"Adult Swim",
+            @"full_episode" : @"true"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithPosition:100 labels:@{
+            @"ns_st_ci" : @"3543",
+            @"ns_st_pn" : @"65462",
+            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+            @"ns_st_ge" : @"sci-fi",
+            @"ns_st_sn" : @"2",
+            @"ns_st_ep" : @"7",
+            @"ns_st_ge" : @"cartoon",
+            @"ns_st_pr" : @"Rick and Morty",
+            @"ns_st_pu" : @"Adult Swim",
+            @"ns_st_ce" : @"true"
+        }];
+    });
+
+    it(@"videoContentCompleted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
+            @"asset_id" : @"2123141",
+            @"pod_id" : @"23425",
+            @"type" : @"mid-roll",
+            @"publisher" : @"Adult Swim",
+            @"length" : @"100"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyEndWithLabels:@{
+            @"ns_st_ci" : @"2123141",
+            @"ns_st_pn" : @"23425",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_pu" : @"Adult Swim",
+            @"ns_st_cl" : @"100"
+        }];
+    });
+
     //#pragma Ad Events
-    //
-    //    it(@"videoAdStarted", ^{
-    //    });
-    //
-    //    it(@"videoAdPlaying", ^{
-    //    });
-    //
-    //    it(@"videoAdCompleted", ^{
-    //    });
+
+    it(@"videoAdStarted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
+            @"asset_id" : @"1231312",
+            @"content_pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"publisher" : @"Carl's Junior",
+            @"length" : @"110"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ci" : @"1231312",
+            @"ns_st_pn" : @"43434234534",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_pu" : @"Carl's Junior",
+            @"ns_st_cl" : @"110"
+        }];
+    });
+
+    it(@"videoAdPlaying", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
+            @"asset_id" : @"1231312",
+            @"content_pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"publisher" : @"Carl's Junior",
+            @"length" : @"110"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
+            @"ns_st_ci" : @"1231312",
+            @"ns_st_pn" : @"43434234534",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_pu" : @"Carl's Junior",
+            @"ns_st_cl" : @"110"
+        }];
+    });
+
+    it(@"videoAdCompleted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
+            @"asset_id" : @"1231312",
+            @"content_pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"publisher" : @"Carl's Junior",
+            @"length" : @"110"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyEndWithLabels:@{
+            @"ns_st_ci" : @"1231312",
+            @"ns_st_pn" : @"43434234534",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_pu" : @"Carl's Junior",
+            @"ns_st_cl" : @"110"
+        }];
+    });
 });
 
 SpecEnd
