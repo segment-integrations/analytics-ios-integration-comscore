@@ -29,7 +29,6 @@ void setupWithVideoPlaybackStarted(SEGComScoreIntegration *integration, SCORStre
 {
     SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
         @"asset_id" : @"1234",
-        @"content_pod_id" : @"45567",
         @"ad_type" : @"pre-roll",
         @"length" : @"100",
         @"video_player" : @"youtube"
@@ -135,7 +134,6 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackStarted", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
             @"asset_id" : @"1234",
-            @"content_pod_id" : @"45567",
             @"ad_type" : @"pre-roll",
             @"length" : @"100",
             @"video_player" : @"youtube"
@@ -148,7 +146,6 @@ describe(@"SEGComScoreIntegration", ^{
 
         [verify(streamingAnalytics) createPlaybackSessionWithLabels:@{
             @"ns_st_ci" : @"1234",
-            @"ns_st_pn" : @"45567",
             @"ns_st_ad" : @"pre-roll",
             @"ns_st_cl" : @"100",
             @"ns_st_st" : @"youtube"
@@ -160,7 +157,6 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
             @"asset_id" : @"7890",
-            @"content_pod_id" : @"4324",
             @"ad_type" : @"mid-roll",
             @"length" : @"200",
             @"video_player" : @"vimeo"
@@ -170,7 +166,6 @@ describe(@"SEGComScoreIntegration", ^{
 
         [verify(streamingAnalytics) notifyEndWithLabels:@{
             @"ns_st_ci" : @"7890",
-            @"ns_st_pn" : @"4324",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"200",
             @"ns_st_st" : @"vimeo"
@@ -182,7 +177,6 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
             @"asset_id" : @"2340",
-            @"content_pod_id" : @"6859",
             @"ad_type" : @"post-roll",
             @"length" : @"300",
             @"video_player" : @"youtube"
@@ -191,7 +185,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyBufferStartWithLabels:@{
             @"ns_st_ci" : @"2340",
-            @"ns_st_pn" : @"6859",
             @"ns_st_ad" : @"post-roll",
             @"ns_st_cl" : @"300",
             @"ns_st_st" : @"youtube"
@@ -203,7 +196,6 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
             @"asset_id" : @"1230",
-            @"content_pod_id" : @"0912",
             @"ad_type" : @"mid-roll",
             @"length" : @"400",
             @"video_player" : @"youtube"
@@ -213,7 +205,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyBufferStopWithLabels:@{
             @"ns_st_ci" : @"1230",
-            @"ns_st_pn" : @"0912",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"400",
             @"ns_st_st" : @"youtube"
@@ -224,7 +215,6 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
             @"asset_id" : @"6352",
-            @"content_pod_id" : @"12309",
             @"ad_type" : @"pre-roll",
             @"length" : @"200",
             @"video_player" : @"vimeo"
@@ -234,7 +224,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifySeekStartWithLabels:@{
             @"ns_st_ci" : @"6352",
-            @"ns_st_pn" : @"12309",
             @"ns_st_ad" : @"pre-roll",
             @"ns_st_cl" : @"200",
             @"ns_st_st" : @"vimeo"
@@ -246,7 +235,6 @@ describe(@"SEGComScoreIntegration", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
             @"asset_id" : @"2141",
-            @"content_pod_id" : @"43534",
             @"ad_type" : @"mid-roll",
             @"length" : @"100",
             @"video_player" : @"youtube"
@@ -256,7 +244,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithLabels:@{
             @"ns_st_ci" : @"2141",
-            @"ns_st_pn" : @"43534",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"100",
             @"ns_st_st" : @"youtube"
@@ -284,7 +271,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithLabels:@{
             @"ns_st_ci" : @"3543",
-            @"ns_st_pn" : @"65462",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
@@ -316,7 +302,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:100 labels:@{
             @"ns_st_ci" : @"3543",
-            @"ns_st_pn" : @"65462",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
@@ -340,7 +325,6 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyEndWithLabels:@{
-            @"ns_st_pn" : @"23425",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Adult Swim",
             @"ns_st_cl" : @"100"
@@ -363,7 +347,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithLabels:@{
             @"ns_st_ci" : @"1231312",
-            @"ns_st_pn" : @"43434234534",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110"
@@ -385,7 +368,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
             @"ns_st_ci" : @"1231312",
-            @"ns_st_pn" : @"43434234534",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110"
@@ -406,7 +388,6 @@ describe(@"SEGComScoreIntegration", ^{
         [integration track:payload];
         [verify(streamingAnalytics) notifyEndWithLabels:@{
             @"ns_st_ci" : @"1231312",
-            @"ns_st_pn" : @"43434234534",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110"

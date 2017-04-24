@@ -188,7 +188,6 @@
 
     NSDictionary *map = @{
         @"ns_st_ci" : properties[@"asset_id"],
-        @"ns_st_pn" : properties[@"content_pod_id"],
         @"ns_st_ad" : properties[@"ad_type"],
         @"ns_st_cl" : properties[@"length"],
         @"ns_st_st" : properties[@"video_player"]
@@ -202,7 +201,6 @@
 - (void)videoPlaybackPaused:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"content_pod_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_st" : properties[@"video_player"]
@@ -216,7 +214,6 @@
 - (void)videoPlaybackBufferStarted:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"content_pod_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_st" : properties[@"video_player"]
@@ -229,7 +226,6 @@
 - (void)videoPlaybackBufferCompleted:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"content_pod_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_st" : properties[@"video_player"]
@@ -243,7 +239,6 @@
 - (void)videoPlaybackSeekStarted:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"content_pod_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_st" : properties[@"video_player"]
@@ -263,7 +258,6 @@
 - (void)videoPlaybackResumed:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"content_pod_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_st" : properties[@"video_player"]
@@ -278,7 +272,6 @@
 - (void)videoContentStarted:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"pod_id"],
                            @"ns_st_ep" : properties[@"title"],
                            @"ns_st_ge" : properties[@"keywords"],
                            @"ns_st_sn" : properties[@"season"],
@@ -298,7 +291,6 @@
     long playPosition = [properties[@"play_position"] longValue];
 
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"pod_id"],
                            @"ns_st_ep" : properties[@"title"],
                            @"ns_st_ge" : properties[@"keywords"],
                            @"ns_st_sn" : properties[@"season"],
@@ -315,8 +307,7 @@
 
 - (void)videoContentCompleted:(NSDictionary *)properties
 {
-    NSDictionary *map = @{ @"ns_st_pn" : properties[@"pod_id"],
-                           @"ns_st_ad" : properties[@"type"],
+    NSDictionary *map = @{ @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]
     };
@@ -332,7 +323,6 @@
 - (void)videoAdStarted:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"pod_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]
@@ -347,7 +337,6 @@
     long playPosition = [properties[@"play_position"] longValue];
 
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"pod_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]
@@ -360,7 +349,6 @@
 - (void)videoAdCompleted:(NSDictionary *)properties
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_pn" : properties[@"pod_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]
