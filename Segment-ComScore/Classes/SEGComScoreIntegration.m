@@ -190,7 +190,7 @@
         @"ns_st_ci" : properties[@"asset_id"],
         @"ns_st_ad" : properties[@"ad_type"],
         @"ns_st_cl" : properties[@"length"],
-        @"ns_st_st" : properties[@"video_player"]
+        @"ns_st_mp" : properties[@"video_player"]
     };
 
     [self.streamAnalytics createPlaybackSessionWithLabels:map];
@@ -203,7 +203,7 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_st" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"]
     };
 
 
@@ -216,7 +216,7 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_st" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"]
     };
 
     [self.streamAnalytics notifyBufferStartWithLabels:map];
@@ -228,7 +228,7 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_st" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"]
     };
 
     [self.streamAnalytics notifyBufferStopWithLabels:map];
@@ -241,7 +241,7 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_st" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"]
     };
 
 
@@ -260,7 +260,7 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_st" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"]
     };
 
     [self.streamAnalytics notifyPlayWithLabels:map];
