@@ -140,10 +140,7 @@ describe(@"SEGComScoreIntegration", ^{
         } context:@{}
             integrations:@{}];
 
-
         [integration track:payload];
-
-
         [verify(streamingAnalytics) createPlaybackSessionWithLabels:@{
             @"ns_st_ci" : @"1234",
             @"ns_st_ad" : @"pre-roll",
@@ -159,12 +156,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"length" : @"200",
-            @"video_player" : @"vimeo"
+            @"video_player" : @"vimeo",
+            @"play_position" : @30
         } context:@{}
             integrations:@{}];
-        [integration track:payload];
 
-        [verify(streamingAnalytics) notifyEndWithLabels:@{
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
             @"ns_st_ci" : @"7890",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"200",
@@ -179,11 +177,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"2340",
             @"ad_type" : @"post-roll",
             @"length" : @"300",
-            @"video_player" : @"youtube"
+            @"video_player" : @"youtube",
+            @"play_position" : @190
         } context:@{}
             integrations:@{}];
+
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStartWithLabels:@{
+        [verify(streamingAnalytics) notifyBufferStartWithPosition:190 labels:@{
             @"ns_st_ci" : @"2340",
             @"ns_st_ad" : @"post-roll",
             @"ns_st_cl" : @"300",
@@ -198,12 +198,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1230",
             @"ad_type" : @"mid-roll",
             @"length" : @"400",
-            @"video_player" : @"youtube"
+            @"video_player" : @"youtube",
+            @"play_position" : @90
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStopWithLabels:@{
+        [verify(streamingAnalytics) notifyBufferStopWithPosition:90 labels:@{
             @"ns_st_ci" : @"1230",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"400",
@@ -217,12 +218,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"length" : @"200",
-            @"video_player" : @"vimeo"
+            @"video_player" : @"vimeo",
+            @"play_position" : @20
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifySeekStartWithLabels:@{
+        [verify(streamingAnalytics) notifySeekStartWithPosition:20 labels:@{
             @"ns_st_ci" : @"6352",
             @"ns_st_ad" : @"pre-roll",
             @"ns_st_cl" : @"200",
@@ -237,12 +239,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"2141",
             @"ad_type" : @"mid-roll",
             @"length" : @"100",
-            @"video_player" : @"youtube"
+            @"video_player" : @"youtube",
+            @"play_position" : @34
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:34 labels:@{
             @"ns_st_ci" : @"2141",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"100",
@@ -319,12 +322,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"pod_id" : @"23425",
             @"type" : @"mid-roll",
             @"publisher" : @"Adult Swim",
-            @"length" : @"100"
+            @"length" : @"100",
+            @"play_position" : @179
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithLabels:@{
+        [verify(streamingAnalytics) notifyEndWithPosition:179 labels:@{
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Adult Swim",
             @"ns_st_cl" : @"100"
@@ -340,12 +344,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
-            @"length" : @"110"
+            @"length" : @"110",
+            @"play_position" : @43
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:43 labels:@{
             @"ns_st_ci" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
@@ -381,12 +386,13 @@ describe(@"SEGComScoreIntegration", ^{
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
-            @"length" : @"110"
+            @"length" : @"110",
+            @"play_position" : @110
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithLabels:@{
+        [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
             @"ns_st_ci" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
