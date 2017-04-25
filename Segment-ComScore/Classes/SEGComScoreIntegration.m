@@ -206,7 +206,9 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_mp" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"],
+                           @"ns_st_vo" : properties[@"sound"]
+
     };
 
     [self.streamAnalytics notifyPauseWithPosition:playPosition labels:map];
@@ -220,7 +222,9 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_mp" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"],
+                           @"ns_st_vo" : properties[@"sound"]
+
     };
     [self.streamAnalytics notifyBufferStartWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithPosition: %ld labels: %@]", playPosition, map);
@@ -233,7 +237,9 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_mp" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"],
+                           @"ns_st_vo" : properties[@"sound"]
+
     };
 
     [self.streamAnalytics notifyBufferStopWithPosition:playPosition labels:map];
@@ -248,7 +254,9 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_mp" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"],
+                           @"ns_st_vo" : properties[@"sound"]
+
     };
 
     [self.streamAnalytics notifySeekStartWithPosition:playPosition labels:map];
@@ -268,7 +276,9 @@
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_mp" : properties[@"video_player"]
+                           @"ns_st_mp" : properties[@"video_player"],
+                           @"ns_st_vo" : properties[@"sound"]
+
     };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];

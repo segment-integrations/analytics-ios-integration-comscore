@@ -137,6 +137,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"ad_type" : @"pre-roll",
             @"length" : @"100",
             @"video_player" : @"youtube"
+
         } context:@{}
             integrations:@{}];
 
@@ -157,7 +158,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ad_type" : @"mid-roll",
             @"length" : @"200",
             @"video_player" : @"vimeo",
-            @"play_position" : @30
+            @"play_position" : @30,
+            @"sound" : @100
+
         } context:@{}
             integrations:@{}];
 
@@ -166,7 +169,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ci" : @"7890",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"200",
-            @"ns_st_mp" : @"vimeo"
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100
+
         }];
     });
 
@@ -178,7 +183,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ad_type" : @"post-roll",
             @"length" : @"300",
             @"video_player" : @"youtube",
-            @"play_position" : @190
+            @"play_position" : @190,
+            @"sound" : @100
+
         } context:@{}
             integrations:@{}];
 
@@ -187,7 +194,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ci" : @"2340",
             @"ns_st_ad" : @"post-roll",
             @"ns_st_cl" : @"300",
-            @"ns_st_mp" : @"youtube"
+            @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100
+
         }];
 
     });
@@ -199,7 +208,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ad_type" : @"mid-roll",
             @"length" : @"400",
             @"video_player" : @"youtube",
-            @"play_position" : @90
+            @"play_position" : @90,
+            @"sound" : @100
+
         } context:@{}
             integrations:@{}];
 
@@ -208,7 +219,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ci" : @"1230",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"400",
-            @"ns_st_mp" : @"youtube"
+            @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100
+
         }];
     });
 
@@ -219,7 +232,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ad_type" : @"pre-roll",
             @"length" : @"200",
             @"video_player" : @"vimeo",
-            @"play_position" : @20
+            @"play_position" : @20,
+            @"sound" : @100
+
         } context:@{}
             integrations:@{}];
 
@@ -228,7 +243,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ci" : @"6352",
             @"ns_st_ad" : @"pre-roll",
             @"ns_st_cl" : @"200",
-            @"ns_st_mp" : @"vimeo"
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100
+
         }];
     });
 
@@ -240,7 +257,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ad_type" : @"mid-roll",
             @"length" : @"100",
             @"video_player" : @"youtube",
-            @"play_position" : @34
+            @"play_position" : @34,
+            @"sound" : @100
+
         } context:@{}
             integrations:@{}];
 
@@ -249,7 +268,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ci" : @"2141",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"100",
-            @"ns_st_mp" : @"youtube"
+            @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100
+
         }];
     });
 
