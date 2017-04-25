@@ -345,7 +345,7 @@
 {
     long playPosition = [properties[@"play_position"] longValue];
 
-    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+    NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]
@@ -359,7 +359,7 @@
 {
     long playPosition = [properties[@"play_position"] longValue];
 
-    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+    NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]
@@ -373,7 +373,7 @@
 {
     long playPosition = [properties[@"play_position"] longValue];
 
-    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
+    NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
                            @"ns_st_cl" : properties[@"length"]

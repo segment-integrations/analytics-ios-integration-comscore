@@ -372,7 +372,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:43 labels:@{
-            @"ns_st_ci" : @"1231312",
+            @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110"
@@ -393,7 +393,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
-            @"ns_st_ci" : @"1231312",
+            @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110"
@@ -414,7 +414,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
-            @"ns_st_ci" : @"1231312",
+            @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110"
