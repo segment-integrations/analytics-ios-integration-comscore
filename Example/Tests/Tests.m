@@ -366,7 +366,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
             @"length" : @"110",
-            @"play_position" : @43
+            @"play_position" : @43,
+            @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
@@ -375,7 +376,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
-            @"ns_st_cl" : @"110"
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" :@"Rick and Morty Ad"
         }];
     });
 
@@ -387,7 +389,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
             @"length" : @"110",
-            @"play_position" : @50
+            @"play_position" : @50,
+            @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
@@ -396,7 +399,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
-            @"ns_st_cl" : @"110"
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad"
         }];
     });
 
@@ -408,7 +412,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"type" : @"mid-roll",
             @"publisher" : @"Carl's Junior",
             @"length" : @"110",
-            @"play_position" : @110
+            @"play_position" : @110,
+            @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
@@ -417,7 +422,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Carl's Junior",
-            @"ns_st_cl" : @"110"
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad"
         }];
     });
 });

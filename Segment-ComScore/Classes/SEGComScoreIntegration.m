@@ -348,7 +348,8 @@
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
-                           @"ns_st_cl" : properties[@"length"]
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_amt" :properties[@"title"]
     };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
@@ -362,7 +363,8 @@
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
-                           @"ns_st_cl" : properties[@"length"]
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_amt" :properties[@"title"]
     };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
@@ -376,7 +378,8 @@
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
-                           @"ns_st_cl" : properties[@"length"]
+                           @"ns_st_cl" : properties[@"length"],
+                           @"ns_st_amt" :properties[@"title"]
     };
 
     [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
