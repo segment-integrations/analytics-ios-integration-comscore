@@ -364,7 +364,6 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"publisher" : @"Carl's Junior",
             @"length" : @"110",
             @"play_position" : @43,
             @"title" : @"Rick and Morty Ad"
@@ -375,9 +374,8 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPlayWithPosition:43 labels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110",
-            @"ns_st_amt" :@"Rick and Morty Ad"
+            @"ns_st_amt" : @"Rick and Morty Ad"
         }];
     });
 
@@ -387,7 +385,6 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"publisher" : @"Carl's Junior",
             @"length" : @"110",
             @"play_position" : @50,
             @"title" : @"Rick and Morty Ad"
@@ -398,7 +395,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110",
             @"ns_st_amt" : @"Rick and Morty Ad"
         }];
@@ -410,7 +406,6 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"publisher" : @"Carl's Junior",
             @"length" : @"110",
             @"play_position" : @110,
             @"title" : @"Rick and Morty Ad"
@@ -421,7 +416,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_pu" : @"Carl's Junior",
             @"ns_st_cl" : @"110",
             @"ns_st_amt" : @"Rick and Morty Ad"
         }];
