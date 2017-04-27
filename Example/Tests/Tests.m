@@ -146,7 +146,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ci" : @"1234",
             @"ns_st_ad" : @"pre-roll",
             @"ns_st_cl" : @"100",
-            @"ns_st_mp" : @"youtube"
+            @"ns_st_mp" : @"youtube",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
 
     });
@@ -162,7 +165,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"sound" : @100
 
         } context:@{}
-            integrations:@{}];
+                                                             integrations:@{
+                                                                 @"c3" : @"test"
+                                                             }];
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
@@ -170,7 +175,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
-            @"ns_st_vo" : @100
+            @"ns_st_vo" : @100,
+            @"c3" : @"test",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
 
         }];
     });
@@ -187,7 +195,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"sound" : @100
 
         } context:@{}
-            integrations:@{}];
+                                                             integrations:@{
+                                                                 @"c4" : @"test"
+                                                             }];
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyBufferStartWithPosition:190 labels:@{
@@ -195,7 +205,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ad" : @"post-roll",
             @"ns_st_cl" : @"300",
             @"ns_st_mp" : @"youtube",
-            @"ns_st_vo" : @100
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"test",
+            @"c6" : @"*null"
 
         }];
 
@@ -220,7 +233,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"400",
             @"ns_st_mp" : @"youtube",
-            @"ns_st_vo" : @100
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
 
         }];
     });
@@ -244,8 +260,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ad" : @"pre-roll",
             @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
-            @"ns_st_vo" : @100
-
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 
@@ -269,7 +287,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"100",
             @"ns_st_mp" : @"youtube",
-            @"ns_st_vo" : @100
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
 
         }];
     });
@@ -302,7 +323,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
             @"ns_st_pu" : @"Adult Swim",
-            @"ns_st_ce" : @"true"
+            @"ns_st_ce" : @"true",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 
@@ -333,7 +357,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
             @"ns_st_pu" : @"Adult Swim",
-            @"ns_st_ce" : @"true"
+            @"ns_st_ce" : @"true",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 
@@ -352,7 +379,10 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyEndWithPosition:179 labels:@{
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_pu" : @"Adult Swim",
-            @"ns_st_cl" : @"100"
+            @"ns_st_cl" : @"100",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 
@@ -375,7 +405,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"110",
-            @"ns_st_amt" : @"Rick and Morty Ad"
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 
@@ -387,7 +420,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"type" : @"mid-roll",
             @"length" : @"110",
             @"play_position" : @50,
-            @"title" : @"Rick and Morty Ad"
+            @"title" : @"Rick and Morty Ad",
         } context:@{}
             integrations:@{}];
 
@@ -396,7 +429,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"110",
-            @"ns_st_amt" : @"Rick and Morty Ad"
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 
@@ -409,6 +445,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"length" : @"110",
             @"play_position" : @110,
             @"title" : @"Rick and Morty Ad"
+
         } context:@{}
             integrations:@{}];
 
@@ -417,7 +454,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"110",
-            @"ns_st_amt" : @"Rick and Morty Ad"
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
         }];
     });
 });

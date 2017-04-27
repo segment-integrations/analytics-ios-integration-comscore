@@ -92,68 +92,68 @@
 - (void)track:(SEGTrackPayload *)payload
 {
     if ([payload.event isEqualToString:@"Video Playback Started"]) {
-        [self videoPlaybackStarted:payload.properties];
+        [self videoPlaybackStarted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Playback Paused"]) {
-        [self videoPlaybackPaused:payload.properties];
+        [self videoPlaybackPaused:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Playback Buffer Started"]) {
-        [self videoPlaybackBufferStarted:payload.properties];
+        [self videoPlaybackBufferStarted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Playback Buffer Completed"]) {
-        [self videoPlaybackBufferCompleted:payload.properties];
+        [self videoPlaybackBufferCompleted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Playback Seek Started"]) {
-        [self videoPlaybackSeekStarted:payload.properties];
+        [self videoPlaybackSeekStarted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Playback Seek Completed"]) {
-        [self videoPlaybackSeekCompleted:payload.properties];
+        [self videoPlaybackSeekCompleted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Playback Resumed"]) {
-        [self videoPlaybackResumed:payload.properties];
+        [self videoPlaybackResumed:payload.properties withOptions:payload.integrations];
         return;
     }
 
 
     if ([payload.event isEqualToString:@"Video Content Started"]) {
-        [self videoContentStarted:payload.properties];
+        [self videoContentStarted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Content Playing"]) {
-        [self videoContentPlaying:payload.properties];
+        [self videoContentPlaying:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Content Completed"]) {
-        [self videoContentCompleted:payload.properties];
+        [self videoContentCompleted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Ad Started"]) {
-        [self videoAdStarted:payload.properties];
+        [self videoAdStarted:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Ad Playing"]) {
-        [self videoAdPlaying:payload.properties];
+        [self videoAdPlaying:payload.properties withOptions:payload.integrations];
         return;
     }
 
     if ([payload.event isEqualToString:@"Video Ad Completed"]) {
-        [self videoAdCompleted:payload.properties];
+        [self videoAdCompleted:payload.properties withOptions:payload.integrations];
         return;
     }
 
@@ -181,9 +181,21 @@
 
 #pragma mark - Video Tracking
 
+
+NSString *returnNullStringIfNotDefined(NSDictionary *src, NSString *key)
+{
+    NSObject *value = [src valueForKey:key];
+    if (value) {
+        return [value description];
+    } else {
+        return @"*null";
+    }
+}
+
+
 #pragma Playback Events
 
-- (void)videoPlaybackStarted:(NSDictionary *)properties
+- (void)videoPlaybackStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     self.streamAnalytics = [self.streamingAnalyticsFactory create];
 
@@ -191,7 +203,11 @@
         @"ns_st_ci" : properties[@"asset_id"],
         @"ns_st_ad" : properties[@"ad_type"],
         @"ns_st_cl" : properties[@"length"],
-        @"ns_st_mp" : properties[@"video_player"]
+        @"ns_st_mp" : properties[@"video_player"],
+        @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+        @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+        @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
     };
 
     [self.streamAnalytics createPlaybackSessionWithLabels:map];
@@ -199,7 +215,7 @@
 }
 
 
-- (void)videoPlaybackPaused:(NSDictionary *)properties
+- (void)videoPlaybackPaused:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -207,7 +223,10 @@
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"]
+                           @"ns_st_vo" : properties[@"sound"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
 
     };
 
@@ -215,7 +234,7 @@
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@]", playPosition, map);
 }
 
-- (void)videoPlaybackBufferStarted:(NSDictionary *)properties
+- (void)videoPlaybackBufferStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -223,14 +242,18 @@
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"]
+                           @"ns_st_vo" : properties[@"sound"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
 
     };
     [self.streamAnalytics notifyBufferStartWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithPosition: %ld labels: %@]", playPosition, map);
 }
 
-- (void)videoPlaybackBufferCompleted:(NSDictionary *)properties
+- (void)videoPlaybackBufferCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -238,7 +261,11 @@
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"]
+                           @"ns_st_vo" : properties[@"sound"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
 
     };
 
@@ -247,7 +274,7 @@
 }
 
 
-- (void)videoPlaybackSeekStarted:(NSDictionary *)properties
+- (void)videoPlaybackSeekStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -255,7 +282,11 @@
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"]
+                           @"ns_st_vo" : properties[@"sound"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
 
     };
 
@@ -265,11 +296,11 @@
 
 
 // Pinging comScore for comparable event to map to
-- (void)videoPlaybackSeekCompleted:(NSDictionary *)properites
+- (void)videoPlaybackSeekCompleted:(NSDictionary *)properites withOptions:(NSDictionary *)integrations
 {
 }
 
-- (void)videoPlaybackResumed:(NSDictionary *)properties
+- (void)videoPlaybackResumed:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -277,7 +308,11 @@
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"length"],
                            @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"]
+                           @"ns_st_vo" : properties[@"sound"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
 
     };
 
@@ -287,7 +322,7 @@
 
 #pragma Content Events
 
-- (void)videoContentStarted:(NSDictionary *)properties
+- (void)videoContentStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -299,14 +334,19 @@
                            @"ns_st_ge" : properties[@"genre"],
                            @"ns_st_pr" : properties[@"program"],
                            @"ns_st_pu" : properties[@"channel"],
-                           @"ns_st_ce" : properties[@"full_episode"] };
+                           @"ns_st_ce" : properties[@"full_episode"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
+    };
 
 
     [self.streamAnalytics notifyPlayWithLabels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
 }
 
-- (void)videoContentPlaying:(NSDictionary *)properties
+- (void)videoContentPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
@@ -318,20 +358,29 @@
                            @"ns_st_ge" : properties[@"genre"],
                            @"ns_st_pr" : properties[@"program"],
                            @"ns_st_pu" : properties[@"channel"],
-                           @"ns_st_ce" : properties[@"full_episode"] };
+                           @"ns_st_ce" : properties[@"full_episode"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
+    };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %ld labels: %@", playPosition, map);
 }
 
 
-- (void)videoContentCompleted:(NSDictionary *)properties
+- (void)videoContentCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
     NSDictionary *map = @{ @"ns_st_ad" : properties[@"type"],
                            @"ns_st_pu" : properties[@"publisher"],
-                           @"ns_st_cl" : properties[@"length"]
+                           @"ns_st_cl" : properties[@"length"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
     };
 
     [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
@@ -341,42 +390,54 @@
 #pragma Ad Events
 
 
-- (void)videoAdStarted:(NSDictionary *)properties
+- (void)videoAdStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_amt" : properties[@"title"]
+                           @"ns_st_amt" : properties[@"title"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
     };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld labels:%@", playPosition, map);
 }
 
-- (void)videoAdPlaying:(NSDictionary *)properties
+- (void)videoAdPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_amt" : properties[@"title"]
+                           @"ns_st_amt" : properties[@"title"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
     };
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld map:%@", playPosition, map);
 }
 
-- (void)videoAdCompleted:(NSDictionary *)properties
+- (void)videoAdCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_cl" : properties[@"length"],
-                           @"ns_st_amt" : properties[@"title"]
+                           @"ns_st_amt" : properties[@"title"],
+                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+
     };
 
     [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
