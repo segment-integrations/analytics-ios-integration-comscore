@@ -30,7 +30,7 @@ void setupWithVideoPlaybackStarted(SEGComScoreIntegration *integration, SCORStre
     SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
         @"asset_id" : @"1234",
         @"ad_type" : @"pre-roll",
-        @"length" : @"100",
+        @"total_length" : @"100",
         @"video_player" : @"youtube"
     } context:@{}
         integrations:@{}];
@@ -127,7 +127,22 @@ describe(@"SEGComScoreIntegration", ^{
     });
 
 #pragma mark - Video Tracking
-
+    
+describe(@"returnNullStringIfNotDefined", ^{
+   it(@"Accounts for empty String values", ^{
+     NSDictionary *testDict = @{@"key": @""};
+      expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+   });
+    it(@"Accounts for padded empty String values", ^{
+        NSDictionary *testDict = @{@"key": @" "};
+        expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+    });
+    
+    it(@"Accounts for even more padded empty String values", ^{
+        NSDictionary *testDict = @{@"key": @"   "};
+        expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+    });
+});
 
 #pragma Playback Events
 
@@ -135,7 +150,7 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
             @"asset_id" : @"1234",
             @"ad_type" : @"pre-roll",
-            @"length" : @"100",
+            @"total_length" : @"100",
             @"video_player" : @"youtube"
 
         } context:@{}
@@ -159,7 +174,7 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
             @"asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
-            @"length" : @"200",
+            @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @30,
             @"sound" : @100
@@ -189,7 +204,7 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
             @"asset_id" : @"2340",
             @"ad_type" : @"post-roll",
-            @"length" : @"300",
+            @"total_length" : @"300",
             @"video_player" : @"youtube",
             @"play_position" : @190,
             @"sound" : @100
@@ -219,7 +234,7 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
             @"asset_id" : @"1230",
             @"ad_type" : @"mid-roll",
-            @"length" : @"400",
+            @"total_length" : @"400",
             @"video_player" : @"youtube",
             @"play_position" : @90,
             @"sound" : @100
@@ -246,7 +261,7 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
             @"asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
-            @"length" : @"200",
+            @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @20,
             @"sound" : @100
@@ -273,7 +288,7 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
             @"asset_id" : @"2141",
             @"ad_type" : @"mid-roll",
-            @"length" : @"100",
+            @"total_length" : @"100",
             @"video_player" : @"youtube",
             @"play_position" : @34,
             @"sound" : @100
@@ -370,7 +385,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"pod_id" : @"23425",
             @"type" : @"mid-roll",
             @"publisher" : @"Adult Swim",
-            @"length" : @"100",
+            @"total_length" : @"100",
             @"play_position" : @179
         } context:@{}
             integrations:@{}];
@@ -394,7 +409,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"length" : @"110",
+            @"total_length" : @"110",
             @"play_position" : @43,
             @"title" : @"Rick and Morty Ad"
         } context:@{}
@@ -418,7 +433,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"length" : @"110",
+            @"total_length" : @"110",
             @"play_position" : @50,
             @"title" : @"Rick and Morty Ad",
         } context:@{}
@@ -442,7 +457,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"length" : @"110",
+            @"total_length" : @"110",
             @"play_position" : @110,
             @"title" : @"Rick and Morty Ad"
 
