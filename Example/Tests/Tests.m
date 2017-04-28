@@ -127,22 +127,22 @@ describe(@"SEGComScoreIntegration", ^{
     });
 
 #pragma mark - Video Tracking
-    
-describe(@"returnNullStringIfNotDefined", ^{
-   it(@"Accounts for empty String values", ^{
-     NSDictionary *testDict = @{@"key": @""};
-      expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
-   });
-    it(@"Accounts for padded empty String values", ^{
-        NSDictionary *testDict = @{@"key": @" "};
-        expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+
+    describe(@"returnNullStringIfNotDefined", ^{
+        it(@"Accounts for empty String values", ^{
+            NSDictionary *testDict = @{ @"key" : @"" };
+            expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+        });
+        it(@"Accounts for padded empty String values", ^{
+            NSDictionary *testDict = @{ @"key" : @" " };
+            expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+        });
+
+        it(@"Accounts for even more padded empty String values", ^{
+            NSDictionary *testDict = @{ @"key" : @"   " };
+            expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
+        });
     });
-    
-    it(@"Accounts for even more padded empty String values", ^{
-        NSDictionary *testDict = @{@"key": @"   "};
-        expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
-    });
-});
 
 #pragma Playback Events
 
@@ -282,6 +282,32 @@ describe(@"returnNullStringIfNotDefined", ^{
         }];
     });
 
+
+    it(@"videoPlaybackSeekCompleted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
+            @"asset_id" : @"6352",
+            @"ad_type" : @"pre-roll",
+            @"total_length" : @"200",
+            @"video_player" : @"vimeo",
+            @"play_position" : @20,
+            @"sound" : @100
+
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifySeekStartWithPosition:20 labels:@{
+            @"ns_st_ci" : @"6352",
+            @"ns_st_ad" : @"pre-roll",
+            @"ns_st_cl" : @"200",
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+        }];
+    });
 
     it(@"videoPlaybackResumed", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
