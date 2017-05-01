@@ -310,7 +310,6 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 {
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ep" : properties[@"title"],
-                           @"ns_st_ge" : properties[@"keywords"],
                            @"ns_st_sn" : properties[@"season"],
                            @"ns_st_en" : properties[@"episode"],
                            @"ns_st_ge" : properties[@"genre"],

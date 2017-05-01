@@ -355,7 +355,6 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"3543",
             @"pod_id" : @"65462",
             @"title" : @"Big Trouble in Little Sanchez",
-            @"keywords" : @"sci-fi",
             @"season" : @"2",
             @"episode" : @"7",
             @"genre" : @"cartoon",
@@ -369,7 +368,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPlayWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
-            @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
@@ -388,7 +386,6 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"3543",
             @"pod_id" : @"65462",
             @"title" : @"Big Trouble in Little Sanchez",
-            @"keywords" : @"sci-fi",
             @"season" : @"2",
             @"episode" : @"7",
             @"genre" : @"cartoon",
@@ -403,7 +400,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
-            @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
@@ -422,7 +418,6 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"3543",
             @"pod_id" : @"65462",
             @"title" : @"Big Trouble in Little Sanchez",
-            @"keywords" : @"sci-fi",
             @"season" : @"2",
             @"episode" : @"7",
             @"genre" : @"cartoon",
@@ -437,7 +432,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyEndWithPosition:100 labels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
-            @"ns_st_ge" : @"sci-fi",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
