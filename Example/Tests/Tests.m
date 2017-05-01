@@ -395,12 +395,12 @@ describe(@"SEGComScoreIntegration", ^{
             @"program" : @"Rick and Morty",
             @"channel" : @"Adult Swim",
             @"full_episode" : @"true",
-            @"play_position" : @100
+            @"play_position" : @50
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithPosition:100 labels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_ge" : @"sci-fi",
@@ -419,19 +419,31 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoContentCompleted", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
-            @"pod_id" : @"23425",
-            @"type" : @"mid-roll",
-            @"publisher" : @"Adult Swim",
-            @"total_length" : @"100",
-            @"play_position" : @179
+            @"asset_id" : @"3543",
+            @"pod_id" : @"65462",
+            @"title" : @"Big Trouble in Little Sanchez",
+            @"keywords" : @"sci-fi",
+            @"season" : @"2",
+            @"episode" : @"7",
+            @"genre" : @"cartoon",
+            @"program" : @"Rick and Morty",
+            @"channel" : @"Adult Swim",
+            @"full_episode" : @"true",
+            @"play_position" : @100
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithPosition:179 labels:@{
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyEndWithPosition:100 labels:@{
+            @"ns_st_ci" : @"3543",
+            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+            @"ns_st_ge" : @"sci-fi",
+            @"ns_st_sn" : @"2",
+            @"ns_st_en" : @"7",
+            @"ns_st_ge" : @"cartoon",
+            @"ns_st_pr" : @"Rick and Morty",
             @"ns_st_pu" : @"Adult Swim",
-            @"ns_st_cl" : @"100",
+            @"ns_st_ce" : @"true",
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null"
