@@ -193,6 +193,16 @@ NSString *returnNullStringIfNotDefined(NSDictionary *src, NSString *key)
     }
 }
 
+NSString *returnFullStringStatus(NSDictionary *src, NSString *key)
+{
+    BOOL value = [src valueForKey:key];
+
+    if (value == true) {
+        return @"full";
+    } else {
+        return @"norm";
+    }
+}
 
 #pragma Playback Events
 
@@ -225,6 +235,7 @@ NSString *returnNullStringIfNotDefined(NSDictionary *src, NSString *key)
                            @"ns_st_cl" : properties[@"total_length"],
                            @"ns_st_mp" : properties[@"video_player"],
                            @"ns_st_vo" : properties[@"sound"],
+                           @"ns_st_ws" : returnFullStringStatus(properties, @"full_screen"),
                            @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
                            @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
                            @"c6" : returnNullStringIfNotDefined(integrations, @"c6")

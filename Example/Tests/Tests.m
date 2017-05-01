@@ -177,8 +177,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @30,
-            @"sound" : @100
-
+            @"sound" : @100,
+            @"full_screen" : @true
         } context:@{}
                                                              integrations:@{
                                                                  @"c3" : @"test"
@@ -191,6 +191,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"full",
             @"c3" : @"test",
             @"c4" : @"*null",
             @"c6" : @"*null"
