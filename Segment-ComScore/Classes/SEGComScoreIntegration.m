@@ -277,15 +277,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     long playPosition = [properties[@"play_position"] longValue];
 
-    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_ad" : properties[@"ad_type"],
-                           @"ns_st_cl" : properties[@"total_length"],
-                           @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"],
-                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
-    };
+    NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
+
 
     [self.streamAnalytics notifySeekStartWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStartWithPosition:%ld labels:%@", playPosition, map);
@@ -295,16 +288,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     long playPostition = [properties[@"play_position"] longValue];
 
-    NSDictionary *map = @{
-        @"ns_st_ci" : properties[@"asset_id"],
-        @"ns_st_ad" : properties[@"ad_type"],
-        @"ns_st_cl" : properties[@"total_length"],
-        @"ns_st_mp" : properties[@"video_player"],
-        @"ns_st_vo" : properties[@"sound"],
-        @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-        @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-        @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
-    };
+    NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
+
     [self.streamAnalytics notifySeekStartWithPosition:playPostition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifySeekStartWithPosition:%ld labels:%@", playPostition, map);
 }
@@ -314,17 +299,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     long playPosition = [properties[@"play_position"] longValue];
 
-    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
-                           @"ns_st_ad" : properties[@"ad_type"],
-                           @"ns_st_cl" : properties[@"total_length"],
-                           @"ns_st_mp" : properties[@"video_player"],
-                           @"ns_st_vo" : properties[@"sound"],
-                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
-
-
-    };
+    NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
 
     [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:&ld labels: %@]", playPosition, map);

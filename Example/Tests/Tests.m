@@ -269,7 +269,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @20,
-            @"sound" : @100
+            @"sound" : @100,
+            @"full_screen" : @YES
 
         } context:@{}
             integrations:@{}];
@@ -283,7 +284,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"full"
         }];
     });
 
@@ -296,7 +298,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @20,
-            @"sound" : @100
+            @"sound" : @100,
+            @"full_screen" : @YES
 
         } context:@{}
             integrations:@{}];
@@ -310,7 +313,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"full"
         }];
     });
 
@@ -322,7 +326,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"total_length" : @"100",
             @"video_player" : @"youtube",
             @"play_position" : @34,
-            @"sound" : @100
+            @"sound" : @100,
+            @"full_screen" : @YES
 
         } context:@{}
             integrations:@{}];
@@ -336,7 +341,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"full"
 
         }];
     });
