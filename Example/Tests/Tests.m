@@ -178,7 +178,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"vimeo",
             @"play_position" : @30,
             @"sound" : @100,
-            @"full_screen" : @true
+            @"full_screen" : @YES
         } context:@{}
                                                              integrations:@{
                                                                  @"c3" : @"test"
@@ -208,7 +208,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"total_length" : @"300",
             @"video_player" : @"youtube",
             @"play_position" : @190,
-            @"sound" : @100
+            @"sound" : @100,
+            @"full_screen" : @NO
 
         } context:@{}
                                                              integrations:@{
@@ -222,6 +223,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_cl" : @"300",
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"norm",
             @"c3" : @"*null",
             @"c4" : @"test",
             @"c6" : @"*null"
@@ -238,7 +240,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"total_length" : @"400",
             @"video_player" : @"youtube",
             @"play_position" : @90,
-            @"sound" : @100
+            @"sound" : @100,
+            @"full_screen" : @NO
 
         } context:@{}
             integrations:@{}];
@@ -252,7 +255,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"norm",
 
         }];
     });
