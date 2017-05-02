@@ -144,12 +144,32 @@ describe(@"SEGComScoreIntegration", ^{
         });
     });
 
-//    describe((@"convertFromKBPSToBPS"), ^{
-//        it(@"Will skip if not a NSNumber", ^{
-//
-//
-//        });
-//    });
+    describe((@"convertFromKBPSToBPS"), ^{
+        it(@"Will convert from KBPS to BPS", ^{
+            NSDictionary *testDict = @{ @"key" : @17 };
+            expect(convertFromKBPSToBPS(testDict, @"key")).to.equal(@17000);
+        });
+
+        it(@"Will skip String value", ^{
+            NSDictionary *testDict = @{ @"key" : @"17" };
+            expect(convertFromKBPSToBPS(testDict, @"key")).to.beNil();
+        });
+
+        it(@"Will skip NSDictionary value", ^{
+            NSDictionary *contactDict = @{ @"addresses" : @{@"street" : @"2 Elm St.", @"city" : @"Reston"} };
+            NSNumber *result = convertFromKBPSToBPS(contactDict, @"addresses");
+            expect(result).to.beNil();
+        });
+
+        it(@"Will skip nested NSDictionary value", ^{
+            NSDictionary *homeAddressDict = @{ @"street" : @"2 Elm St.",
+                                               @"city" : @"Reston" };
+            NSDictionary *addressesDict = @{ @"home" : homeAddressDict };
+            NSDictionary *contactDict = @{ @"name" : @"Jim Ray",
+                                           @"addresses" : addressesDict };
+            expect(convertFromKBPSToBPS(contactDict, @"key")).to.beNil();
+        });
+    });
 
 #pragma Playback Events
 

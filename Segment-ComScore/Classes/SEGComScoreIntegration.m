@@ -211,6 +211,7 @@ NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key)
         int newNum = num * 1000;
         return [NSNumber numberWithInt:newNum];
     }
+    return nil;
 }
 
 #pragma Playback Events

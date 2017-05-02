@@ -27,6 +27,8 @@
 @property (nonatomic, strong) SCORStreamingAnalytics *streamAnalytics;
 @property (nonatomic) id<SEGStreamingAnalyticsFactory> streamingAnalyticsFactory;
 NSString *returnNullStringIfNotDefined(NSDictionary *src, NSString *key);
+NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key);
+
 
 - (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass andStreamingAnalyticsFactory:(id<SEGStreamingAnalyticsFactory>)streamingAnalyticsFactory;
 
