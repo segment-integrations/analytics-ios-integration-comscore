@@ -144,6 +144,13 @@ describe(@"SEGComScoreIntegration", ^{
         });
     });
 
+//    describe((@"convertFromKBPSToBPS"), ^{
+//        it(@"Will skip if not a NSNumber", ^{
+//
+//
+//        });
+//    });
+
 #pragma Playback Events
 
     it(@"videoPlaybackStarted", ^{
@@ -151,7 +158,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1234",
             @"ad_type" : @"pre-roll",
             @"total_length" : @"100",
-            @"video_player" : @"youtube"
+            @"video_player" : @"youtube",
 
         } context:@{}
             integrations:@{}];
@@ -178,7 +185,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"vimeo",
             @"play_position" : @30,
             @"sound" : @100,
-            @"full_screen" : @YES
+            @"full_screen" : @YES,
+            @"bitrate" : @50
         } context:@{}
                                                              integrations:@{
                                                                  @"c3" : @"test"
@@ -192,6 +200,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000,
             @"c3" : @"test",
             @"c4" : @"*null",
             @"c6" : @"*null"
@@ -209,7 +218,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"youtube",
             @"play_position" : @190,
             @"sound" : @100,
-            @"full_screen" : @NO
+            @"full_screen" : @NO,
+            @"bitrate" : @50
 
         } context:@{}
                                                              integrations:@{
@@ -226,7 +236,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ws" : @"norm",
             @"c3" : @"*null",
             @"c4" : @"test",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_br" : @50000
 
         }];
 
@@ -241,7 +252,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"youtube",
             @"play_position" : @90,
             @"sound" : @100,
-            @"full_screen" : @NO
+            @"full_screen" : @NO,
+            @"bitrate" : @50
 
         } context:@{}
             integrations:@{}];
@@ -257,6 +269,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"c4" : @"*null",
             @"c6" : @"*null",
             @"ns_st_ws" : @"norm",
+            @"ns_st_br" : @50000
 
         }];
     });
@@ -270,7 +283,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"vimeo",
             @"play_position" : @20,
             @"sound" : @100,
-            @"full_screen" : @YES
+            @"full_screen" : @YES,
+            @"bitrate" : @50
 
         } context:@{}
             integrations:@{}];
@@ -285,7 +299,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ws" : @"full"
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000
         }];
     });
 
@@ -299,7 +314,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"vimeo",
             @"play_position" : @20,
             @"sound" : @100,
-            @"full_screen" : @YES
+            @"full_screen" : @YES,
+            @"bitrate" : @50
 
         } context:@{}
             integrations:@{}];
@@ -314,7 +330,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ws" : @"full"
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000
         }];
     });
 
@@ -327,7 +344,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"video_player" : @"youtube",
             @"play_position" : @34,
             @"sound" : @100,
-            @"full_screen" : @YES
+            @"full_screen" : @YES,
+            @"bitrate" : @50
 
         } context:@{}
             integrations:@{}];
@@ -342,7 +360,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ws" : @"full"
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000
 
         }];
     });

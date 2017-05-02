@@ -202,6 +202,17 @@ NSString *returnFullScreenStatus(NSDictionary *src, NSString *key)
     }
 }
 
+// comScore expects bitrate to converted from KBPS be BPS
+NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key)
+{
+    NSNumber *value = [src valueForKey:key];
+    if ([value isKindOfClass:[NSNumber class]]) {
+        int num = [value intValue];
+        int newNum = num * 1000;
+        return [NSNumber numberWithInt:newNum];
+    }
+}
+
 #pragma Playback Events
 
 NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDictionary *integrations)
@@ -211,6 +222,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
                            @"ns_st_cl" : properties[@"total_length"],
                            @"ns_st_mp" : properties[@"video_player"],
                            @"ns_st_vo" : properties[@"sound"],
+                           @"ns_st_br" : convertFromKBPSToBPS(properties, @"bitrate"),
                            @"ns_st_ws" : returnFullScreenStatus(properties, @"full_screen"),
                            @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
                            @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
