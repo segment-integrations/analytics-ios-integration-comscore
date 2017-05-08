@@ -209,7 +209,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"bitrate" : @50
         } context:@{}
                                                              integrations:@{
-                                                                 @"c3" : @"test"
+                                                                 @"comScore" : @{
+                                                                     @"c3" : @"test"
+                                                                 }
                                                              }];
 
         [integration track:payload];
@@ -243,7 +245,9 @@ describe(@"SEGComScoreIntegration", ^{
 
         } context:@{}
                                                              integrations:@{
-                                                                 @"c4" : @"test"
+                                                                 @"comScore" : @{
+                                                                     @"c4" : @"test"
+                                                                 }
                                                              }];
 
         [integration track:payload];

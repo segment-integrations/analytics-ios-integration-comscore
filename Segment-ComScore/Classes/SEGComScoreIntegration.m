@@ -218,6 +218,8 @@ NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key)
 
 NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDictionary *integrations)
 {
+    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"ad_type"],
                            @"ns_st_cl" : properties[@"total_length"],
@@ -225,9 +227,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
                            @"ns_st_vo" : properties[@"sound"],
                            @"ns_st_br" : convertFromKBPSToBPS(properties, @"bitrate"),
                            @"ns_st_ws" : returnFullScreenStatus(properties, @"full_screen"),
-                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+                           @"c3" : returnNullStringIfNotDefined(integration, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integration, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integration, @"c6")
 
     };
     return map;
@@ -237,14 +239,17 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     self.streamAnalytics = [self.streamingAnalyticsFactory create];
 
+    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+
+
     NSDictionary *map = @{
         @"ns_st_ci" : properties[@"asset_id"],
         @"ns_st_ad" : properties[@"ad_type"],
         @"ns_st_cl" : properties[@"total_length"],
         @"ns_st_mp" : properties[@"video_player"],
-        @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-        @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-        @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+        @"c3" : returnNullStringIfNotDefined(integration, @"c3"),
+        @"c4" : returnNullStringIfNotDefined(integration, @"c4"),
+        @"c6" : returnNullStringIfNotDefined(integration, @"c6")
 
     };
 
@@ -321,6 +326,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
 NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictionary *integrations)
 {
+    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"],
                            @"ns_st_ep" : properties[@"title"],
                            @"ns_st_sn" : properties[@"season"],
@@ -329,9 +336,9 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_pr" : properties[@"program"],
                            @"ns_st_pu" : properties[@"channel"],
                            @"ns_st_ce" : properties[@"full_episode"],
-                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+                           @"c3" : returnNullStringIfNotDefined(integration, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integration, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integration, @"c6")
 
     };
     return map;
@@ -372,13 +379,15 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
 NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *integrations)
 {
+    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"],
                            @"ns_st_ad" : properties[@"type"],
                            @"ns_st_cl" : properties[@"total_length"],
                            @"ns_st_amt" : properties[@"title"],
-                           @"c3" : returnNullStringIfNotDefined(integrations, @"c3"),
-                           @"c4" : returnNullStringIfNotDefined(integrations, @"c4"),
-                           @"c6" : returnNullStringIfNotDefined(integrations, @"c6")
+                           @"c3" : returnNullStringIfNotDefined(integration, @"c3"),
+                           @"c4" : returnNullStringIfNotDefined(integration, @"c4"),
+                           @"c6" : returnNullStringIfNotDefined(integration, @"c6")
     };
     return map;
 }
