@@ -8,16 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <Analytics/SEGIntegration.h>
-#import <ComScore/CSComScore.h>
+#import <ComScore/ComScore.h>
 
 
 @interface SEGComScoreIntegration : NSObject <SEGIntegration>
 
 @property (nonatomic, strong) NSDictionary *settings;
-@property (nonatomic, strong) Class comScoreClass;
+@property (nonatomic, strong) Class scorAnalyticsClass;
 
-- (instancetype)initWithSettings:(NSDictionary *)settings;
-
-- (instancetype)initWithSettings:(NSDictionary *)settings andCSComScore:(id)comScoreClass;
+- (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass;
 
 @end

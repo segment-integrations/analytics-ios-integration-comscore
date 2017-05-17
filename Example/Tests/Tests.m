@@ -11,14 +11,6 @@
 SpecBegin(InitialSpecs);
 
 describe(@"SEGComScoreIntegrationFactory", ^{
-    it(@"factory creates integration with empty settings", ^{
-        SEGComScoreIntegration *integration = [[SEGComScoreIntegrationFactory instance] createWithSettings:@{} forAnalytics:nil];
-
-        expect(integration.settings).to.equal(@{});
-    });
-});
-
-describe(@"SEGComScoreIntegrationFactory", ^{
     it(@"factory creates integration with basic settings", ^{
         SEGComScoreIntegration *integration = [[SEGComScoreIntegrationFactory instance] createWithSettings:@{
             @"c2" : @"1234567",
@@ -41,57 +33,65 @@ describe(@"SEGComScoreIntegrationFactory", ^{
 });
 
 describe(@"SEGComScoreIntegration", ^{
-    __block Class mockComScore;
+    __block SCORAnalytics *comScore;
+    __block Class scorAnalyticsClassMock;
     __block SEGComScoreIntegration *integration;
 
     beforeEach(^{
-        mockComScore = mockClass([CSComScore class]);
-        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{} andCSComScore:mockComScore];
+        comScore = mockClass([SCORAnalytics class]);
+        scorAnalyticsClassMock = comScore;
+        integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
+            @"c2" : @"23243060",
+            @"publisherSecret" : @"7e529e62366db3423ef3728ca910b8b8"
+        } andComScore:comScore];
     });
 
     it(@"identify with Traits", ^{
-        SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"1111"
+        SCORConfiguration *configuration = mock([SCORConfiguration class]);
+        [given([scorAnalyticsClassMock configuration]) willReturn:configuration];
+
+        SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:@"44"
             anonymousId:nil
-            traits:@{ @"name" : @"Kylo Ren",
+            traits:@{ @"name" : @"Milhouse Van Houten",
                       @"gender" : @"male",
-                      @"emotion" : @"angsty" }
+                      @"emotion" : @"nerdy" }
             context:@{}
             integrations:@{}];
 
         [integration identify:payload];
 
-        [verify(mockComScore) setLabel:@"name" value:@"Kylo Ren"];
-        [verify(mockComScore) setLabel:@"gender" value:@"male"];
-        [verify(mockComScore) setLabel:@"emotion" value:@"angsty"];
+
+        [verify(configuration) setPersistentLabelWithName:@"name" value:@"Milhouse Van Houten"];
+        [verify(configuration) setPersistentLabelWithName:@"gender" value:@"male"];
+        [verify(configuration) setPersistentLabelWithName:@"emotion" value:@"nerdy"];
     });
 
     it(@"track with props", ^{
-        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Starship Ordered" properties:@{ @"Starship Type" : @"Death Star" } context:@{} integrations:@{}];
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Order Completed" properties:@{ @"Type" : @"Flood" } context:@{} integrations:@{}];
 
         [integration track:payload];
 
-        [verify(mockComScore) hiddenWithLabels:@{
-            @"name" : @"Starship Ordered",
-            @"Starship Type" : @"Death Star"
+        [verify(comScore) notifyHiddenEventWithLabels:@{
+            @"name" : @"Order Completed",
+            @"Type" : @"Flood"
         }];
     });
 
     it(@"screen with props", ^{
-        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Droid Planet" properties:@{ @"resources" : @"unlimited" } context:@{} integrations:@{}];
+        SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Home" properties:@{ @"Ad" : @"Flood Pants" } context:@{} integrations:@{}];
 
         [integration screen:payload];
 
-        [verify(mockComScore) viewWithLabels:@{
-            @"name" : @"Droid Planet",
-            @"resources" : @"unlimited"
+        [verify(comScore) notifyViewEventWithLabels:@{
+            @"name" : @"Home",
+            @"Ad" : @"Flood Pants"
         }];
     });
 
 
     it(@"flush", ^{
         [integration flush];
-
-        [verify(mockComScore) flushCache];
+        [verify(comScore) flushOfflineCache];
     });
 });
 
