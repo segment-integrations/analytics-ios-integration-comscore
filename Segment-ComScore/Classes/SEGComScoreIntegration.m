@@ -351,6 +351,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_pr" : properties[@"program"],
                            @"ns_st_pu" : properties[@"channel"],
                            @"ns_st_ce" : properties[@"full_episode"],
+                           @"ns_st_cl" : properties[@"total_length"],
                            @"c3" : returnNullStringIfNotDefined(integration, @"c3"),
                            @"c4" : returnNullStringIfNotDefined(integration, @"c4"),
                            @"c6" : returnNullStringIfNotDefined(integration, @"c6")
