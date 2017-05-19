@@ -101,6 +101,11 @@
         return;
     }
 
+    if ([payload.event isEqualToString:@"Video Playback Interrupted"]) {
+        [self videoPlaybackInterrupted:payload.properties withOptions:payload.integrations];
+        return;
+    }
+
     if ([payload.event isEqualToString:@"Video Playback Buffer Started"]) {
         [self videoPlaybackBufferStarted:payload.properties withOptions:payload.integrations];
         return;
@@ -259,6 +264,16 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
 
 - (void)videoPlaybackPaused:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
+{
+    long playPosition = [properties[@"play_position"] longValue];
+
+    NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
+
+    [self.streamAnalytics notifyPauseWithPosition:playPosition labels:map];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@]", playPosition, map);
+}
+
+- (void)videoPlaybackInterrupted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     long playPosition = [properties[@"play_position"] longValue];
 

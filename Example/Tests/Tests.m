@@ -230,6 +230,39 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
+    it(@"videoPlaybackInterrupted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
+            @"asset_id" : @"7890",
+            @"ad_type" : @"mid-roll",
+            @"total_length" : @"200",
+            @"video_player" : @"vimeo",
+            @"play_position" : @30,
+            @"sound" : @100,
+            @"full_screen" : @YES,
+            @"bitrate" : @50
+        } context:@{}
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"c3" : @"test"
+                                                                 }
+                                                             }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
+            @"ns_st_ci" : @"7890",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"200",
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000,
+            @"c3" : @"test",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+
+        }];
+    });
 
     it(@"videoPlaybackBufferStarted", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);

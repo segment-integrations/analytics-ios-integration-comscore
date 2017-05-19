@@ -29,7 +29,6 @@
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Launched"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing 2"];
-    [[SEGAnalytics sharedAnalytics] track:@"Video Ad Completed"];
 
 
     [[SEGAnalytics sharedAnalytics] flush];
