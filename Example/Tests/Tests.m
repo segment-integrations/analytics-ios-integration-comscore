@@ -128,22 +128,6 @@ describe(@"SEGComScoreIntegration", ^{
 
 #pragma mark - Video Tracking
 
-    describe(@"returnNullStringIfNotDefined", ^{
-        it(@"Accounts for empty String values", ^{
-            NSDictionary *testDict = @{ @"key" : @"" };
-            expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
-        });
-        it(@"Accounts for padded empty String values", ^{
-            NSDictionary *testDict = @{ @"key" : @" " };
-            expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
-        });
-
-        it(@"Accounts for even more padded empty String values", ^{
-            NSDictionary *testDict = @{ @"key" : @"   " };
-            expect(returnNullStringIfNotDefined(testDict, @"key")).to.equal(@"*null");
-        });
-    });
-
     describe((@"convertFromKBPSToBPS"), ^{
         it(@"Will convert from KBPS to BPS", ^{
             NSDictionary *testDict = @{ @"key" : @17 };
