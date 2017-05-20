@@ -436,9 +436,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"channel" : @"Adult Swim",
             @"total_length" : @"400",
-            @"full_episode" : @"true"
+            @"full_episode" : @"true",
+            @"publisher" : @"Turner Broadcasting Network",
+            @"channel" : @"Cartoon Network"
         } context:@{}
             integrations:@{}];
 
@@ -450,9 +451,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_pu" : @"Adult Swim",
             @"ns_st_cl" : @"400",
             @"ns_st_ce" : @"true",
+            @"ns_st_pu" : @"Turner Broadcasting Network",
+            @"ns_st_st" : @"Cartoon Network",
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null"
@@ -469,9 +471,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"channel" : @"Adult Swim",
             @"total_length" : @"400",
             @"full_episode" : @"true",
+            @"publisher" : @"Turner Broadcasting Network",
+            @"channel" : @"Cartoon Network",
             @"play_position" : @50
         } context:@{}
             integrations:@{}];
@@ -484,9 +487,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_pu" : @"Adult Swim",
             @"ns_st_cl" : @"400",
             @"ns_st_ce" : @"true",
+            @"ns_st_pu" : @"Turner Broadcasting Network",
+            @"ns_st_st" : @"Cartoon Network",
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null"
@@ -503,9 +507,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"channel" : @"Adult Swim",
             @"total_length" : @"400",
             @"full_episode" : @"true",
+            @"publisher" : @"Turner Broadcasting Network",
+            @"channel" : @"Cartoon Network",
             @"play_position" : @100
         } context:@{}
             integrations:@{}];
@@ -518,9 +523,10 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_pu" : @"Adult Swim",
             @"ns_st_cl" : @"400",
             @"ns_st_ce" : @"true",
+            @"ns_st_pu" : @"Turner Broadcasting Network",
+            @"ns_st_st" : @"Cartoon Network",
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null"

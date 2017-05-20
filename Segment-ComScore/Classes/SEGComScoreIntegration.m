@@ -336,9 +336,10 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_en" : properties[@"episode"] ?: @"*null",
                            @"ns_st_ge" : properties[@"genre"] ?: @"*null",
                            @"ns_st_pr" : properties[@"program"] ?: @"*null",
-                           @"ns_st_pu" : properties[@"channel"] ?: @"*null",
                            @"ns_st_ce" : properties[@"full_episode"] ?: @"*null",
                            @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
+                           @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
+                           @"ns_st_st" : properties[@"channel"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
                            @"c6" : integration[@"c6"] ?: @"*null"
