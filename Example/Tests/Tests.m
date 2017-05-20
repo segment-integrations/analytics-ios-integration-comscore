@@ -161,7 +161,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
             @"asset_id" : @"1234",
             @"ad_type" : @"pre-roll",
-            @"total_length" : @"100",
             @"video_player" : @"youtube",
 
         } context:@{}
@@ -171,7 +170,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) createPlaybackSessionWithLabels:@{
             @"ns_st_ci" : @"1234",
             @"ns_st_ad" : @"pre-roll",
-            @"ns_st_cl" : @"100",
             @"ns_st_mp" : @"youtube",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -185,7 +183,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
             @"asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
-            @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @30,
             @"sound" : @100,
@@ -202,7 +199,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
             @"ns_st_ci" : @"7890",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
@@ -219,7 +215,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
             @"asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
-            @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @30,
             @"sound" : @100,
@@ -236,7 +231,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
             @"ns_st_ci" : @"7890",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
@@ -253,7 +247,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
             @"asset_id" : @"2340",
             @"ad_type" : @"post-roll",
-            @"total_length" : @"300",
             @"video_player" : @"youtube",
             @"play_position" : @190,
             @"sound" : @100,
@@ -271,8 +264,40 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyBufferStartWithPosition:190 labels:@{
             @"ns_st_ci" : @"2340",
             @"ns_st_ad" : @"post-roll",
-            @"ns_st_cl" : @"300",
             @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"norm",
+            @"c3" : @"*null",
+            @"c4" : @"test",
+            @"c6" : @"*null",
+            @"ns_st_br" : @50000
+
+        }];
+
+    });
+
+    it(@"assigns default values when property not present on videoPlaybackBufferStarted", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
+
+            @"ad_type" : @"post-roll",
+            @"play_position" : @190,
+            @"sound" : @100,
+            @"full_screen" : @NO,
+            @"bitrate" : @50
+
+        } context:@{}
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"c4" : @"test"
+                                                                 }
+                                                             }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyBufferStartWithPosition:190 labels:@{
+            @"ns_st_ci" : @"*null",
+            @"ns_st_ad" : @"post-roll",
+            @"ns_st_mp" : @"*null",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"norm",
             @"c3" : @"*null",
@@ -289,7 +314,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
             @"asset_id" : @"1230",
             @"ad_type" : @"mid-roll",
-            @"total_length" : @"400",
             @"video_player" : @"youtube",
             @"play_position" : @90,
             @"sound" : @100,
@@ -303,7 +327,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyBufferStopWithPosition:90 labels:@{
             @"ns_st_ci" : @"1230",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"400",
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -320,7 +343,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
             @"asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
-            @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @20,
             @"sound" : @100,
@@ -334,7 +356,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifySeekStartWithPosition:20 labels:@{
             @"ns_st_ci" : @"6352",
             @"ns_st_ad" : @"pre-roll",
-            @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -351,7 +372,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
             @"asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
-            @"total_length" : @"200",
             @"video_player" : @"vimeo",
             @"play_position" : @20,
             @"sound" : @100,
@@ -365,7 +385,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifySeekStartWithPosition:20 labels:@{
             @"ns_st_ci" : @"6352",
             @"ns_st_ad" : @"pre-roll",
-            @"ns_st_cl" : @"200",
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -381,7 +400,6 @@ describe(@"SEGComScoreIntegration", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
             @"asset_id" : @"2141",
             @"ad_type" : @"mid-roll",
-            @"total_length" : @"100",
             @"video_player" : @"youtube",
             @"play_position" : @34,
             @"sound" : @100,
@@ -395,7 +413,6 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(streamingAnalytics) notifyPlayWithPosition:34 labels:@{
             @"ns_st_ci" : @"2141",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"100",
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",

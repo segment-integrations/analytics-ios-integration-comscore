@@ -216,7 +216,6 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"] ?: @"*null",
                            @"ns_st_ad" : properties[@"ad_type"] ?: @"*null",
-                           @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
                            @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
                            @"ns_st_vo" : properties[@"sound"] ?: @"*null",
                            @"ns_st_br" : convertFromKBPSToBPS(properties, @"bitrate"),
@@ -239,7 +238,6 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = @{
         @"ns_st_ci" : properties[@"asset_id"] ?: @"*null",
         @"ns_st_ad" : properties[@"ad_type"] ?: @"*null",
-        @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
         @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
         @"c3" : integration[@"c3"] ?: @"*null",
         @"c4" : integration[@"c4"] ?: @"*null",
