@@ -252,76 +252,97 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
 - (void)videoPlaybackPaused:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
 
-    [self.streamAnalytics notifyPauseWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@]", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPauseWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@]", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPauseWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPauseWithLabels:%@]", map);
+    }
 }
 
 - (void)videoPlaybackInterrupted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
 
-    [self.streamAnalytics notifyPauseWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@]", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPauseWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@]", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPauseWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPauseWithLabels:%@]", map);
+    }
 }
 
 - (void)videoPlaybackBufferStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
-
-    [self.streamAnalytics notifyBufferStartWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithPosition: %ld labels: %@]", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyBufferStartWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithPosition: %ld labels: %@]", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyBufferStartWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStartWithLabels: %@]", map);
+    }
 }
 
 - (void)videoPlaybackBufferCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
-
-
-    [self.streamAnalytics notifyBufferStopWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStopWithPosition:%ld labels:%@]", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyBufferStopWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStopWithPosition:%ld labels:%@]", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyBufferStopWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStopWithLabels:%@]", map);
+    }
 }
 
 
 - (void)videoPlaybackSeekStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
-
-
-    [self.streamAnalytics notifySeekStartWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStartWithPosition:%ld labels:%@", playPosition, map);
+    if ([properties[@"seek_position"] longValue]) {
+        long seekPosition = [properties[@"seek_position"] longValue];
+        [self.streamAnalytics notifySeekStartWithPosition:seekPosition labels:map];
+        SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStartWithPosition:%ld labels:%@", seekPosition, map);
+    } else {
+        [self.streamAnalytics notifySeekStartWithLabels:map];
+        SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStartWithLabels:%@", map);
+    }
 }
 
 - (void)videoPlaybackSeekCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPostition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
-
-    [self.streamAnalytics notifySeekStartWithPosition:playPostition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifySeekStartWithPosition:%ld labels:%@", playPostition, map);
+    if ([properties[@"seek_position"] longValue]) {
+        long seekPosition = [properties[@"seek_position"] longValue];
+        [self.streamAnalytics notifySeekStartWithPosition:seekPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifySeekStartWithPosition:%ld labels:%@", seekPosition, map);
+    } else {
+        [self.streamAnalytics notifySeekStartWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifySeekStartWithLabels:%@", map);
+    }
 }
 
 
 - (void)videoPlaybackResumed:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
-
-    [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:&ld labels: %@]", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:&ld labels: %@]", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPlayWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@]", map);
+    }
 }
 
 #pragma Content Events
@@ -340,7 +361,6 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
                            @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"ns_st_st" : properties[@"channel"] ?: @"*null",
-                           // `ns_st_ddt` or `ns_st_tdt`
                            @"ns_st_ddt" : integration[@"digitalAirdate"] ?: @"*null",
                            @"ns_st_tdt" : integration[@"tvAirdate"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
@@ -353,33 +373,45 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
 - (void)videoContentStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
 
-    [self.streamAnalytics notifyPlayWithLabels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %ld labels: %@", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPlayWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
+    }
 }
 
 - (void)videoContentPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
 
-    [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %ld labels: %@", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %ld labels: %@", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPlayWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamANalytics] notifyPlayWithLabels: %@", map);
+    }
 }
 
 
 - (void)videoContentCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
 
-    [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyEndWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels:%@", map);
+    }
 }
 
 #pragma Ad Events
@@ -401,32 +433,44 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
 - (void)videoAdStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedAdProperties(properties, integrations);
 
-    [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld labels:%@", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld labels:%@", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPlayWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels:%@", map);
+    }
 }
 
 - (void)videoAdPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedAdProperties(properties, integrations);
 
-    [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld map:%@", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld map:%@", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyPlayWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels:%@", map);
+    }
 }
 
 - (void)videoAdCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    long playPosition = [properties[@"play_position"] longValue];
-
     NSDictionary *map = returnMappedAdProperties(properties, integrations);
 
-    [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@", playPosition, map);
+    if ([properties[@"position"] longValue]) {
+        long playPosition = [properties[@"position"] longValue];
+        [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@", playPosition, map);
+    } else {
+        [self.streamAnalytics notifyEndWithLabels:map];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels:%@", map);
+    }
 }
 
 @end

@@ -177,13 +177,13 @@ describe(@"SEGComScoreIntegration", ^{
 
     });
 
-    it(@"videoPlaybackPaused", ^{
+    it(@"videoPlaybackPaused with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
             @"asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"vimeo",
-            @"play_position" : @30,
+            @"position" : @30,
             @"sound" : @100,
             @"full_screen" : @YES,
             @"bitrate" : @50
@@ -209,13 +209,44 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoPlaybackInterrupted", ^{
+    it(@"videoPlaybackPaused fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
+            @"asset_id" : @"7890",
+            @"ad_type" : @"mid-roll",
+            @"video_player" : @"vimeo",
+            @"sound" : @100,
+            @"full_screen" : @YES,
+            @"bitrate" : @50
+        } context:@{}
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"c3" : @"test"
+                                                                 }
+                                                             }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPauseWithLabels:@{
+            @"ns_st_ci" : @"7890",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000,
+            @"c3" : @"test",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+
+        }];
+    });
+
+    it(@"videoPlaybackInterrupted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
             @"asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"vimeo",
-            @"play_position" : @30,
+            @"position" : @30,
             @"sound" : @100,
             @"full_screen" : @YES,
             @"bitrate" : @50
@@ -241,13 +272,44 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoPlaybackBufferStarted", ^{
+    it(@"videoPlaybackInterrupted fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
+            @"asset_id" : @"7890",
+            @"ad_type" : @"mid-roll",
+            @"video_player" : @"vimeo",
+            @"sound" : @100,
+            @"full_screen" : @YES,
+            @"bitrate" : @50
+        } context:@{}
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"c3" : @"test"
+                                                                 }
+                                                             }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPauseWithLabels:@{
+            @"ns_st_ci" : @"7890",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000,
+            @"c3" : @"test",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+
+        }];
+    });
+
+    it(@"videoPlaybackBufferStarted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
             @"asset_id" : @"2340",
             @"ad_type" : @"post-roll",
             @"video_player" : @"youtube",
-            @"play_position" : @190,
+            @"position" : @190,
             @"sound" : @100,
             @"full_screen" : @NO,
             @"bitrate" : @50
@@ -275,12 +337,45 @@ describe(@"SEGComScoreIntegration", ^{
 
     });
 
+    it(@"videoPlaybackBufferStarted fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
+            @"asset_id" : @"2340",
+            @"ad_type" : @"post-roll",
+            @"video_player" : @"youtube",
+            @"sound" : @100,
+            @"full_screen" : @NO,
+            @"bitrate" : @50
+
+        } context:@{}
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"c4" : @"test"
+                                                                 }
+                                                             }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyBufferStartWithLabels:@{
+            @"ns_st_ci" : @"2340",
+            @"ns_st_ad" : @"post-roll",
+            @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100,
+            @"ns_st_ws" : @"norm",
+            @"c3" : @"*null",
+            @"c4" : @"test",
+            @"c6" : @"*null",
+            @"ns_st_br" : @50000
+
+        }];
+
+    });
+
     it(@"assigns default values when property not present on videoPlaybackBufferStarted", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
 
             @"ad_type" : @"post-roll",
-            @"play_position" : @190,
+            @"position" : @190,
             @"sound" : @100,
             @"full_screen" : @NO,
             @"bitrate" : @50
@@ -308,13 +403,13 @@ describe(@"SEGComScoreIntegration", ^{
 
     });
 
-    it(@"videoPlaybackBufferCompleted", ^{
+    it(@"videoPlaybackBufferCompleted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
             @"asset_id" : @"1230",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"youtube",
-            @"play_position" : @90,
+            @"position" : @90,
             @"sound" : @100,
             @"full_screen" : @NO,
             @"bitrate" : @50
@@ -337,13 +432,41 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoPlaybackSeekStarted", ^{
+    it(@"videoPlaybackBufferCompleted fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
+            @"asset_id" : @"1230",
+            @"ad_type" : @"mid-roll",
+            @"video_player" : @"youtube",
+            @"sound" : @100,
+            @"full_screen" : @NO,
+            @"bitrate" : @50
+
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyBufferStopWithLabels:@{
+            @"ns_st_ci" : @"1230",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"norm",
+            @"ns_st_br" : @50000
+
+        }];
+    });
+
+    it(@"videoPlaybackSeekStarted with seekPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
             @"asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"vimeo",
-            @"play_position" : @20,
+            @"seek_position" : @20,
             @"sound" : @100,
             @"full_screen" : @YES,
             @"bitrate" : @50
@@ -365,14 +488,41 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
+    it(@"videoPlaybackSeekStarted fallsback to method without seek_position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
+            @"asset_id" : @"6352",
+            @"ad_type" : @"pre-roll",
+            @"video_player" : @"vimeo",
+            @"sound" : @100,
+            @"full_screen" : @YES,
+            @"bitrate" : @50
 
-    it(@"videoPlaybackSeekCompleted", ^{
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifySeekStartWithLabels:@{
+            @"ns_st_ci" : @"6352",
+            @"ns_st_ad" : @"pre-roll",
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000
+        }];
+    });
+
+
+    it(@"videoPlaybackSeekCompleted with seekPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
             @"asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"vimeo",
-            @"play_position" : @20,
+            @"seek_position" : @20,
             @"sound" : @100,
             @"full_screen" : @YES,
             @"bitrate" : @50
@@ -394,13 +544,40 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoPlaybackResumed", ^{
+    it(@"videoPlaybackSeekCompleted fallsback to method without seek_position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
+            @"asset_id" : @"6352",
+            @"ad_type" : @"pre-roll",
+            @"video_player" : @"vimeo",
+            @"sound" : @100,
+            @"full_screen" : @YES,
+            @"bitrate" : @50
+
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifySeekStartWithLabels:@{
+            @"ns_st_ci" : @"6352",
+            @"ns_st_ad" : @"pre-roll",
+            @"ns_st_mp" : @"vimeo",
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000
+        }];
+    });
+
+    it(@"videoPlaybackResumed with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
             @"asset_id" : @"2141",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"youtube",
-            @"play_position" : @34,
+            @"position" : @34,
             @"sound" : @100,
             @"full_screen" : @YES,
             @"bitrate" : @50
@@ -423,9 +600,80 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
+    it(@"videoPlaybackResumed fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
+            @"asset_id" : @"2141",
+            @"ad_type" : @"mid-roll",
+            @"video_player" : @"youtube",
+            @"sound" : @100,
+            @"full_screen" : @YES,
+            @"bitrate" : @50
+
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ci" : @"2141",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_mp" : @"youtube",
+            @"ns_st_vo" : @100,
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_ws" : @"full",
+            @"ns_st_br" : @50000
+
+        }];
+    });
+
+
     //#pragma Content Events
 
-    it(@"videoContentStarted", ^{
+    it(@"videoContentStarted with playPosition", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{
+            @"asset_id" : @"3543",
+            @"pod_id" : @"65462",
+            @"title" : @"Big Trouble in Little Sanchez",
+            @"season" : @"2",
+            @"episode" : @"7",
+            @"genre" : @"cartoon",
+            @"program" : @"Rick and Morty",
+            @"total_length" : @"400",
+            @"full_episode" : @"true",
+            @"publisher" : @"Turner Broadcasting Network",
+            @"position" : @22,
+            @"channel" : @"Cartoon Network"
+        } context:@{}
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"tvAirdate" : @"2017-05-22"
+                                                                 }
+                                                             }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithPosition:22 labels:@{
+            @"ns_st_ci" : @"3543",
+            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+            @"ns_st_sn" : @"2",
+            @"ns_st_en" : @"7",
+            @"ns_st_ge" : @"cartoon",
+            @"ns_st_pr" : @"Rick and Morty",
+            @"ns_st_cl" : @"400",
+            @"ns_st_ce" : @"true",
+            @"ns_st_pu" : @"Turner Broadcasting Network",
+            @"ns_st_st" : @"Cartoon Network",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_tdt" : @"2017-05-22",
+            @"ns_st_ddt" : @"*null"
+        }];
+    });
+
+    it(@"videoContentStarted fallsback to method without position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{
             @"asset_id" : @"3543",
@@ -466,7 +714,8 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoContentPlaying", ^{
+
+    it(@"videoContentPlaying with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
             @"asset_id" : @"3543",
@@ -480,7 +729,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network",
-            @"play_position" : @50
+            @"position" : @50
 
         } context:@{}
             integrations:@{}];
@@ -505,7 +754,45 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoContentCompleted", ^{
+    it(@"videoContentPlaying fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
+            @"asset_id" : @"3543",
+            @"pod_id" : @"65462",
+            @"title" : @"Big Trouble in Little Sanchez",
+            @"season" : @"2",
+            @"episode" : @"7",
+            @"genre" : @"cartoon",
+            @"program" : @"Rick and Morty",
+            @"total_length" : @"400",
+            @"full_episode" : @"true",
+            @"publisher" : @"Turner Broadcasting Network",
+            @"channel" : @"Cartoon Network"
+
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ci" : @"3543",
+            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+            @"ns_st_sn" : @"2",
+            @"ns_st_en" : @"7",
+            @"ns_st_ge" : @"cartoon",
+            @"ns_st_pr" : @"Rick and Morty",
+            @"ns_st_cl" : @"400",
+            @"ns_st_ce" : @"true",
+            @"ns_st_pu" : @"Turner Broadcasting Network",
+            @"ns_st_st" : @"Cartoon Network",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_tdt" : @"*null",
+            @"ns_st_ddt" : @"*null"
+        }];
+    });
+
+    it(@"videoContentCompleted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
             @"asset_id" : @"3543",
@@ -519,7 +806,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network",
-            @"play_position" : @100
+            @"position" : @100
         } context:@{}
             integrations:@{}];
 
@@ -543,16 +830,54 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
+    it(@"videoContentCompleted fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
+            @"asset_id" : @"3543",
+            @"pod_id" : @"65462",
+            @"title" : @"Big Trouble in Little Sanchez",
+            @"season" : @"2",
+            @"episode" : @"7",
+            @"genre" : @"cartoon",
+            @"program" : @"Rick and Morty",
+            @"total_length" : @"400",
+            @"full_episode" : @"true",
+            @"publisher" : @"Turner Broadcasting Network",
+            @"channel" : @"Cartoon Network"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyEndWithLabels:@{
+            @"ns_st_ci" : @"3543",
+            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+            @"ns_st_sn" : @"2",
+            @"ns_st_en" : @"7",
+            @"ns_st_ge" : @"cartoon",
+            @"ns_st_pr" : @"Rick and Morty",
+            @"ns_st_cl" : @"400",
+            @"ns_st_ce" : @"true",
+            @"ns_st_pu" : @"Turner Broadcasting Network",
+            @"ns_st_st" : @"Cartoon Network",
+            @"ns_st_tdt" : @"*null",
+            @"ns_st_ddt" : @"*null",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+        }];
+    });
+
+
     //#pragma Ad Events
 
-    it(@"videoAdStarted", ^{
+    it(@"videoAdStarted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"total_length" : @"110",
-            @"play_position" : @43,
+            @"position" : @43,
             @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
@@ -569,14 +894,37 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoAdPlaying", ^{
+    it(@"videoAdStarted fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
+            @"asset_id" : @"1231312",
+            @"pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"total_length" : @"110",
+            @"title" : @"Rick and Morty Ad"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ami" : @"1231312",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+        }];
+    });
+
+    it(@"videoAdPlaying with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"total_length" : @"110",
-            @"play_position" : @50,
+            @"position" : @50,
             @"title" : @"Rick and Morty Ad",
         } context:@{}
             integrations:@{}];
@@ -593,14 +941,37 @@ describe(@"SEGComScoreIntegration", ^{
         }];
     });
 
-    it(@"videoAdCompleted", ^{
+    it(@"videoAdPlaying fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
+            @"asset_id" : @"1231312",
+            @"pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"total_length" : @"110",
+            @"title" : @"Rick and Morty Ad"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ami" : @"1231312",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+        }];
+    });
+
+    it(@"videoAdCompleted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
             @"total_length" : @"110",
-            @"play_position" : @110,
+            @"position" : @110,
             @"title" : @"Rick and Morty Ad"
 
         } context:@{}
@@ -608,6 +979,30 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
+            @"ns_st_ami" : @"1231312",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null"
+        }];
+    });
+
+    it(@"videoAdCompleted fallsback to method without position", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
+            @"asset_id" : @"1231312",
+            @"pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"total_length" : @"110",
+            @"title" : @"Rick and Morty Ad"
+
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyEndWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @"110",
