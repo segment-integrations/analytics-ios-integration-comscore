@@ -214,7 +214,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *integration = [integrations valueForKey:@"comScore"];
 
-    NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"] ?: @"*null",
+    NSDictionary *map = @{ @"ns_st_ci" : properties[@"content_asset_id"] ?: @"*null",
                            @"ns_st_ad" : properties[@"ad_type"] ?: @"*null",
                            @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
                            @"ns_st_vo" : properties[@"sound"] ?: @"*null",
@@ -236,7 +236,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
 
     NSDictionary *map = @{
-        @"ns_st_ci" : properties[@"asset_id"] ?: @"*null",
+        @"ns_st_ci" : properties[@"content_asset_id"] ?: @"*null",
         @"ns_st_ad" : properties[@"ad_type"] ?: @"*null",
         @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
         @"c3" : integration[@"c3"] ?: @"*null",

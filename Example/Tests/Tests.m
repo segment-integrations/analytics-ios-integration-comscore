@@ -158,7 +158,7 @@ describe(@"SEGComScoreIntegration", ^{
 
     it(@"videoPlaybackStarted", ^{
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
-            @"asset_id" : @"1234",
+            @"content_asset_id" : @"1234",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"youtube",
 
@@ -180,7 +180,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackPaused with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
-            @"asset_id" : @"7890",
+            @"content_asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"vimeo",
             @"position" : @30,
@@ -212,7 +212,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackPaused fallsback to method without position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
-            @"asset_id" : @"7890",
+            @"content_asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"vimeo",
             @"sound" : @100,
@@ -243,7 +243,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackInterrupted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
-            @"asset_id" : @"7890",
+            @"content_asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"vimeo",
             @"position" : @30,
@@ -275,7 +275,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackInterrupted fallsback to method without position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
-            @"asset_id" : @"7890",
+            @"content_asset_id" : @"7890",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"vimeo",
             @"sound" : @100,
@@ -306,7 +306,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackBufferStarted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
-            @"asset_id" : @"2340",
+            @"content_asset_id" : @"2340",
             @"ad_type" : @"post-roll",
             @"video_player" : @"youtube",
             @"position" : @190,
@@ -340,7 +340,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackBufferStarted fallsback to method without position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
-            @"asset_id" : @"2340",
+            @"content_asset_id" : @"2340",
             @"ad_type" : @"post-roll",
             @"video_player" : @"youtube",
             @"sound" : @100,
@@ -373,7 +373,6 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"assigns default values when property not present on videoPlaybackBufferStarted", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
-
             @"ad_type" : @"post-roll",
             @"position" : @190,
             @"sound" : @100,
@@ -406,7 +405,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackBufferCompleted with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
-            @"asset_id" : @"1230",
+            @"content_asset_id" : @"1230",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"youtube",
             @"position" : @90,
@@ -435,7 +434,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackBufferCompleted fallsback to method without position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
-            @"asset_id" : @"1230",
+            @"content_asset_id" : @"1230",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"youtube",
             @"sound" : @100,
@@ -463,7 +462,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackSeekStarted with seekPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
-            @"asset_id" : @"6352",
+            @"content_asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"vimeo",
             @"seek_position" : @20,
@@ -491,7 +490,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackSeekStarted fallsback to method without seek_position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
-            @"asset_id" : @"6352",
+            @"content_asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"vimeo",
             @"sound" : @100,
@@ -519,7 +518,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackSeekCompleted with seekPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
-            @"asset_id" : @"6352",
+            @"content_asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"vimeo",
             @"seek_position" : @20,
@@ -547,7 +546,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackSeekCompleted fallsback to method without seek_position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
-            @"asset_id" : @"6352",
+            @"content_asset_id" : @"6352",
             @"ad_type" : @"pre-roll",
             @"video_player" : @"vimeo",
             @"sound" : @100,
@@ -574,7 +573,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackResumed with playPosition", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
-            @"asset_id" : @"2141",
+            @"content_asset_id" : @"2141",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"youtube",
             @"position" : @34,
@@ -603,7 +602,7 @@ describe(@"SEGComScoreIntegration", ^{
     it(@"videoPlaybackResumed fallsback to method without position", ^{
         setupWithVideoPlaybackStarted(integration, streamingAnalytics);
         SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
-            @"asset_id" : @"2141",
+            @"content_asset_id" : @"2141",
             @"ad_type" : @"mid-roll",
             @"video_player" : @"youtube",
             @"sound" : @100,
