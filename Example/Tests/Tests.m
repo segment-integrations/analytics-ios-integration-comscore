@@ -30,7 +30,6 @@ void setupWithVideoPlaybackStarted(SEGComScoreIntegration *integration, SCORStre
     SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
         @"asset_id" : @"1234",
         @"ad_type" : @"pre-roll",
-        @"total_length" : @"100",
         @"video_player" : @"youtube"
     } context:@{}
         integrations:@{}];
@@ -441,7 +440,11 @@ describe(@"SEGComScoreIntegration", ^{
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network"
         } context:@{}
-            integrations:@{}];
+                                                             integrations:@{
+                                                                 @"comScore" : @{
+                                                                     @"tvAirdate" : @"2017-05-22"
+                                                                 }
+                                                             }];
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithLabels:@{
@@ -457,7 +460,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_st" : @"Cartoon Network",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_tdt" : @"2017-05-22",
+            @"ns_st_ddt" : @"*null"
         }];
     });
 
@@ -476,6 +481,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network",
             @"play_position" : @50
+
         } context:@{}
             integrations:@{}];
 
@@ -493,7 +499,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_st" : @"Cartoon Network",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_tdt" : @"*null",
+            @"ns_st_ddt" : @"*null"
         }];
     });
 
@@ -527,6 +535,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
+            @"ns_st_tdt" : @"*null",
+            @"ns_st_ddt" : @"*null",
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null"

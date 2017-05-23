@@ -340,6 +340,9 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
                            @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"ns_st_st" : properties[@"channel"] ?: @"*null",
+                           // `ns_st_ddt` or `ns_st_tdt`
+                           @"ns_st_ddt" : integration[@"digitalAirdate"] ?: @"*null",
+                           @"ns_st_tdt" : integration[@"tvAirdate"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
                            @"c6" : integration[@"c6"] ?: @"*null"
