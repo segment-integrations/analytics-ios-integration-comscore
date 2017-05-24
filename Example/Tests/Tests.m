@@ -640,7 +640,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"total_length" : @"400",
+            @"total_length" : @400,
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"position" : @22,
@@ -653,14 +653,15 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithPosition:22 labels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:22];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_cl" : @"400",
+            @"ns_st_cl" : @400000,
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
@@ -683,7 +684,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"total_length" : @"400",
+            @"total_length" : @400,
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network"
@@ -695,14 +696,15 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlay];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_cl" : @"400",
+            @"ns_st_cl" : @400000,
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
@@ -726,7 +728,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"total_length" : @"400",
+            @"total_length" : @400,
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network",
@@ -736,14 +738,15 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:50];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_cl" : @"400",
+            @"ns_st_cl" : @400000,
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
@@ -766,7 +769,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"total_length" : @"400",
+            @"total_length" : @400,
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network"
@@ -775,14 +778,15 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlay];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_cl" : @"400",
+            @"ns_st_cl" : @400000,
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
@@ -805,7 +809,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"total_length" : @"400",
+            @"total_length" : @400,
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network",
@@ -814,14 +818,15 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithPosition:100 labels:@{
+        [verify(streamingAnalytics) notifyEndWithPosition:100];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_cl" : @"400",
+            @"ns_st_cl" : @400000,
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
@@ -844,7 +849,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"episode" : @"7",
             @"genre" : @"cartoon",
             @"program" : @"Rick and Morty",
-            @"total_length" : @"400",
+            @"total_length" : @400,
             @"full_episode" : @"true",
             @"publisher" : @"Turner Broadcasting Network",
             @"channel" : @"Cartoon Network"
@@ -852,14 +857,15 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithLabels:@{
+        [verify(streamingAnalytics) notifyEnd];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
             @"ns_st_en" : @"7",
             @"ns_st_ge" : @"cartoon",
             @"ns_st_pr" : @"Rick and Morty",
-            @"ns_st_cl" : @"400",
+            @"ns_st_cl" : @400000,
             @"ns_st_ce" : @"true",
             @"ns_st_pu" : @"Turner Broadcasting Network",
             @"ns_st_st" : @"Cartoon Network",
@@ -881,17 +887,18 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"position" : @43,
             @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithPosition:43 labels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:43];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -906,16 +913,17 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlay];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -930,16 +938,17 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"not an ad type",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlay];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"1",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -954,17 +963,18 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"position" : @50,
             @"title" : @"Rick and Morty Ad",
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithPosition:50 labels:@{
+        [verify(streamingAnalytics) notifyPlayWithPosition:50];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -979,16 +989,17 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"title" : @"Rick and Morty Ad"
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+        [verify(streamingAnalytics) notifyPlay];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -1003,7 +1014,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"position" : @110,
             @"title" : @"Rick and Morty Ad"
 
@@ -1011,10 +1022,11 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
+        [verify(streamingAnalytics) notifyEndWithPosition:110];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -1029,7 +1041,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"position" : @110,
             @"title" : @"Rick and Morty Ad"
 
@@ -1039,10 +1051,11 @@ describe(@"SEGComScoreIntegration", ^{
                                                              } }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
+        [verify(streamingAnalytics) notifyEndWithPosition:110];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
@@ -1057,17 +1070,18 @@ describe(@"SEGComScoreIntegration", ^{
             @"asset_id" : @"1231312",
             @"pod_id" : @"43434234534",
             @"type" : @"mid-roll",
-            @"total_length" : @"110",
+            @"total_length" : @110,
             @"title" : @"Rick and Morty Ad"
 
         } context:@{}
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyEndWithLabels:@{
+        [verify(streamingAnalytics) notifyEnd];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
-            @"ns_st_cl" : @"110",
+            @"ns_st_cl" : @110000,
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",

@@ -201,9 +201,9 @@ NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key)
 {
     NSNumber *value = [src valueForKey:key];
     if ([value isKindOfClass:[NSNumber class]]) {
-        int num = [value intValue];
-        int newNum = num * 1000;
-        return [NSNumber numberWithInt:newNum];
+        int KBPS = [value intValue];
+        int BPS = KBPS * 1000;
+        return [NSNumber numberWithInt:BPS];
     }
     return nil;
 }
@@ -217,6 +217,18 @@ NSString *defaultAdType(NSDictionary *src, NSString *key)
     } else {
         return @"1";
     }
+}
+
+// comScore expects total to be milliseconds
+NSNumber *convertFromSecondsToMilliseconds(NSDictionary *src, NSString *key)
+{
+    NSNumber *value = [src valueForKey:key];
+    if ([value isKindOfClass:[NSNumber class]]) {
+        int seconds = [value intValue];
+        int milliseconds = seconds * 1000;
+        return [NSNumber numberWithInt:milliseconds];
+    }
+    return nil;
 }
 
 
@@ -370,7 +382,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_ge" : properties[@"genre"] ?: @"*null",
                            @"ns_st_pr" : properties[@"program"] ?: @"*null",
                            @"ns_st_ce" : properties[@"full_episode"] ?: @"*null",
-                           @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
+                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length"),
                            @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"ns_st_st" : properties[@"channel"] ?: @"*null",
                            @"ns_st_ddt" : integration[@"digitalAirdate"] ?: @"*null",
@@ -390,11 +402,13 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %ld labels: %@", playPosition, map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
     } else {
-        [self.streamAnalytics notifyPlayWithLabels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels: %@", map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlay];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
     }
 }
 
@@ -404,11 +418,13 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition: %ld labels: %@", playPosition, map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
     } else {
-        [self.streamAnalytics notifyPlayWithLabels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamANalytics] notifyPlayWithLabels: %@", map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlay];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
     }
 }
 
@@ -419,11 +435,13 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@", playPosition, map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyEndWithPosition:playPosition];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
     } else {
-        [self.streamAnalytics notifyEndWithLabels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels:%@", map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyEnd];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
     }
 }
 
@@ -435,7 +453,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"] ?: @"*null",
                            @"ns_st_ad" : defaultAdType(properties, @"type"),
-                           @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
+                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length"),
                            @"ns_st_amt" : properties[@"title"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
@@ -452,11 +470,13 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld labels:%@", playPosition, map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld ; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
     } else {
-        [self.streamAnalytics notifyPlayWithLabels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels:%@", map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlay];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
     }
 }
 
@@ -466,11 +486,13 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [self.streamAnalytics notifyPlayWithPosition:playPosition labels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld map:%@", playPosition, map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlayWithPosition:playPosition];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld ; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
     } else {
-        [self.streamAnalytics notifyPlayWithLabels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithLabels:%@", map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyPlay];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
     }
 }
 
@@ -480,11 +502,13 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [self.streamAnalytics notifyEndWithPosition:playPosition labels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld labels:%@", playPosition, map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyEndWithPosition:playPosition];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithPosition:%ld ; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
     } else {
-        [self.streamAnalytics notifyEndWithLabels:map];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEndWithLabels:%@", map);
+        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+        [self.streamAnalytics notifyEnd];
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
     }
 }
 
