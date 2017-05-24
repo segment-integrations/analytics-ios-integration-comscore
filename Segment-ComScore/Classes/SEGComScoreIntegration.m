@@ -208,6 +208,18 @@ NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key)
     return nil;
 }
 
+NSString *defaultAdType(NSDictionary *src, NSString *key)
+{
+    NSString *value = [src valueForKey:key];
+
+    if ((value == @"pre-roll") || (value == @"mid-roll") || (value == @"post-roll")) {
+        return value;
+    } else {
+        return @"1";
+    }
+}
+
+
 #pragma Playback Events
 
 NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDictionary *integrations)
@@ -365,7 +377,8 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_tdt" : integration[@"tvAirdate"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
-                           @"c6" : integration[@"c6"] ?: @"*null"
+                           @"c6" : integration[@"c6"] ?: @"*null",
+                           @"ns_st_ct" : integration[@"contentClassificationType"] ?: @"vc00"
 
     };
     return map;
@@ -421,12 +434,14 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     NSDictionary *integration = [integrations valueForKey:@"comScore"];
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"] ?: @"*null",
-                           @"ns_st_ad" : properties[@"type"] ?: @"*null",
+                           @"ns_st_ad" : defaultAdType(properties, @"type"),
                            @"ns_st_cl" : properties[@"total_length"] ?: @"*null",
                            @"ns_st_amt" : properties[@"title"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
-                           @"c6" : integration[@"c6"] ?: @"*null"
+                           @"c6" : integration[@"c6"] ?: @"*null",
+                           @"ns_st_ct" : integration[@"adClassificationType"] ?: @"va00"
+
     };
     return map;
 }

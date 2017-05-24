@@ -668,7 +668,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c4" : @"*null",
             @"c6" : @"*null",
             @"ns_st_tdt" : @"2017-05-22",
-            @"ns_st_ddt" : @"*null"
+            @"ns_st_ddt" : @"*null",
+            @"ns_st_ct" : @"vc00"
         }];
     });
 
@@ -709,7 +710,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c4" : @"*null",
             @"c6" : @"*null",
             @"ns_st_tdt" : @"2017-05-22",
-            @"ns_st_ddt" : @"*null"
+            @"ns_st_ddt" : @"*null",
+            @"ns_st_ct" : @"vc00"
         }];
     });
 
@@ -749,7 +751,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c4" : @"*null",
             @"c6" : @"*null",
             @"ns_st_tdt" : @"*null",
-            @"ns_st_ddt" : @"*null"
+            @"ns_st_ddt" : @"*null",
+            @"ns_st_ct" : @"vc00"
         }];
     });
 
@@ -787,7 +790,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c4" : @"*null",
             @"c6" : @"*null",
             @"ns_st_tdt" : @"*null",
-            @"ns_st_ddt" : @"*null"
+            @"ns_st_ddt" : @"*null",
+            @"ns_st_ct" : @"vc00"
         }];
     });
 
@@ -825,7 +829,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ddt" : @"*null",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"vc00"
         }];
     });
 
@@ -862,7 +867,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_ddt" : @"*null",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"vc00"
         }];
     });
 
@@ -889,7 +895,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
         }];
     });
 
@@ -912,7 +919,32 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
+        }];
+    });
+
+    it(@"videoAdStarted fallsback to @'1' without correct type value", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
+            @"asset_id" : @"1231312",
+            @"pod_id" : @"43434234534",
+            @"type" : @"not an ad type",
+            @"total_length" : @"110",
+            @"title" : @"Rick and Morty Ad"
+        } context:@{}
+            integrations:@{}];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyPlayWithLabels:@{
+            @"ns_st_ami" : @"1231312",
+            @"ns_st_ad" : @"1",
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
         }];
     });
 
@@ -936,7 +968,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
         }];
     });
 
@@ -959,7 +992,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
         }];
     });
 
@@ -984,7 +1018,36 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
+        }];
+    });
+
+    it(@"videoAdCompleted maps adClassificationType value pass in integrations object", ^{
+        setupWithVideoPlaybackStarted(integration, streamingAnalytics);
+        SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
+            @"asset_id" : @"1231312",
+            @"pod_id" : @"43434234534",
+            @"type" : @"mid-roll",
+            @"total_length" : @"110",
+            @"position" : @110,
+            @"title" : @"Rick and Morty Ad"
+
+        } context:@{}
+                                                             integrations:@{ @"comScore" : @{
+                                                                 @"adClassificationType" : @"va12"
+                                                             } }];
+
+        [integration track:payload];
+        [verify(streamingAnalytics) notifyEndWithPosition:110 labels:@{
+            @"ns_st_ami" : @"1231312",
+            @"ns_st_ad" : @"mid-roll",
+            @"ns_st_cl" : @"110",
+            @"ns_st_amt" : @"Rick and Morty Ad",
+            @"c3" : @"*null",
+            @"c4" : @"*null",
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va12"
         }];
     });
 
@@ -1008,7 +1071,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"ns_st_amt" : @"Rick and Morty Ad",
             @"c3" : @"*null",
             @"c4" : @"*null",
-            @"c6" : @"*null"
+            @"c6" : @"*null",
+            @"ns_st_ct" : @"va00"
         }];
     });
 });
