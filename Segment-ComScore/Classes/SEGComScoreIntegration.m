@@ -262,12 +262,12 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     };
 
     [self.streamAnalytics createPlaybackSessionWithLabels:map];
-    
+
     // The label ns_st_ci must be set through a setAsset call
     [[self.streamAnalytics playbackSession] setAssetWithLabels:@{
         @"ns_st_ci" : properties[@"content_asset_id"] ?: @"0"
     }];
-    
+
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
 }
 
@@ -306,7 +306,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     [[self.streamAnalytics playbackSession] setLabels:map];
-    
+
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
         [self.streamAnalytics notifyBufferStartWithPosition:playPosition];
@@ -321,7 +321,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     [[self.streamAnalytics playbackSession] setLabels:map];
-    
+
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
         [self.streamAnalytics notifyBufferStopWithPosition:playPosition];
@@ -337,7 +337,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     [[self.streamAnalytics playbackSession] setLabels:map];
-    
+
     if ([properties[@"seek_position"] longValue]) {
         long seekPosition = [properties[@"seek_position"] longValue];
         [self.streamAnalytics notifySeekStartWithPosition:seekPosition];
@@ -352,7 +352,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     [[self.streamAnalytics playbackSession] setLabels:map];
-    
+
     if ([properties[@"seek_position"] longValue]) {
         long seekPosition = [properties[@"seek_position"] longValue];
         [self.streamAnalytics notifyPlayWithPosition:seekPosition];
@@ -368,7 +368,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     [[self.streamAnalytics playbackSession] setLabels:map];
-    
+
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
         [self.streamAnalytics notifyPlayWithPosition:playPosition];
@@ -425,7 +425,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 - (void)videoContentPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
-    
+
     // The presence of ns_st_ad on the StreamingAnalytics's asset means that we just exited an ad break, so
     // we need to call setAsset with the content metadata.  If ns_st_ad is not present, that means the last
     // observed event was related to content, in which case a setAsset call should not be made (because asset
@@ -482,13 +482,13 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 - (void)videoAdStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     NSDictionary *map = returnMappedAdProperties(properties, integrations);
-    
+
     // The ID for content is not available on Ad Start events, however it will be available on the current
     // StreamingAnalytics's asset. This is because ns_st_ci will have already been set via asset_id in a
     // Content Started calls (if this is a mid or post-roll), or via content_asset_id on Video Playback
     // Started (if this is a pre-roll).
-    NSString *contentId = [[[self.streamAnalytics playbackSession] asset] label:@"ns_st_ci"];
-    NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary: properties];
+    NSString *contentId = [[[self.streamAnalytics playbackSession] asset] label:@"ns_st_ci"] ?: @"*null";
+    NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:properties];
     [mapWithContentId setObject:contentId forKey:@"ns_st_ci"];
 
     if ([properties[@"position"] longValue]) {

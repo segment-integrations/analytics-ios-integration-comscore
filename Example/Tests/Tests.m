@@ -167,12 +167,10 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) createPlaybackSessionWithLabels:@{
+            @"ns_st_mp" : @"youtube"
+        }];
+        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"1234",
-            @"ns_st_ad" : @"pre-roll",
-            @"ns_st_mp" : @"youtube",
-            @"c3" : @"*null",
-            @"c4" : @"*null",
-            @"c6" : @"*null"
         }];
 
     });
@@ -195,9 +193,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
-            @"ns_st_ci" : @"7890",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyPauseWithPosition:30];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
@@ -226,9 +223,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPauseWithLabels:@{
-            @"ns_st_ci" : @"7890",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyPause];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setAssetWithLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
@@ -238,6 +234,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"c6" : @"*null"
 
         }];
+
     });
 
     it(@"videoPlaybackInterrupted with playPosition", ^{
@@ -258,9 +255,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPauseWithPosition:30 labels:@{
-            @"ns_st_ci" : @"7890",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyPauseWithPosition:30];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
@@ -270,6 +266,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"c6" : @"*null"
 
         }];
+
     });
 
     it(@"videoPlaybackInterrupted fallsback to method without position", ^{
@@ -289,9 +286,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPauseWithLabels:@{
-            @"ns_st_ci" : @"7890",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyPause];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"full",
@@ -322,7 +318,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStartWithPosition:190 labels:@{
+        [verify(streamingAnalytics) notifyBufferStartWithPosition:190];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_ci" : @"2340",
             @"ns_st_ad" : @"post-roll",
             @"ns_st_mp" : @"youtube",
@@ -355,9 +352,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStartWithLabels:@{
-            @"ns_st_ci" : @"2340",
-            @"ns_st_ad" : @"post-roll",
+        [verify(streamingAnalytics) notifyBufferStart];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"norm",
@@ -387,9 +383,8 @@ describe(@"SEGComScoreIntegration", ^{
                                                              }];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStartWithPosition:190 labels:@{
-            @"ns_st_ci" : @"*null",
-            @"ns_st_ad" : @"post-roll",
+        [verify(streamingAnalytics) notifyBufferStartWithPosition:190];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"*null",
             @"ns_st_vo" : @100,
             @"ns_st_ws" : @"norm",
@@ -417,9 +412,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStopWithPosition:90 labels:@{
-            @"ns_st_ci" : @"1230",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyBufferStopWithPosition:90];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -445,9 +439,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyBufferStopWithLabels:@{
-            @"ns_st_ci" : @"1230",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyBufferStop];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -474,9 +467,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifySeekStartWithPosition:20 labels:@{
-            @"ns_st_ci" : @"6352",
-            @"ns_st_ad" : @"pre-roll",
+        [verify(streamingAnalytics) notifySeekStartWithPosition:20];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -501,9 +493,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifySeekStartWithLabels:@{
-            @"ns_st_ci" : @"6352",
-            @"ns_st_ad" : @"pre-roll",
+        [verify(streamingAnalytics) notifySeekStart];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -530,9 +521,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifySeekStartWithPosition:20 labels:@{
-            @"ns_st_ci" : @"6352",
-            @"ns_st_ad" : @"pre-roll",
+        [verify(streamingAnalytics) notifyPlayWithPosition:20];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -557,9 +547,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifySeekStartWithLabels:@{
-            @"ns_st_ci" : @"6352",
-            @"ns_st_ad" : @"pre-roll",
+        [verify(streamingAnalytics) notifyPlay];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"vimeo",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -585,9 +574,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithPosition:34 labels:@{
-            @"ns_st_ci" : @"2141",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyPlayWithPosition:34];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -613,9 +601,8 @@ describe(@"SEGComScoreIntegration", ^{
             integrations:@{}];
 
         [integration track:payload];
-        [verify(streamingAnalytics) notifyPlayWithLabels:@{
-            @"ns_st_ci" : @"2141",
-            @"ns_st_ad" : @"mid-roll",
+        [verify(streamingAnalytics) notifyPlay];
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setLabels:@{
             @"ns_st_mp" : @"youtube",
             @"ns_st_vo" : @100,
             @"c3" : @"*null",
@@ -654,7 +641,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:22];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
@@ -697,7 +684,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlay];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
@@ -739,7 +726,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:50];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
@@ -779,7 +766,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlay];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(2)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ci" : @"3543",
             @"ns_st_ep" : @"Big Trouble in Little Sanchez",
             @"ns_st_sn" : @"2",
@@ -895,7 +882,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlayWithPosition:43];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(3)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @110000,
@@ -903,7 +890,8 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ct" : @"va00"
+            @"ns_st_ct" : @"va00",
+            @"ns_st_ci" : @"*null"
         }];
     });
 
@@ -920,7 +908,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlay];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(3)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"mid-roll",
             @"ns_st_cl" : @110000,
@@ -928,7 +916,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ct" : @"va00"
+            @"ns_st_ct" : @"va00",
+            @"ns_st_ci" : @"*null"
+
         }];
     });
 
@@ -945,7 +935,7 @@ describe(@"SEGComScoreIntegration", ^{
 
         [integration track:payload];
         [verify(streamingAnalytics) notifyPlay];
-        [[verify(streamingAnalytics) playbackSession] setAssetWithLabels:@{
+        [[verifyCount(streamingAnalytics, times(3)) playbackSession] setAssetWithLabels:@{
             @"ns_st_ami" : @"1231312",
             @"ns_st_ad" : @"1",
             @"ns_st_cl" : @110000,
@@ -953,7 +943,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ct" : @"va00"
+            @"ns_st_ct" : @"va00",
+            @"ns_st_ci" : @"*null"
+
         }];
     });
 
@@ -979,7 +971,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ct" : @"va00"
+            @"ns_st_ct" : @"va00",
+            @"ns_st_ci" : @"3543"
+
         }];
     });
 
@@ -1004,7 +998,9 @@ describe(@"SEGComScoreIntegration", ^{
             @"c3" : @"*null",
             @"c4" : @"*null",
             @"c6" : @"*null",
-            @"ns_st_ct" : @"va00"
+            @"ns_st_ct" : @"va00",
+            @"ns_st_ci" : @"3543"
+
         }];
     });
 
