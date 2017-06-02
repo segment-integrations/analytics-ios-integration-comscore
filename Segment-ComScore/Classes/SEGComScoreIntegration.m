@@ -30,6 +30,7 @@
         self.scorAnalyticsClass = scorAnalyticsClass;
         self.streamingAnalyticsFactory = streamingAnalyticsFactory;
 
+
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
             builder.publisherId = settings[@"c2"];
@@ -164,7 +165,6 @@
 
     NSMutableDictionary *hiddenLabels = [@{ @"name" : payload.event } mutableCopy];
     [hiddenLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
-
     [self.scorAnalyticsClass notifyHiddenEventWithLabels:hiddenLabels];
     SEGLog(@"[[SCORAnalytics configuration] notifyHiddenEventWithLabels: %@]", hiddenLabels);
 }
@@ -175,8 +175,6 @@
     [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [self.scorAnalyticsClass notifyViewEventWithLabels:viewLabels];
     SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@]", viewLabels);
-}
-
 
 - (void)flush
 {
@@ -547,6 +545,6 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
         [self.streamAnalytics notifyEnd];
         SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
     }
-}
 
+}
 @end

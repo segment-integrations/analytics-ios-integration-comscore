@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 2.0.0 *(16th May, 2017)*
+-------------------------------------------
+*(Supports analytics-ios 3.0+ and ComScore 5.0+)* 
+  * [Major Update](https://github.com/segment-integrations/analytics-ios-integration-comscore/pull/10/commits/ccc7c81ae006e5b00bfd76c0d0f9bf4ded05c719): Migrates to comScore v5.
+
+
 Version 1.0.2 *(7th December, 2016)*
 -------------------------------------------
 *(Supports analytics-ios 3.0+ and ComScore 3.1607.27)* 

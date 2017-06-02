@@ -76,6 +76,7 @@ describe(@"SEGComScoreIntegration", ^{
             @"c2" : @"23243060",
             @"publisherSecret" : @"7e529e62366db3423ef3728ca910b8b8"
         } andComScore:scorAnalyticsClassMock andStreamingAnalyticsFactory:mockStreamAnalyticsFactory];
+
     });
 
     it(@"identify with Traits", ^{
