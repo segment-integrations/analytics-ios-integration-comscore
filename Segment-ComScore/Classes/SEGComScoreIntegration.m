@@ -132,7 +132,6 @@
         return;
     }
 
-
     if ([payload.event isEqualToString:@"Video Content Started"]) {
         [self videoContentStarted:payload.properties withOptions:payload.integrations];
         return;
@@ -175,6 +174,7 @@
     [viewLabels addEntriesFromDictionary:[SEGComScoreIntegration mapToStrings:payload.properties]];
     [self.scorAnalyticsClass notifyViewEventWithLabels:viewLabels];
     SEGLog(@"[[SCORAnalytics configuration] notifyViewEventWithLabels: %@]", viewLabels);
+}
 
 - (void)flush
 {
@@ -549,4 +549,6 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     }
 
 }
+
 @end
+
