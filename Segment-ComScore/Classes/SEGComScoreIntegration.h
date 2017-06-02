@@ -31,4 +31,5 @@ NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key);
 
 - (instancetype)initWithSettings:(NSDictionary *)settings andComScore:(id)scorAnalyticsClass andStreamingAnalyticsFactory:(id<SEGStreamingAnalyticsFactory>)streamingAnalyticsFactory;
 
+
 @end

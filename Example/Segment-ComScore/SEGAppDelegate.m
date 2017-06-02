@@ -30,10 +30,8 @@
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing"];
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing 2"];
 
-
     [[SEGAnalytics sharedAnalytics] flush];
     return YES;
 }
-
 
 @end
