@@ -202,11 +202,10 @@ NSDictionary *coerceToString(NSDictionary *map)
 NSString *returnFullScreenStatus(NSDictionary *src, NSString *key)
 {
     NSNumber *value = [src valueForKey:key];
-    if (value == @YES) {
+    if ([value isEqual:@YES]) {
         return @"full";
-    } else if (value == @NO) {
-        return @"norm";
     }
+    return @"norm";
 }
 
 // comScore expects bitrate to converted from KBPS be BPS
@@ -226,11 +225,10 @@ NSString *defaultAdType(NSDictionary *src, NSString *key)
 {
     NSString *value = [src valueForKey:key];
 
-    if ((value == @"pre-roll") || (value == @"mid-roll") || (value == @"post-roll")) {
+    if (([value isEqualToString:@"pre-roll"]) || ([value isEqualToString:@"mid-roll"]) || ([value isEqualToString:@"post-roll"])) {
         return value;
-    } else {
-        return @"1";
     }
+    return @"1";
 }
 
 // comScore expects total to be milliseconds
@@ -254,8 +252,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     NSDictionary *map = @{ @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
                            @"ns_st_vo" : properties[@"sound"] ?: @"*null",
-                           @"ns_st_br" : convertFromKBPSToBPS(properties, @"bitrate"),
-                           @"ns_st_ws" : returnFullScreenStatus(properties, @"full_screen"),
+                           @"ns_st_br" : convertFromKBPSToBPS(properties, @"bitrate") ?: @"*null",
+                           @"ns_st_ws" : returnFullScreenStatus(properties, @"full_screen") ?: @"norm",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
                            @"c6" : integration[@"c6"] ?: @"*null"
@@ -267,9 +265,6 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 - (void)videoPlaybackStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     self.streamAnalytics = [self.streamingAnalyticsFactory create];
-
-    NSDictionary *integration = [integrations valueForKey:@"comScore"];
-
 
     NSDictionary *map = @{
         @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
@@ -407,7 +402,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_pr" : properties[@"program"] ?: @"*null",
                            @"ns_st_pn" : properties[@"pod_id"] ?: @"*null",
                            @"ns_st_ce" : properties[@"full_episode"] ?: @"*null",
-                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length"),
+                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length") ?: @"*null",
                            @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"ns_st_st" : properties[@"channel"] ?: @"*null",
                            @"ns_st_ddt" : integration[@"digitalAirdate"] ?: @"*null",
@@ -425,16 +420,16 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 - (void)videoContentStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
+    [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
+    SEGLog(@"[[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
         [self.streamAnalytics notifyPlayWithPosition:playPosition];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, map);
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld", playPosition);
     } else {
-        [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
         [self.streamAnalytics notifyPlay];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", map);
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay;");
     }
 }
 
@@ -464,8 +459,6 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
 - (void)videoContentCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    NSDictionary *map = returnMappedContentProperties(properties, integrations);
-
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
         [self.streamAnalytics notifyEndWithPosition:playPosition];
@@ -483,10 +476,10 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     NSDictionary *integration = [integrations valueForKey:@"comScore"];
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"] ?: @"*null",
-                           @"ns_st_ad" : defaultAdType(properties, @"type"),
-                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length"),
+                           @"ns_st_ad" : defaultAdType(properties, @"type") ?: @"1",
+                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length") ?: @"*null",
                            @"ns_st_amt" : properties[@"title"] ?: @"*null",
-                           @"ns_st_pu": properties[@"publisher"] ?: @"*null",
+                           @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
                            @"c4" : integration[@"c4"] ?: @"*null",
                            @"c6" : integration[@"c6"] ?: @"*null",
@@ -505,26 +498,27 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     // StreamingAnalytics's asset. This is because ns_st_ci will have already been set via asset_id in a
     // Content Started calls (if this is a mid or post-roll), or via content_asset_id on Video Playback
     // Started (if this is a pre-roll).
-    NSString *contentId = [[[self.streamAnalytics playbackSession] asset] label:@"ns_st_ci"] ?: @"*null";
-    NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:properties];
-    [mapWithContentId setObject:contentId forKey:@"ns_st_ci"];
+    NSString *contentId = [[[self.streamAnalytics playbackSession] asset] label:@"ns_st_ci"] ?: @"0";
+    NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:map];
+    [mapWithContentId setValue:contentId forKey:@"ns_st_ci"];
+
+    [[self.streamAnalytics playbackSession] setAssetWithLabels:mapWithContentId];
+    SEGLog(@"[[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", mapWithContentId);
+
 
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
-        [[self.streamAnalytics playbackSession] setAssetWithLabels:mapWithContentId];
         [self.streamAnalytics notifyPlayWithPosition:playPosition];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld ; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", playPosition, mapWithContentId);
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld", playPosition);
+
     } else {
-        [[self.streamAnalytics playbackSession] setAssetWithLabels:mapWithContentId];
         [self.streamAnalytics notifyPlay];
-        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay; [[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", mapWithContentId);
+        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay]");
     }
 }
 
 - (void)videoAdPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    NSDictionary *map = returnMappedAdProperties(properties, integrations);
-
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
         [self.streamAnalytics notifyPlayWithPosition:playPosition];
@@ -537,8 +531,6 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
 - (void)videoAdCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    NSDictionary *map = returnMappedAdProperties(properties, integrations);
-
     if ([properties[@"position"] longValue]) {
         long playPosition = [properties[@"position"] longValue];
         [self.streamAnalytics notifyEndWithPosition:playPosition];
@@ -547,8 +539,6 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
         [self.streamAnalytics notifyEnd];
         SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
     }
-
 }
 
 @end
-
