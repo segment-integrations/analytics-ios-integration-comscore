@@ -746,7 +746,7 @@ describe(@"SEGComScoreIntegration", ^{
         });
 
         it(@"videoContentPlaying with adType", ^{
-            [given([mockAsset containsLabel:@"ns_st_ad"]) willReturnBool:@YES];
+            [given([mockAsset containsLabel:@"ns_st_ad"]) willReturn:@YES];
 
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
                 @"asset_id" : @"3543",
