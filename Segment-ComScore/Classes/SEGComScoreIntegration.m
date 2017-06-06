@@ -441,7 +441,9 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     // we need to call setAsset with the content metadata.  If ns_st_ad is not present, that means the last
     // observed event was related to content, in which case a setAsset call should not be made (because asset
     // did not change).
-    if ([[[self.streamAnalytics playbackSession] asset] containsLabel:@"ns_st_ad"]) {
+    SCORStreamingPlaybackSession *session = [self.streamAnalytics playbackSession];
+    SCORStreamingAsset *asset = [session asset];
+    if ([asset containsLabel:@"ns_st_ad"]) {
         [[self.streamAnalytics playbackSession] setAssetWithLabels:map];
         SEGLog(@"[[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@]", map);
     }
