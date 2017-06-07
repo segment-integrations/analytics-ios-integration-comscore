@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 3.0.0 *(6th June, 2017)*
+-------------------------------------------
+*(Supports analytics-ios 3.0+ and ComScore 5.0+)* 
+  * [New Feature](https://github.com/segment-integrations/analytics-ios-integration-comscore/commit/0eec83a27db29aca06f66af896633f637336a1bb): Adds Video Tracking functionality.
+
 Version 2.0.0 *(16th May, 2017)*
 -------------------------------------------
 *(Supports analytics-ios 3.0+ and ComScore 5.0+)* 
