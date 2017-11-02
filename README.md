@@ -1,5 +1,6 @@
 # analytics-ios-integration-comscore
 
+[![CircleCI](https://circleci.com/gh/segment-integrations/analytics-ios-integration-comscore.svg?style=svg)](https://circleci.com/gh/segment-integrations/analytics-ios-integration-comscore)
 [![Version](https://img.shields.io/cocoapods/v/Segment-ComScore.svg?style=flat)](http://cocoapods.org/pods/Segment-ComScore)
 [![License](https://img.shields.io/cocoapods/l/Segment-ComScore.svg?style=flat)](http://cocoapods.org/pods/Segment-ComScore)
 [![Platform](https://img.shields.io/cocoapods/p/Segment-ComScore.svg?style=flat)](http://cocoapods.org/pods/Segment-ComScore)
