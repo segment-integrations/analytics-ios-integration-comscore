@@ -16,7 +16,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [SEGAnalytics debug:YES];
-
     SEGAnalyticsConfiguration *configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:@"ACIG3kwqCUsWZBfYxZDu0anuGwP3XtWW"];
     configuration.trackApplicationLifecycleEvents = YES;
     configuration.trackAttributionData = YES;
@@ -25,12 +24,7 @@
 
     [SEGAnalytics setupWithConfiguration:configuration];
 
-    [[SEGAnalytics sharedAnalytics] identify:@"234"];
-    [[SEGAnalytics sharedAnalytics] track:@"comScore Example Launched"];
-    [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing"];
-    [[SEGAnalytics sharedAnalytics] track:@"comScore Example Testing 2"];
-
-    [[SEGAnalytics sharedAnalytics] flush];
+  
     return YES;
 }
 
