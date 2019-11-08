@@ -189,7 +189,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"bitrate" : @50
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c3" : @"test"
                                                                      }
                                                                  }];
@@ -219,7 +219,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"bitrate" : @50
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c3" : @"test"
                                                                      }
                                                                  }];
@@ -251,7 +251,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"bitrate" : @50
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c3" : @"test"
                                                                      }
                                                                  }];
@@ -282,7 +282,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"bitrate" : @50
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c3" : @"test"
                                                                      }
                                                                  }];
@@ -314,7 +314,7 @@ describe(@"SEGComScoreIntegration", ^{
 
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c4" : @"test"
                                                                      }
                                                                  }];
@@ -346,7 +346,7 @@ describe(@"SEGComScoreIntegration", ^{
 
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c4" : @"test"
                                                                      }
                                                                  }];
@@ -377,7 +377,7 @@ describe(@"SEGComScoreIntegration", ^{
 
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"c4" : @"test"
                                                                      }
                                                                  }];
@@ -634,7 +634,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"channel" : @"Cartoon Network"
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"tvAirdate" : @"2017-05-22"
                                                                      }
                                                                  }];
@@ -713,7 +713,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"channel" : @"Cartoon Network"
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"tvAirdate" : @"2017-05-22"
                                                                      }
                                                                  }];
@@ -762,7 +762,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"channel" : @"Cartoon Network"
             } context:@{}
                                                                  integrations:@{
-                                                                     @"comScore" : @{
+                                                                     @"com-score" : @{
                                                                          @"tvAirdate" : @"2017-05-22"
                                                                      }
                                                                  }];
@@ -1026,7 +1026,7 @@ describe(@"SEGComScoreIntegration", ^{
                 @"title" : @"Rick and Morty Ad"
 
             } context:@{}
-                                                                 integrations:@{ @"comScore" : @{
+                                                                 integrations:@{ @"com-score" : @{
                                                                      @"adClassificationType" : @"va12"
                                                                  } }];
 
