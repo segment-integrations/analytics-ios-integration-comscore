@@ -33,11 +33,18 @@
                                                             }
                                                     }
                                             }];
-    
-    
+
+    [[SEGAnalytics sharedAnalytics] track:@"Video Content Started"
+                               properties:nil
+                                  options:@{
+                                            @"integrations": @{
+                                                    @"com-score": @{
+                                                            @"c4":@"testing-v2019"
+                                                            }
+                                                    }
+                                            }];
     
     [[SEGAnalytics sharedAnalytics] flush];
-    
 }
 
 - (void)didReceiveMemoryWarning
