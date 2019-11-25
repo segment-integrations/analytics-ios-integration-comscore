@@ -5,6 +5,8 @@ end
 
 
 target 'Segment-ComScore_Tests' do
+  inherit! :search_paths
+  use_frameworks!
   pod 'Segment-ComScore', :path => '../'
   pod 'OCMockito'
   pod 'Specta'

@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 3.1.0-beta *(8th November, 2019)*
+-------------------------------------------
+*(Supports analytics-ios 3.7+ and ComScore 5.8.7+)* 
+  * [Fix] Supports integration-specific options under the key `com-score` in `options.integrations`.
+
 Version 3.0.0 *(6th June, 2017)*
 -------------------------------------------
 *(Supports analytics-ios 3.0+ and ComScore 5.0+)* 

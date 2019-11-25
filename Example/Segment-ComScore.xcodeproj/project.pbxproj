@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		265D2132AA6B9DA34109AC20 /* Pods_Segment_ComScore_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CC14C6C07309AAAF78B377B /* Pods_Segment_ComScore_Tests.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -22,7 +23,6 @@
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		7434E2F290D9418BDD99DA91 /* libPods-Segment-ComScore_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DDF39FAB4AD0870105437AC /* libPods-Segment-ComScore_Example.a */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		88970245F523438217A6F04F /* libPods-Segment-ComScore_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0545EF907EFC900F792E40E5 /* libPods-Segment-ComScore_Tests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0545EF907EFC900F792E40E5 /* libPods-Segment-ComScore_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Segment-ComScore_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DDF39FAB4AD0870105437AC /* libPods-Segment-ComScore_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Segment-ComScore_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1564BAC3F3C6E5D4FE25BF1D /* Segment-ComScore.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "Segment-ComScore.podspec"; path = "../Segment-ComScore.podspec"; sourceTree = "<group>"; };
+		1564BAC3F3C6E5D4FE25BF1D /* Segment-ComScore.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "Segment-ComScore.podspec"; path = "../Segment-ComScore.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1BEA44456C8AB3BDF3EC6BF9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		5878EFB790BE3547569A5DE4 /* Pods-Segment-ComScore_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5C2BF0211CEBC81E0087DA8F /* SEGPayloadBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGPayloadBuilder.h; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		7DAE3E57CAA225EF6603C049 /* Pods-Segment-ComScore_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		833F9A102EFC8FE5686FFBF9 /* Pods-Segment-ComScore_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		8CC14C6C07309AAAF78B377B /* Pods_Segment_ComScore_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Segment_ComScore_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0D20145F55E7BB5DD07BED3 /* Pods-Segment-ComScore_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Segment-ComScore_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example.release.xcconfig"; sourceTree = "<group>"; };
 		F92BA7CFB417C9480FB73821 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,7 +87,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				88970245F523438217A6F04F /* libPods-Segment-ComScore_Tests.a in Frameworks */,
+				265D2132AA6B9DA34109AC20 /* Pods_Segment_ComScore_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,7 +123,7 @@
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
 				0DDF39FAB4AD0870105437AC /* libPods-Segment-ComScore_Example.a */,
-				0545EF907EFC900F792E40E5 /* libPods-Segment-ComScore_Tests.a */,
+				8CC14C6C07309AAAF78B377B /* Pods_Segment_ComScore_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -206,8 +206,8 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				118E1EC275D82C677BEF8D1C /* [CP] Embed Pods Frameworks */,
-				0355D1C574B78BD2E9A3EDD8 /* [CP] Copy Pods Resources */,
+				5C9DFBE8653AF5699C8D3CEF /* [CP] Embed Pods Frameworks */,
+				880071E99BD528D06FBE6128 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,8 +226,8 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				6E9F082B4D1523DB5369CA0F /* [CP] Embed Pods Frameworks */,
-				266F7FC9B6A682865C4AEE58 /* [CP] Copy Pods Resources */,
+				56048E2F2D09FD56CEF11BB9 /* [CP] Embed Pods Frameworks */,
+				ED56FC2EF015ABAD50F313FB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -259,6 +259,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -295,51 +296,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0355D1C574B78BD2E9A3EDD8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		118E1EC275D82C677BEF8D1C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		266F7FC9B6A682865C4AEE58 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		28A4E38795E40945FC963E74 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -358,19 +314,52 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6E9F082B4D1523DB5369CA0F /* [CP] Embed Pods Frameworks */ = {
+		56048E2F2D09FD56CEF11BB9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Analytics-framework/Analytics.framework",
+				"${PODS_ROOT}/ComScore/ComScore/dynamic/iOS/ComScore.framework",
+				"${BUILT_PRODUCTS_DIR}/Segment-ComScore-framework/Segment_ComScore.framework",
+				"${BUILT_PRODUCTS_DIR}/Expecta/Expecta.framework",
+				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
+				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
+				"${BUILT_PRODUCTS_DIR}/Specta/Specta.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Analytics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ComScore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Segment_ComScore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Expecta.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCHamcrest.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMockito.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Specta.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C9DFBE8653AF5699C8D3CEF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-frameworks.sh",
+				"${PODS_ROOT}/ComScore/ComScore/dynamic/iOS/ComScore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ComScore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		80E68FDEFBC0FBDBA6E7C8F3 /* [CP] Check Pods Manifest.lock */ = {
@@ -389,6 +378,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		880071E99BD528D06FBE6128 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ComScore-library/SCORBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SCORBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED56FC2EF015ABAD50F313FB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ComScore-framework/SCORBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SCORBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Tests/Pods-Segment-ComScore_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

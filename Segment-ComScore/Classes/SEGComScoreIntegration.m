@@ -248,7 +248,7 @@ NSNumber *convertFromSecondsToMilliseconds(NSDictionary *src, NSString *key)
 
 NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDictionary *integrations)
 {
-    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+    NSDictionary *integration = [integrations valueForKey:@"com-score"];
 
     NSDictionary *map = @{ @"ns_st_mp" : properties[@"video_player"] ?: @"*null",
                            @"ns_st_vo" : properties[@"sound"] ?: @"*null",
@@ -392,7 +392,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
 NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictionary *integrations)
 {
-    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+    NSDictionary *integration = [integrations valueForKey:@"com-score"];
 
     NSDictionary *map = @{ @"ns_st_ci" : properties[@"asset_id"] ?: @"0",
                            @"ns_st_ep" : properties[@"title"] ?: @"*null",
@@ -475,7 +475,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
 NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *integrations)
 {
-    NSDictionary *integration = [integrations valueForKey:@"comScore"];
+    NSDictionary *integration = [integrations valueForKey:@"com-score"];
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"] ?: @"*null",
                            @"ns_st_ad" : defaultAdType(properties, @"type") ?: @"1",
