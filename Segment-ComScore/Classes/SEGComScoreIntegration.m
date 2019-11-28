@@ -34,20 +34,24 @@
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
             builder.publisherId = settings[@"c2"];
-            builder.publisherSecret = settings[@"publisherSecret"];
-            builder.applicationName = settings[@"appName:"];
-            builder.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] integerValue];
-            builder.secureTransmission = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
-            builder.liveTransmissionMode = SCORLiveTransmissionModeLan;
-
-            if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
-                builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
-            } else if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue]) {
-                builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundAndBackground;
-            } else {
-                builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeDisabled;
-            }
+            builder.secureTransmissionEnabled = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
         }];
+        
+        SCORAnalytics.configuration.applicationName = settings[@"appName:"];
+        
+        NSInteger usageConfigurationProperty = SCORUsagePropertiesAutoUpdateModeDisabled;
+        
+        if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
+            usageConfigurationProperty = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
+        } else if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue]) {
+            usageConfigurationProperty = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
+        }
+        SCORAnalytics.configuration.usagePropertiesAutoUpdateMode = usageConfigurationProperty;
+        
+        SCORAnalytics.configuration.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] intValue];
+        
+        SCORAnalytics.configuration.liveTransmissionMode = SCORLiveTransmissionModeLan;
+        
 
         SCORPartnerConfiguration *partnerConfig = [SCORPartnerConfiguration partnerConfigurationWithBuilderBlock:^(SCORPartnerConfigurationBuilder *builder) {
             builder.partnerId = @"23243060";
