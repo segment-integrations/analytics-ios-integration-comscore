@@ -279,7 +279,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionW]");
 
-    [self addMetaDataAssets:properties withOptions:integrations];
+    [self addMetaDataAssets:map withOptions:integrations];
     
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] addMetaDataAssets: %@]", map);
 }
