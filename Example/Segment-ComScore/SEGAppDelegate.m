@@ -27,7 +27,12 @@
     [[SEGAnalytics sharedAnalytics] track:@"comScore Example Launched v2019"];
 
     [[SEGAnalytics sharedAnalytics] track:@"Video Playback Started"
-                               properties:nil
+                               properties:@{
+                                            @"content_asset_id" : @"1234",
+                                            @"ad_type" : @"pre-roll",
+                                            @"video_player" : @"youtube",
+                                            
+                                            }
                                   options:@{
                                             @"integrations": @{
                                                     @"com-score": @{
@@ -38,6 +43,29 @@
 
     [[SEGAnalytics sharedAnalytics] track:@"Video Content Started"
                                properties:nil
+                                  options:@{
+                                            @"integrations": @{
+                                                    @"com-score": @{
+                                                            @"c4":@"testing-v2019"
+                                                            }
+                                                    }
+                                            }];
+    
+    [[SEGAnalytics sharedAnalytics] track:@"Video Content Playing"
+                               properties:@{
+                                            @"asset_id" : @"3543",
+                                            @"pod_id" : @"65462",
+                                            @"title" : @"Big Trouble in Little Sanchez",
+                                            @"season" : @"2",
+                                            @"episode" : @"7",
+                                            @"genre" : @"cartoon",
+                                            @"program" : @"Rick and Morty",
+                                            @"total_length" : @400,
+                                            @"full_episode" : @"true",
+                                            @"publisher" : @"Turner Broadcasting Network",
+                                            @"channel" : @"Cartoon Network"
+                                            
+                                            }
                                   options:@{
                                             @"integrations": @{
                                                     @"com-score": @{
