@@ -39,6 +39,7 @@
         
         SCORAnalytics.configuration.applicationName = settings[@"appName:"];
         
+        
         NSInteger usageConfigurationProperty = SCORUsagePropertiesAutoUpdateModeDisabled;
         
         if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
@@ -59,7 +60,9 @@
 
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:partnerConfig];
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
-
+        
+         [[self.scorAnalyticsClass configuration] enableImplementationValidationMode];
+       
         [self.scorAnalyticsClass start];
     }
     return self;
@@ -277,9 +280,13 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     [self.streamAnalytics createPlaybackSession];
     
-    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionW]");
-
-    [self addMetaDataAssets:map withOptions:integrations];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSession]");
+   
+    [self.streamAnalytics.configuration  addLabels:map];
+   // [self.streamAnalytics.configuration setLabelWithName: @"ns_st_ci" value: properties[@"content_asset_id"] ?: @"0" ];
+ 
+     // The label ns_st_ci must be set through a setAsset call
+    [self addMetaDataAssets:@{@"ns_st_ci" : properties[@"content_asset_id"] ?: @"0"} withOptions:integrations];
     
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] addMetaDataAssets: %@]", map);
 }
@@ -287,7 +294,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
 - (void)videoPlaybackPaused:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    [self addMetaDataAssets:properties withOptions:integrations];
+    NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
+    [self.streamAnalytics.configuration addLabels:map];
+   // [self addMetaDataAssets:properties withOptions:integrations];
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
 }
@@ -295,7 +304,6 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 - (void)videoPlaybackInterrupted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     [self addMetaDataAssets:properties withOptions:integrations];
-    //[self movePosition:properties];
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
 
@@ -312,7 +320,6 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 - (void)videoPlaybackBufferCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     [self addMetaDataAssets:properties withOptions:integrations];
-
     [self movePosition:properties];
     [self.streamAnalytics notifyBufferStop];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStop]");
@@ -410,7 +417,6 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 
 - (void)videoContentCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    [self movePosition:properties];
     [self.streamAnalytics notifyEnd];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
 }
@@ -467,7 +473,6 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
 - (void)videoAdCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    [self movePosition: properties];
     [self.streamAnalytics notifyEnd];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
 }
@@ -480,7 +485,13 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     
     SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
         [builder setCustomLabels:properties];
+        
+        if (properties[@"ns_st_ge"]) {
+            [builder setGenreName:properties[@"genre"]];
+        }
     }];
+    
+
   
     return contentMetaData;
 }
