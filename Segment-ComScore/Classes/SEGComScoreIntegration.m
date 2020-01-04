@@ -505,24 +505,24 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     // StreamingAnalytics's asset. This is because ns_st_ci will have already been set via asset_id in a
     // Content Started calls (if this is a mid or post-roll), or via content_asset_id on Video Playback
     // Started (if this is a pre-roll).
-    NSString *labels = self.streamAnalytics.configuration.labels;
-//    NSString *contentId = [labels objectForKey:@"ns_st_ci"] ?: @"0";
-//    NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:map];
-//    [mapWithContentId setValue:contentId forKey:@"ns_st_ci"];
-//
-//    [[self.streamAnalytics playbackSession] setAssetWithLabels:mapWithContentId];
-//    SEGLog(@"[[SCORStreamingAnalytics playbackSession] setAssetWithLabels:%@", mapWithContentId);
-//
-//
-//    if ([properties[@"position"] longValue]) {
-//        long playPosition = [properties[@"position"] longValue];
-//        [self.streamAnalytics notifyPlayWithPosition:playPosition];
-//        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlayWithPosition:%ld", playPosition);
-//
-//    } else {
-//        [self.streamAnalytics notifyPlay];
-//        SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay]");
-//    }
+    NSDictionary *labels = self.streamAnalytics.configuration.labels;
+    NSString *contentId = [labels objectForKey:@"ns_st_ci"] ?: @"0";
+    
+    NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:map];
+    [mapWithContentId setValue:contentId forKey:@"ns_st_ci"];
+    
+    SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
+                                                     
+    SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+        [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
+        [builder setRelatedContentMetadata: contentMetadata];
+    }];
+    
+    [self.streamAnalytics setMetadata:advertisingMetaData];
+
+    [self movePosition: properties];
+    [self.streamAnalytics notifyPlay];
+    SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay]");
 }
 
 - (void)videoAdPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
