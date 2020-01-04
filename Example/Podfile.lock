@@ -1,15 +1,15 @@
 PODS:
   - Analytics (3.7.0)
-  - ComScore (5.8.7):
-    - ComScore/Dynamic (= 5.8.7)
-  - ComScore/Dynamic (5.8.7)
+  - ComScore (6.1.0):
+    - ComScore/Dynamic (= 6.1.0)
+  - ComScore/Dynamic (6.1.0)
   - Expecta (1.0.6)
   - OCHamcrest (7.1.2)
-  - OCMockito (5.1.2):
+  - OCMockito (5.1.3):
     - OCHamcrest (~> 7.0)
-  - Segment-ComScore (3.0.0):
+  - Segment-ComScore (3.1.0-beta):
     - Analytics (~> 3.6)
-    - ComScore (~> 5.0)
+    - ComScore (~> 6.0)
   - Specta (1.0.7)
 
 DEPENDENCIES:
@@ -33,13 +33,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
-  ComScore: 4d377376e44c77de1e435a32fdf38d2507d6906c
+  ComScore: 0d2fc96053ddb4d0d07b2222729fa9d484389cab
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   OCHamcrest: b284c9592c28c1e4025a8542e67ea41a635d0d73
-  OCMockito: 51a534e667194e1ecae88c5def301cc8b0ab3cc7
-  Segment-ComScore: 972ab17e20a945c17ba1f7f18f11488af6b13299
+  OCMockito: 677cbb4a18fd492b5a4fb10144dada4de5ddb877
+  Segment-ComScore: 8ae19e5fc419df807ada8226c917e48c2a1f77f4
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
 
 PODFILE CHECKSUM: 58708c888acf3799898d9149cc9266ed0823f288
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
