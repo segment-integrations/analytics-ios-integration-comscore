@@ -36,7 +36,7 @@
             builder.publisherId = settings[@"c2"];
             builder.secureTransmissionEnabled = [(NSNumber *)[self.settings objectForKey:@"useHTTPS"] boolValue];
         }];
-        
+
         NSInteger usagePropertyAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeDisabled;
         if ([(NSNumber *)[self.settings objectForKey:@"autoUpdate"] boolValue] && [(NSNumber *)[self.settings objectForKey:@"foregroundOnly"] boolValue]) {
             usagePropertyAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundOnly;
@@ -44,11 +44,11 @@
             usagePropertyAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundAndBackground;
         }
         SCORAnalytics.configuration.usagePropertiesAutoUpdateMode = usagePropertyAutoUpdateMode;
-        
+
         SCORAnalytics.configuration.usagePropertiesAutoUpdateInterval = [settings[@"autoUpdateInterval"] intValue];
-        
+
         SCORAnalytics.configuration.liveTransmissionMode = SCORLiveTransmissionModeLan;
-        
+
         SCORAnalytics.configuration.applicationName = settings[@"appName:"];
 
         SCORPartnerConfiguration *partnerConfig = [SCORPartnerConfiguration partnerConfigurationWithBuilderBlock:^(SCORPartnerConfigurationBuilder *builder) {
@@ -57,7 +57,7 @@
 
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:partnerConfig];
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
-        
+
         [[self.scorAnalyticsClass configuration] enableImplementationValidationMode];
 
         [self.scorAnalyticsClass start];
@@ -277,16 +277,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     [self.streamAnalytics createPlaybackSession];
 
-    // The label ns_st_ci must be set through a setAsset call
-    
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//        [builder setCustomLabels:map];
-//    }];
-    
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-    
-    [self.streamAnalytics.configuration addLabels:map];
+    // [self.streamAnalytics.configuration addLabels:map]; TBD if needed
     [self.streamAnalytics setMetadata:playbackMetaData];
 
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
@@ -298,10 +291,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//           [builder setCustomLabels:map];
-//    }];
-    [self.streamAnalytics.configuration addLabels:map];
+    // [self.streamAnalytics.configuration addLabels:map]; TBD if needed
     [self.streamAnalytics setMetadata:playbackMetaData];
 
     [self.streamAnalytics notifyPause];
@@ -313,11 +303,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//             [builder setCustomLabels:map];
-//      }];
     [self.streamAnalytics setMetadata:playbackMetaData];
-    
+
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
 }
@@ -327,11 +314,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//               [builder setCustomLabels:map];
-//        }];
     [self.streamAnalytics setMetadata:playbackMetaData];
 
+    [self movePosition:properties];
     [self.streamAnalytics notifyBufferStart];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStart]");
 }
@@ -341,11 +326,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//           [builder setCustomLabels:map];
-//    }];
     [self.streamAnalytics setMetadata:playbackMetaData];
 
+    [self movePosition:properties];
     [self.streamAnalytics notifyBufferStop];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyBufferStop]");
 }
@@ -355,11 +338,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//           [builder setCustomLabels:map];
-//    }];
     [self.streamAnalytics setMetadata:playbackMetaData];
-    
+
     [self seekPosition:properties];
     [self.streamAnalytics notifySeekStart];
     SEGLog(@"[[SCORStreamAnalytics streamAnalytics] notifySeekStart]");
@@ -370,11 +350,8 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//          [builder setCustomLabels:map];
-//    }];
     [self.streamAnalytics setMetadata:playbackMetaData];
-   
+
     [self seekPosition:properties];
     [self.streamAnalytics notifyPlay];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay]");
@@ -385,12 +362,10 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 {
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
-//
-//    SCORStreamingContentMetadata *playbackMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//      [builder setCustomLabels:map];
-//    }];
+
     [self.streamAnalytics setMetadata:playbackMetaData];
 
+    [self movePosition:properties];
     [self.streamAnalytics notifyPlay];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay]");
 }
@@ -429,26 +404,24 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
 
-//    SCORStreamingContentMetadata *contentMetadata = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//          [builder setCustomLabels:map];
-//    }];
-    [self.streamAnalytics.configuration addLabels:map];
+    // [self.streamAnalytics.configuration addLabels:map];//TBD if needed
     [self.streamAnalytics setMetadata:contentMetadata];
-
     SEGLog(@"[SCORStreamingAnalytics setMetadata:%@", contentMetadata);
 
+    [self movePosition:properties];
     [self.streamAnalytics notifyPlay];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPlay;");
 }
 
 - (void)videoContentPlaying:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
-    NSDictionary *map = returnMappedContentProperties(properties, integrations);
-    SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
+    NSDictionary *contentMap = returnMappedContentProperties(properties, integrations);
+    SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:contentMap];
 //    SCORStreamingContentMetadata *contentMetadata = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
 //          [builder setCustomLabels:map];
 //    }];
 
+    NSDictionary *adMap = returnMappedAdProperties(properties, integrations);
     SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
         [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
         [builder setRelatedContentMetadata: contentMetadata];
@@ -457,12 +430,12 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     // we need to call setAsset with the content metadata.  If ns_st_ad is not present, that means the last
     // observed event was related to content, in which case a setAsset call should not be made (because asset
     // did not change).
-    if ([map objectForKey:@"ns_st_ad"]) {
-        [self.streamAnalytics setMetadata:contentMetadata];
-    } else {
+    if ([adMap objectForKey:@"ns_st_ad"]) {
         [self.streamAnalytics setMetadata:advertisingMetaData];
+    } else {
+        [self.streamAnalytics setMetadata:contentMetadata];
     }
-    
+
     [self movePosition:properties];
 
     [self.streamAnalytics notifyPlay];
@@ -507,17 +480,17 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     // Started (if this is a pre-roll).
     NSDictionary *labels = self.streamAnalytics.configuration.labels;
     NSString *contentId = [labels objectForKey:@"ns_st_ci"] ?: @"0";
-    
+
     NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:map];
     [mapWithContentId setValue:contentId forKey:@"ns_st_ci"];
-    
+
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
-                                                     
+
     SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
         [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
         [builder setRelatedContentMetadata: contentMetadata];
     }];
-    
+
     [self.streamAnalytics setMetadata:advertisingMetaData];
 
     [self movePosition: properties];
@@ -534,6 +507,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
 - (void)videoAdCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
+    [self movePosition:properties];
     [self.streamAnalytics notifyEnd];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
 }
@@ -556,20 +530,20 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
         if (self.streamAnalytics != NULL) {
             [self.streamAnalytics startFromPosition:seekPosition];
         }
-        
+
     }
 }
 
 - (SCORStreamingContentMetadata *)instantiateContentMetaData:(NSDictionary *)properties {
-    
+
     SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
         [builder setCustomLabels:properties];
-        
+
         if (properties[@"ns_st_ge"]) {
             [builder setGenreName:properties[@"genre"]];
         }
     }];
-  
+
     return contentMetaData;
 }
 
