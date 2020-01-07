@@ -60,18 +60,13 @@ describe(@"SEGComScoreIntegration", ^{
     beforeEach(^{
         scorAnalyticsClassMock = mockClass([SCORAnalytics class]);
         mockStreamingAnalytics = mock([SCORStreamingAnalytics class]);
-//        mockPlaybackSession = mock([SCORStreamingPlaybackSession class]);
-//        mockAsset = mock([SCORStreamingAsset class]);
-
         SEGMockStreamingAnalyticsFactory *mockStreamAnalyticsFactory = [[SEGMockStreamingAnalyticsFactory alloc] init];
         mockStreamAnalyticsFactory.streamingAnalytics = mockStreamingAnalytics;
 
         [given(mockStreamingAnalytics.configuration) willReturn:mockConfiguration];
-//        [given([mockPlaybackSession asset]) willReturn:mockAsset];
 
         integration = [[SEGComScoreIntegration alloc] initWithSettings:@{
             @"c2" : @"23243060",
-//            @"publisherSecret" : @"7e529e62366db3423ef3728ca910b8b8"
         } andComScore:scorAnalyticsClassMock andStreamingAnalyticsFactory:mockStreamAnalyticsFactory];
 
     });
@@ -796,7 +791,6 @@ describe(@"After Video Playback Started", ^{
 
         });
     
-        //Stopped here. 
         it(@"videoContentPlaying with adType", ^{
 
 
@@ -1033,48 +1027,8 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(advertisingMetaData));
 
         });
-
-//        it(@"videoAdStarted with playPosition and ns_st_ci value", ^{
-//
-//            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started"
-//                properties:@{
-//                    @"asset_id" : @"1231312",
-//                    @"pod_id" : @"43434234534",
-//                    @"type" : @"mid-roll",
-//                    @"total_length" : @110,
-//                    @"position" : @43,
-//                    @"publisher" : @"Adult Swim",
-//                    @"title" : @"Rick and Morty Ad"
-//                }
-//                context:@{}
-//                integrations:@{}];
-//
-//            [integration track:payload];
-//
-//            [verify(mockStreamingAnalytics) startFromPosition:43];
-//            [verify(mockStreamingAnalytics) notifyPlay];
-//
-//        });
-//
-//        it(@"videoAdStarted fallsback to method without position and default ns_st_ci value", ^{
-//            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
-//                @"asset_id" : @"1231312",
-//                @"pod_id" : @"43434234534",
-//                @"total_length" : @110,
-//                @"title" : @"Rick and Morty Ad"
-//            } context:@{}
-//                integrations:@{}];
-//
-//            [integration track:payload];
-//
-//            [verify(mockStreamingAnalytics) notifyPlay];
-//
-//        });
-
+    
         it(@"videoAdStarted fallsback to @'1' without correct type value", ^{
-        //TODO move to unti test for builder
-
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
                 @"asset_id" : @"1231312",
                 @"pod_id" : @"43434234534",
