@@ -59,9 +59,6 @@
 
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:partnerConfig];
         [[self.scorAnalyticsClass configuration] addClientWithConfiguration:config];
-
-        [[self.scorAnalyticsClass configuration] enableImplementationValidationMode];
-
         [self.scorAnalyticsClass start];
     }
     return self;
@@ -485,7 +482,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     __block NSInteger setMediaType;
     if ([adType isEqualToString:@"pre-roll"]) {
         setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPreRoll;
-    } else if ([adType isEqualToString:@"midroll"]) {
+    } else if ([adType isEqualToString:@"mid-roll"]) {
         setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll;
     } else if ([adType isEqualToString:@"post-roll"]) {
         setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPostRoll;
@@ -493,7 +490,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
         setMediaType = SCORStreamingAdvertisementTypeOther;
     }
 
-    SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+    SCORStreamingAdvertisementMetadata *advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
         [builder setMediaType: setMediaType];
         [builder setCustomLabels: mapWithContentId];
         [builder setRelatedContentMetadata: contentMetadata];
