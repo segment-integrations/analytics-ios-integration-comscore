@@ -806,6 +806,7 @@ describe(@"After Video Playback Started", ^{
                    @"title" : @"Big Trouble in Little Sanchez",
                    @"season" : @"2",
                    @"episode" : @"7",
+                   @"type": @"pre-roll",
                    @"genre" : @"cartoon",
                    @"program" : @"Rick and Morty",
                    @"total_length" : @400,
@@ -818,9 +819,40 @@ describe(@"After Video Playback Started", ^{
                                                                             @"tvAirdate" : @"2017-05-22"
                                                                         }
                                                                     }];
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
+                                            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+                                            @"ns_st_sn" : @"2",
+                                            @"ns_st_en" : @"7",
+                                            @"ns_st_ge" : @"cartoon",
+                                            @"ns_st_pr" : @"Rick and Morty",
+                                            @"ns_st_cl" : @"400000",
+                                            @"ns_st_ce" : @"true",
+                                            @"ns_st_pu" : @"Turner Broadcasting Network",
+                                            @"ns_st_pn" : @"65462",
+                                            @"ns_st_st" : @"Cartoon Network",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                                            @"ns_st_tdt" : @"2017-05-22",
+                                            @"ns_st_ddt" : @"*null",
+                                            @"ns_st_ct" : @"vc00"}];
+            }];
 
-               [integration track:payload];
-               [verify(mockStreamingAnalytics) notifyPlay];
+            SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+                [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
+                [builder setRelatedContentMetadata: contentMetaData];
+            }];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyPlay];
+            
+            [mockStreamingAnalytics setMetadata:advertisingMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(advertisingMetaData));
 
            });
 
@@ -843,9 +875,36 @@ describe(@"After Video Playback Started", ^{
 
             } context:@{}
                 integrations:@{}];
+            
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
+                                            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+                                            @"ns_st_sn" : @"2",
+                                            @"ns_st_en" : @"7",
+                                            @"ns_st_ge" : @"cartoon",
+                                            @"ns_st_pr" : @"Rick and Morty",
+                                            @"ns_st_cl" : @"400000",
+                                            @"ns_st_ce" : @"true",
+                                            @"ns_st_pu" : @"Turner Broadcasting Network",
+                                            @"ns_st_pn" : @"65462",
+                                            @"ns_st_st" : @"Cartoon Network",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                                            @"ns_st_tdt" : @"2017-05-22",
+                                            @"ns_st_ddt" : @"*null",
+                                            @"ns_st_ct" : @"vc00"}];
+            }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
+            
+            [mockStreamingAnalytics setMetadata:contentMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(contentMetaData));
 
         });
 
@@ -866,12 +925,39 @@ describe(@"After Video Playback Started", ^{
 
             } context:@{}
                 integrations:@{}];
+            
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
+                                            @"ns_st_ep" : @"Big Trouble in Little Sanchez",
+                                            @"ns_st_sn" : @"2",
+                                            @"ns_st_en" : @"7",
+                                            @"ns_st_ge" : @"cartoon",
+                                            @"ns_st_pr" : @"Rick and Morty",
+                                            @"ns_st_cl" : @"400000",
+                                            @"ns_st_ce" : @"true",
+                                            @"ns_st_pu" : @"Turner Broadcasting Network",
+                                            @"ns_st_pn" : @"65462",
+                                            @"ns_st_st" : @"Cartoon Network",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                                            @"ns_st_tdt" : @"2017-05-22",
+                                            @"ns_st_ddt" : @"*null",
+                                            @"ns_st_ct" : @"vc00"}];
+            }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
+            
+            [mockStreamingAnalytics setMetadata:contentMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(contentMetaData));
         });
 
-        it(@"videoContentCompleted with playPosition", ^{
+        it(@"videoContentCompleted", ^{
 
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
                 @"asset_id" : @"3543",
@@ -893,69 +979,12 @@ describe(@"After Video Playback Started", ^{
             [verify(mockStreamingAnalytics) notifyEnd];
         });
 
-        it(@"videoContentCompleted fallsback to method without position", ^{
-
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
-                @"asset_id" : @"3543",
-                @"pod_id" : @"65462",
-                @"title" : @"Big Trouble in Little Sanchez",
-                @"season" : @"2",
-                @"episode" : @"7",
-                @"genre" : @"cartoon",
-                @"program" : @"Rick and Morty",
-                @"total_length" : @400,
-                @"full_episode" : @"true",
-                @"publisher" : @"Turner Broadcasting Network",
-                @"channel" : @"Cartoon Network"
-            } context:@{}
-                integrations:@{}];
-            
-            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
-            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                           [builder setCustomLabels:@{  @"ns_st_ci" : @"0" }];
-                           [builder setCustomLabels:@{ @"ns_st_ep" : @"Big Trouble in Little Sanchez" }];
-                           [builder setCustomLabels:@{ @"ns_st_sn" : @"2" }];
-                           [builder setCustomLabels:@{ @"ns_st_en" : @"7" }];
-                           [builder setCustomLabels:@{ @"ns_st_ge" : @"cartoon" }];
-                           [builder setCustomLabels:@{ @"ns_st_pr" : @"Rick and Morty" }];
-                           [builder setCustomLabels:@{  @"ns_st_ct" : @"vc00" }];
-                      }];
-
-            [integration track:payload];
-            [mockStreamingAnalytics setMetadata:contentMetaData];
-            [verify(mockStreamingAnalytics) setMetadata:captor];
-            id argumentId = captor.value;
-            assertThat(argumentId, notNilValue());
-            assertThat(argumentId, is(contentMetaData));
-            [verify(mockStreamingAnalytics) notifyEnd];
-        });
-    
-        it(@"maps content metadata correctly", ^{
-            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                [builder setCustomLabels:@{  @"ns_st_ci" : @"0" }];
-                [builder setCustomLabels:@{ @"ns_st_ep" : @"Big Trouble in Little Sanchez" }];
-                [builder setCustomLabels:@{ @"ns_st_sn" : @"2" }];
-                [builder setCustomLabels:@{ @"ns_st_en" : @"7" }];
-                [builder setCustomLabels:@{ @"ns_st_ge" : @"cartoon" }];
-                [builder setCustomLabels:@{ @"ns_st_pr" : @"Rick and Morty" }];
-                [builder setCustomLabels:@{  @"ns_st_ct" : @"vc00" }];
-           }];
-
-            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
-            [mockStreamingAnalytics setMetadata:contentMetaData];
-            [verify(mockStreamingAnalytics) setMetadata:captor];
-
-            id argumentId = captor.value;
-            assertThat(argumentId, notNilValue());
-            assertThat(argumentId, is(contentMetaData));
-        });
-
         //#pragma Ad Events
 
-        it(@"videoAdStarted with playPosition and default ns_st_ci value", ^{
-
+        it(@"videoAdStarted with playPosition and ns_st_ci value", ^{
 
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
+                @"content_asset_id": @"3543",
                 @"asset_id" : @"1231312",
                 @"pod_id" : @"43434234534",
                 @"type" : @"mid-roll",
@@ -967,57 +996,70 @@ describe(@"After Video Playback Started", ^{
                 integrations:@{}];
 
             [integration track:payload];
+            
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                         [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
+                                                     @"ns_st_cl" : @"110000",
+                                                     @"ns_st_pu" : @"Adult Swim",
+                                                     @"c3" : @"*null",
+                                                     @"c4" : @"*null",
+                                                     @"c6" : @"*null",
+                                                     @"ns_st_ddt" : @"*null",
+                                                     @"ns_st_ct" : @"vc00"}];
+                     }];
+            
+            SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+                [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
+                [builder setCustomLabels: @{
+                    @"ns_st_ci": @"3543",
+                    @"ns_st_ami": @"1231312",
+                    @"ns_st_ad": @"0",
+                    @"ns_st_cl": @"110000",
+                    @"ns_st_amt": @"Rick and Morty Ad",
+                    @"ns_st_pu": @"Adult Swim",
+                    @"ns_st_ct": @"va00"
+                }];
+                [builder setRelatedContentMetadata: contentMetaData];
+            }];
 
             [verify(mockStreamingAnalytics) startFromPosition:43];
             [verify(mockStreamingAnalytics) notifyPlay];
+            
+            [mockStreamingAnalytics setMetadata:advertisingMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(advertisingMetaData));
 
         });
 
-        it(@"videoAdStarted with playPosition and ns_st_ci value", ^{
-//            [given([mockAsset label:@"ns_st_ci"]) willReturn:@"1234"];
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started"
-                properties:@{
-                    @"asset_id" : @"1231312",
-                    @"pod_id" : @"43434234534",
-                    @"type" : @"mid-roll",
-                    @"total_length" : @110,
-                    @"position" : @43,
-                    @"publisher" : @"Adult Swim",
-                    @"title" : @"Rick and Morty Ad"
-                }
-                context:@{}
-                integrations:@{}];
-
-            [integration track:payload];
-
-            [verify(mockStreamingAnalytics) startFromPosition:43];
-            [verify(mockStreamingAnalytics) notifyPlay];
-
-        });
-
-        it(@"videoAdStarted fallsback to method without position and default ns_st_ci value", ^{
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
-                @"asset_id" : @"1231312",
-                @"pod_id" : @"43434234534",
-                @"total_length" : @110,
-                @"title" : @"Rick and Morty Ad"
-            } context:@{}
-                integrations:@{}];
-
-            [integration track:payload];
-
-            [verify(mockStreamingAnalytics) notifyPlay];
-
-        });
-
-//        it(@"videoAdStarted fallsback to @'1' without correct type value", ^{
-//        //TODO move to unti test for builder
+//        it(@"videoAdStarted with playPosition and ns_st_ci value", ^{
 //
+//            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started"
+//                properties:@{
+//                    @"asset_id" : @"1231312",
+//                    @"pod_id" : @"43434234534",
+//                    @"type" : @"mid-roll",
+//                    @"total_length" : @110,
+//                    @"position" : @43,
+//                    @"publisher" : @"Adult Swim",
+//                    @"title" : @"Rick and Morty Ad"
+//                }
+//                context:@{}
+//                integrations:@{}];
 //
+//            [integration track:payload];
+//
+//            [verify(mockStreamingAnalytics) startFromPosition:43];
+//            [verify(mockStreamingAnalytics) notifyPlay];
+//
+//        });
+//
+//        it(@"videoAdStarted fallsback to method without position and default ns_st_ci value", ^{
 //            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
 //                @"asset_id" : @"1231312",
 //                @"pod_id" : @"43434234534",
-//                @"type" : @"not an ad type",
 //                @"total_length" : @110,
 //                @"title" : @"Rick and Morty Ad"
 //            } context:@{}
@@ -1025,59 +1067,128 @@ describe(@"After Video Playback Started", ^{
 //
 //            [integration track:payload];
 //
-//            NSDictionary *expected = @{
-//                @"ns_st_ami" : @"1231312",
-//                @"ns_st_ad" : @"1",
-//                @"ns_st_cl" : @"110000",
-//                @"ns_st_amt" : @"Rick and Morty Ad",
-//                @"ns_st_pu" : @"*null",
-//                @"c3" : @"*null",
-//                @"c4" : @"*null",
-//                @"c6" : @"*null",
-//                @"ns_st_ct" : @"va00",
-//                @"ns_st_ci" : @"0"
-//
-//            };
-//
-//            [verify(mockPlaybackSession) setAssetWithLabels:expected];
 //            [verify(mockStreamingAnalytics) notifyPlay];
+//
 //        });
-//
-//        it(@"videoAdStarted maps adClassificationType value passed in integrations object", ^{
-//
-//
-//            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
-//                @"asset_id" : @"1231312",
-//                @"pod_id" : @"43434234534",
-//                @"type" : @"mid-roll",
-//                @"total_length" : @110,
-//                @"position" : @110,
-//                @"title" : @"Rick and Morty Ad"
-//
-//            } context:@{}
-//                                                                 integrations:@{ @"com-score" : @{
-//                                                                     @"adClassificationType" : @"va12"
-//                                                                 } }];
-//
-//            [integration track:payload];
-//
-//            NSDictionary *expected = @{
-//                @"ns_st_ami" : @"1231312",
-//                @"ns_st_ad" : @"mid-roll",
-//                @"ns_st_cl" : @"110000",
-//                @"ns_st_amt" : @"Rick and Morty Ad",
-//                @"ns_st_pu" : @"*null",
-//                @"c3" : @"*null",
-//                @"c4" : @"*null",
-//                @"c6" : @"*null",
-//                @"ns_st_ct" : @"va12",
-//                @"ns_st_ci" : @"0"
-//            };
-//
-//            [verify(mockPlaybackSession) setAssetWithLabels:expected];
-//            [verify(mockStreamingAnalytics) notifyPlayWithPosition:110];
-//        });
-//
+
+        it(@"videoAdStarted fallsback to @'1' without correct type value", ^{
+        //TODO move to unti test for builder
+
+
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
+                @"asset_id" : @"1231312",
+                @"pod_id" : @"43434234534",
+                @"type" : @"not an ad type",
+                @"total_length" : @110,
+                @"title" : @"Rick and Morty Ad"
+            } context:@{}
+                integrations:@{}];
+
+            [integration track:payload];
+
+            NSDictionary *expected = @{
+                @"ns_st_ami" : @"1231312",
+                @"ns_st_ad" : @"1",
+                @"ns_st_cl" : @"110000",
+                @"ns_st_amt" : @"Rick and Morty Ad",
+                @"ns_st_pu" : @"*null",
+                @"c3" : @"*null",
+                @"c4" : @"*null",
+                @"c6" : @"*null",
+                @"ns_st_ct" : @"va00",
+                @"ns_st_ci" : @"0"
+
+            };
+            
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                         [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
+                                                     @"ns_st_cl" : @"110000",
+                                                     @"ns_st_pu" : @"*null",
+                                                     @"c3" : @"*null",
+                                                     @"c4" : @"*null",
+                                                     @"c6" : @"*null",
+                                                     @"ns_st_ct" : @"va00"}];
+                     }];
+            
+            SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+                [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
+                [builder setCustomLabels: @{
+                    @"ns_st_ci": @"3543",
+                    @"ns_st_ami": @"1231312",
+                    @"ns_st_ad": @"1",
+                    @"ns_st_cl": @"110000",
+                    @"ns_st_amt": @"Rick and Morty Ad",
+                    @"ns_st_pu": @"*null",
+                    @"ns_st_ct": @"va00"
+                }];
+                [builder setRelatedContentMetadata: contentMetaData];
+            }];
+
+            [verify(mockStreamingAnalytics) notifyPlay];
+            
+            [mockStreamingAnalytics setMetadata:advertisingMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(advertisingMetaData));
+        });
+
+        it(@"videoAdStarted maps adClassificationType value passed in integrations object", ^{
+
+
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
+                @"asset_id" : @"1231312",
+                @"pod_id" : @"43434234534",
+                @"type" : @"mid-roll",
+                @"total_length" : @110,
+                @"position" : @110,
+                @"title" : @"Rick and Morty Ad"
+
+            } context:@{}
+                                                                 integrations:@{ @"com-score" : @{
+                                                                     @"adClassificationType" : @"va12"
+                                                                 } }];
+
+            [integration track:payload];
+            
+            
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                         [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
+                                                     @"ns_st_cl" : @"110000",
+                                                     @"ns_st_pu" : @"*null",
+                                                     @"c3" : @"*null",
+                                                     @"c4" : @"*null",
+                                                     @"c6" : @"*null",
+                                                    }];
+                     }];
+            
+            SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+                [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
+                [builder setCustomLabels: @{
+                    @"ns_st_ci": @"3543",
+                    @"ns_st_ami": @"1231312",
+                    @"ns_st_ad": @"1",
+                    @"ns_st_cl": @"110000",
+                    @"ns_st_amt": @"Rick and Morty Ad",
+                    @"ns_st_pu": @"*null",
+                    @"ns_st_ct": @"va12"
+                }];
+                [builder setRelatedContentMetadata: contentMetaData];
+            }];
+
+            [verify(mockStreamingAnalytics) notifyPlay];
+            [verify(mockStreamingAnalytics) startFromPosition:110];
+            
+            
+            [mockStreamingAnalytics setMetadata:advertisingMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(advertisingMetaData));
+        });
+
         it(@"videoAdPlaying with playPosition", ^{
 
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
@@ -1112,25 +1223,7 @@ describe(@"After Video Playback Started", ^{
             [verify(mockStreamingAnalytics) notifyPlay];
         });
 
-        it(@"videoAdCompleted with playPosition", ^{
-
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
-                @"asset_id" : @"1231312",
-                @"pod_id" : @"43434234534",
-                @"type" : @"mid-roll",
-                @"total_length" : @110,
-                @"position" : @110,
-                @"title" : @"Rick and Morty Ad"
-
-            } context:@{}
-                integrations:@{}];
-
-            [integration track:payload];
-            [verify(mockStreamingAnalytics) startFromPosition:110];
-            [verify(mockStreamingAnalytics) notifyEnd];
-        });
-
-        it(@"videoAdCompleted fallsback to method without position", ^{
+        it(@"videoAdCompleted", ^{
 
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
                 @"asset_id" : @"1231312",

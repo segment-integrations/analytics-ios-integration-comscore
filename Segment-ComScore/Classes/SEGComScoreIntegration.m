@@ -279,7 +279,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-    // [self.streamAnalytics.configuration addLabels:map]; TBD if needed
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
 
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
@@ -404,8 +404,9 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
 
-    // [self.streamAnalytics.configuration addLabels:map];//TBD if needed
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:contentMetadata];
+
     SEGLog(@"[SCORStreamingAnalytics setMetadata:%@", contentMetadata);
 
     [self movePosition:properties];
@@ -417,9 +418,6 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 {
     NSDictionary *contentMap = returnMappedContentProperties(properties, integrations);
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:contentMap];
-//    SCORStreamingContentMetadata *contentMetadata = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-//          [builder setCustomLabels:map];
-//    }];
 
     NSDictionary *adMap = returnMappedAdProperties(properties, integrations);
     SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
@@ -484,10 +482,22 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:map];
     [mapWithContentId setValue:contentId forKey:@"ns_st_ci"];
 
-    SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
+    SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:mapWithContentId];
+    NSString *adType = [properties valueForKey:@"type"];
+    __block NSInteger setMediaType;
+    if ([adType isEqualToString:@"pre-roll"]) {
+        setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPreRoll;
+    } else if ([adType isEqualToString:@"midroll"]) {
+        setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll;
+    } else if ([adType isEqualToString:@"post-roll"]) {
+        setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPostRoll;
+    } else {
+        setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPreRoll;
+    }
 
     SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
-        [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
+        [builder setMediaType: setMediaType];
+        [builder setCustomLabels: mapWithContentId];
         [builder setRelatedContentMetadata: contentMetadata];
     }];
 
