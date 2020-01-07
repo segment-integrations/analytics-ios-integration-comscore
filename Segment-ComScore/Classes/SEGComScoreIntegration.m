@@ -10,7 +10,6 @@
 #import <Analytics/SEGAnalyticsUtils.h>
 #import <ComScore/SCORStreamingAnalytics.h>
 
-
 @implementation SEGRealStreamingAnalyticsFactory
 
 - (SCORStreamingAnalytics *)create;
@@ -23,7 +22,6 @@
 @interface SCORStreamingConfiguration(Private)
 @property(copy) NSDictionary *labels;
 @end
-
 
 @implementation SEGComScoreIntegration
 
@@ -53,7 +51,7 @@
 
         SCORAnalytics.configuration.liveTransmissionMode = SCORLiveTransmissionModeLan;
 
-        SCORAnalytics.configuration.applicationName = settings[@"appName:"];
+        SCORAnalytics.configuration.applicationName = settings[@"appName"];
 
         SCORPartnerConfiguration *partnerConfig = [SCORPartnerConfiguration partnerConfigurationWithBuilderBlock:^(SCORPartnerConfigurationBuilder *builder) {
             builder.partnerId = @"23243060";
@@ -424,7 +422,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:contentMap];
 
     NSDictionary *adMap = returnMappedAdProperties(properties, integrations);
-    SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+    SCORStreamingAdvertisementMetadata *advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
         [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
         [builder setRelatedContentMetadata: contentMetadata];
     }];
@@ -496,7 +494,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     } else if ([adType isEqualToString:@"post-roll"]) {
         setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPostRoll;
     } else {
-        setMediaType = SCORStreamingAdvertisementTypeBrandedOnDemandPreRoll;
+        setMediaType = SCORStreamingAdvertisementTypeOther;
     }
 
     SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
