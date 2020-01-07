@@ -843,7 +843,7 @@ describe(@"After Video Playback Started", ^{
             [verify(mockStreamingAnalytics) notifyPlay];
             
             [mockStreamingAnalytics setMetadata:advertisingMetaData];
-            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            [verifyCount(mockStreamingAnalytics, times(1)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(advertisingMetaData));
@@ -895,7 +895,7 @@ describe(@"After Video Playback Started", ^{
             [verify(mockStreamingAnalytics) notifyPlay];
             
             [mockStreamingAnalytics setMetadata:contentMetaData];
-            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            [verifyCount(mockStreamingAnalytics, times(1)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
@@ -945,7 +945,7 @@ describe(@"After Video Playback Started", ^{
             [verify(mockStreamingAnalytics) notifyPlay];
             
             [mockStreamingAnalytics setMetadata:contentMetaData];
-            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            [verifyCount(mockStreamingAnalytics, times(1)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
@@ -1039,20 +1039,6 @@ describe(@"After Video Playback Started", ^{
                 integrations:@{}];
 
             [integration track:payload];
-
-            NSDictionary *expected = @{
-                @"ns_st_ami" : @"1231312",
-                @"ns_st_ad" : @"1",
-                @"ns_st_cl" : @"110000",
-                @"ns_st_amt" : @"Rick and Morty Ad",
-                @"ns_st_pu" : @"*null",
-                @"c3" : @"*null",
-                @"c4" : @"*null",
-                @"c6" : @"*null",
-                @"ns_st_ct" : @"va00",
-                @"ns_st_ci" : @"0"
-
-            };
             
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
