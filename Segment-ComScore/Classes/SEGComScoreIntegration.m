@@ -20,6 +20,10 @@
 
 @end
 
+@interface SCORStreamingConfiguration(Private)
+@property(copy) NSDictionary *labels;
+@end
+
 
 @implementation SEGComScoreIntegration
 
