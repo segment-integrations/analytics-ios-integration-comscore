@@ -421,21 +421,17 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     NSDictionary *contentMap = returnMappedContentProperties(properties, integrations);
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:contentMap];
 
-    NSDictionary *adMap = returnMappedAdProperties(properties, integrations);
-    SCORStreamingAdvertisementMetadata *advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
-        [builder setMediaType: SCORStreamingAdvertisementTypeOnDemandPreRoll];
-        [builder setRelatedContentMetadata: contentMetadata];
-    }];
     // The presence of ns_st_ad on the StreamingAnalytics's asset means that we just exited an ad break, so
     // we need to call setAsset with the content metadata.  If ns_st_ad is not present, that means the last
     // observed event was related to content, in which case a setAsset call should not be made (because asset
     // did not change).
-    if ([adMap objectForKey:@"ns_st_ad"]) {
-        [self.streamAnalytics setMetadata:advertisingMetaData];
-    } else {
+    NSDictionary *labels = self.streamAnalytics.configuration.labels;
+    NSString *previousAdAssetId = [labels objectForKey:@"ns_st_ad"];
+
+    if (previousAdAssetId) {
         [self.streamAnalytics setMetadata:contentMetadata];
     }
-
+    
     [self movePosition:properties];
 
     [self.streamAnalytics notifyPlay];
