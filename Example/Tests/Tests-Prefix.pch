@@ -5,7 +5,7 @@
   #import <Specta/Specta.h>
   #import <Expecta/Expecta.h>
   #import <OCMockito/OCMockito.h>
-    #import <OCHamcrest/OCHamcrest.h>
+  #import <OCHamcrest/OCHamcrest.h>
   #import <Analytics/SEGAnalytics.h>
   #import <Segment-ComScore/SEGComScoreIntegrationFactory.h>
   #import <Segment-ComScore/SEGComScoreIntegration.h>
