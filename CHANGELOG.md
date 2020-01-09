@@ -1,31 +1,36 @@
 Change Log
 ==========
 
+Version 4.0.0-beta *(9th January, 2020)*
+-------------------------------------------
+*(Supports ComScore 6.0.0)*
+  * [Major Update](https://github.com/segment-integrations/analytics-ios-integration-comscore/commit/1b11c0fbd78b17ceb95cf574758ed6120e361728): Migrate to ComScore v6. 
+
 Version 3.1.0-beta *(8th November, 2019)*
 -------------------------------------------
-*(Supports analytics-ios 3.7+ and ComScore 5.8.7+)* 
+*(Supports analytics-ios 3.7+ and ComScore 5.8.7+)*
   * [Fix] Supports integration-specific options under the key `com-score` in `options.integrations`.
 
 Version 3.0.0 *(6th June, 2017)*
 -------------------------------------------
-*(Supports analytics-ios 3.0+ and ComScore 5.0+)* 
+*(Supports analytics-ios 3.0+ and ComScore 5.0+)*
   * [New Feature](https://github.com/segment-integrations/analytics-ios-integration-comscore/commit/0eec83a27db29aca06f66af896633f637336a1bb): Adds Video Tracking functionality.
 
 Version 2.0.0 *(16th May, 2017)*
 -------------------------------------------
-*(Supports analytics-ios 3.0+ and ComScore 5.0+)* 
+*(Supports analytics-ios 3.0+ and ComScore 5.0+)*
   * [Major Update](https://github.com/segment-integrations/analytics-ios-integration-comscore/pull/10/commits/ccc7c81ae006e5b00bfd76c0d0f9bf4ded05c719): Migrates to comScore v5.
 
 
 Version 1.0.2 *(7th December, 2016)*
 -------------------------------------------
-*(Supports analytics-ios 3.0+ and ComScore 3.1607.27)* 
+*(Supports analytics-ios 3.0+ and ComScore 3.1607.27)*
   * [Fix](https://github.com/segment-integrations/analytics-ios-integration-comscore/pull/3/commits/f658b1ef399c41f4f8120602eb0457676cadd815): Mismatched comScore key.
   * [Fix](https://github.com/segment-integrations/analytics-ios-integration-comscore/pull/3/commits/b98d1b3a66e5bb6dafaeb2c669b01a5fa90a16bb): NSLogv crash.
 
 Version 1.0.1 *(18th September, 2016)*
 -------------------------------------------
-*(Supports analytics-ios 3.0+ and ComScore 3.1607.27)* 
+*(Supports analytics-ios 3.0+ and ComScore 3.1607.27)*
 
 Updates ComScore SDK
 
