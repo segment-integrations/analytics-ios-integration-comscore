@@ -37,7 +37,9 @@
                                             }];
 
     [[SEGAnalytics sharedAnalytics] track:@"Video Content Started"
-                               properties:nil
+                               properties:@{
+                                   @"asset_id" : @"1231312"
+                               }
                                   options:@{
                                             @"integrations": @{
                                                     @"com-score": @{
@@ -45,6 +47,24 @@
                                                             }
                                                     }
                                             }];
+    
+    [[SEGAnalytics sharedAnalytics] track:@"Video Ad Started"
+                            properties:@{
+                                @"asset_id" : @"1231312",
+                                @"pod_id" : @"43434234534",
+                                @"type" : @"mid-roll",
+                                @"total_length" : @110,
+                                @"position" : @43,
+                                @"publisher" : @"Adult Swim",
+                                @"title" : @"Rick and Morty Ad"
+                            }
+                           options:@{
+                                     @"integrations": @{
+                                             @"com-score": @{
+                                                     @"c4":@"testing-v2019"
+                                                     }
+                                             }
+                                     }];
     
     [[SEGAnalytics sharedAnalytics] flush];
 

@@ -22,5 +22,5 @@ s.requires_arc = true
 s.source_files = 'Segment-ComScore/Classes/**/*'
 
 s.dependency 'Analytics', '~> 3.6'
-s.dependency 'ComScore', '~> 5.0'
+s.dependency 'ComScore', '~> 6.0'
 end
