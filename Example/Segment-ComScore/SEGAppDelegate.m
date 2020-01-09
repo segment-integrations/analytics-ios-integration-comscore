@@ -38,7 +38,7 @@
 
     [[SEGAnalytics sharedAnalytics] track:@"Video Content Started"
                                properties:@{
-                                   @"content_asset_id" : @"1231312"
+                                   @"asset_id" : @"1231312"
                                }
                                   options:@{
                                             @"integrations": @{
