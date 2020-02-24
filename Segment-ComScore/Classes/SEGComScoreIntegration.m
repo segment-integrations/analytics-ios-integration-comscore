@@ -71,12 +71,16 @@
 
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         id data = [mapped objectForKey:key];
-        if (!![data isKindOfClass:[NSString class]]) {
+        if ([self isDataValid:data]) {
             [mapped setObject:[NSString stringWithFormat:@"%@", data] forKey:key];
         }
     }];
 
     return [mapped copy];
+}
+
++(BOOL)isDataValid:(id)data {
+    return (!![data isKindOfClass:[NSString class]] || !![data isKindOfClass:[NSArray class]] || !![data isKindOfClass:[NSNumber class]]);
 }
 
 - (void)identify:(SEGIdentifyPayload *)payload
