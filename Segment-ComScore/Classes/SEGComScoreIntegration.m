@@ -80,7 +80,9 @@
 }
 
 +(BOOL)isDataValid:(id)data {
-    return (!![data isKindOfClass:[NSString class]] || !![data isKindOfClass:[NSArray class]] || !![data isKindOfClass:[NSNumber class]]);
+    return (!![data isKindOfClass:[NSString class]] ||
+            !![data isKindOfClass:[NSArray class]] ||
+            !![data isKindOfClass:[NSNumber class]]);
 }
 
 - (void)identify:(SEGIdentifyPayload *)payload
