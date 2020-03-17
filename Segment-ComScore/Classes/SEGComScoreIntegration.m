@@ -90,7 +90,9 @@
     NSDictionary *mappedTraits = [SEGComScoreIntegration mapToStrings:payload.traits];
     [mappedTraits enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         id data = [payload.traits objectForKey:key];
-        if (data != nil && [data length] != 0) {
+        if ([data isKindOfClass:[NSNumber class]] ||
+            ([data isKindOfClass:[NSArray class]] && [data count]!= 0) ||
+            (data != nil && [data length] != 0)) {
             SCORConfiguration *configuration = [self.scorAnalyticsClass configuration];
             [configuration setPersistentLabelWithName:key value:data];
             SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@]", key, data);
