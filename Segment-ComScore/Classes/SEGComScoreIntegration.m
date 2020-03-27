@@ -72,6 +72,9 @@
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         id data = [mapped objectForKey:key];
         if ([self isDataValid:data]) {
+            if ([data isKindOfClass:[NSArray class]]) {
+                data = [data componentsJoinedByString:@","];
+            }
             [mapped setObject:[NSString stringWithFormat:@"%@", data] forKey:key];
         }
     }];

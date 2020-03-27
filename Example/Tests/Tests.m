@@ -93,7 +93,7 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(configuration) setPersistentLabelWithName:@"gender" value:@"male"];
         [verify(configuration) setPersistentLabelWithName:@"emotion" value:@"nerdy"];
         [verify(configuration) setPersistentLabelWithName:@"isMarried" value:@"1"];
-        [verify(configuration) setPersistentLabelWithName:@"kids" value:@"(\n    Dennis,\n    Donald,\n    Bunny\n)"];
+        [verify(configuration) setPersistentLabelWithName:@"kids" value:@"Dennis,Donald,Bunny"];
         [verify(configuration) setPersistentLabelWithName:@"number" value:@"25"];
     });
 
