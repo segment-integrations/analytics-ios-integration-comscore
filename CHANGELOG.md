@@ -1,10 +1,16 @@
 Change Log
 ==========
 
+Version 4.0.1 *(30th March, 2020)*
+-------------------------------------------
+*(Supports ComScore 6.0.0)*
+  * [New Feature] Serializes array and number Segment trait values 
+  before mapping to Comscore.
+
 Version 4.0.0-beta *(9th January, 2020)*
 -------------------------------------------
 *(Supports ComScore 6.0.0)*
-  * [Major Update](https://github.com/segment-integrations/analytics-ios-integration-comscore/commit/1b11c0fbd78b17ceb95cf574758ed6120e361728): Migrate to ComScore v6. 
+  * [Major Update](https://github.com/segment-integrations/analytics-ios-integration-comscore/commit/1b11c0fbd78b17ceb95cf574758ed6120e361728): Migrate to ComScore v6.
 
 Version 3.1.0-beta *(8th November, 2019)*
 -------------------------------------------
