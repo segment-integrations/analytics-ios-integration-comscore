@@ -79,7 +79,11 @@ describe(@"SEGComScoreIntegration", ^{
             anonymousId:nil
             traits:@{ @"name" : @"Milhouse Van Houten",
                       @"gender" : @"male",
-                      @"emotion" : @"nerdy" }
+                      @"emotion" : @"nerdy",
+                      @"isMarried" : @YES,
+                      @"kids" : @[@"Dennis", @"Donald", @"Bunny"],
+                      @"number": @25
+            }
             context:@{}
             integrations:@{}];
 
@@ -88,6 +92,9 @@ describe(@"SEGComScoreIntegration", ^{
         [verify(configuration) setPersistentLabelWithName:@"name" value:@"Milhouse Van Houten"];
         [verify(configuration) setPersistentLabelWithName:@"gender" value:@"male"];
         [verify(configuration) setPersistentLabelWithName:@"emotion" value:@"nerdy"];
+        [verify(configuration) setPersistentLabelWithName:@"isMarried" value:@"1"];
+        [verify(configuration) setPersistentLabelWithName:@"kids" value:@"Dennis,Donald,Bunny"];
+        [verify(configuration) setPersistentLabelWithName:@"number" value:@"25"];
     });
 
     it(@"track with props", ^{

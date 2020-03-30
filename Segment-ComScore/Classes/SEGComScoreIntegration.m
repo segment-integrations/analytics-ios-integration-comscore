@@ -71,7 +71,10 @@
 
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         id data = [mapped objectForKey:key];
-        if (!![data isKindOfClass:[NSString class]]) {
+        if ([self isDataValid:data]) {
+            if ([data isKindOfClass:[NSArray class]]) {
+                data = [data componentsJoinedByString:@","];
+            }
             [mapped setObject:[NSString stringWithFormat:@"%@", data] forKey:key];
         }
     }];
@@ -79,16 +82,22 @@
     return [mapped copy];
 }
 
++(BOOL)isDataValid:(id)data {
+    return (!![data isKindOfClass:[NSString class]] ||
+            (!![data isKindOfClass:[NSArray class]] && [data count]!= 0) ||
+            !![data isKindOfClass:[NSNumber class]] ||
+            (data != nil && [data length] != 0)
+        );
+}
+
 - (void)identify:(SEGIdentifyPayload *)payload
 {
     NSDictionary *mappedTraits = [SEGComScoreIntegration mapToStrings:payload.traits];
     [mappedTraits enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
-        id data = [payload.traits objectForKey:key];
-        if (data != nil && [data length] != 0) {
-            SCORConfiguration *configuration = [self.scorAnalyticsClass configuration];
-            [configuration setPersistentLabelWithName:key value:data];
-            SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@]", key, data);
-        }
+        id data = obj;
+        SCORConfiguration *configuration = [self.scorAnalyticsClass configuration];
+        [configuration setPersistentLabelWithName:key value:data];
+        SEGLog(@"[[SCORAnalytics configuration] setPersistentLabelWithName: %@]", key, data);
     }];
 }
 
