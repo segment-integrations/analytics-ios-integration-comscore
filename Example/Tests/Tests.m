@@ -80,8 +80,6 @@ describe(@"SEGComScoreIntegration", ^{
             traits:@{ @"name" : @"Milhouse Van Houten",
                       @"gender" : @"male",
                       @"emotion" : @"nerdy",
-                      @"isMarried" : @YES,
-                      @"kids" : @[@"Dennis", @"Donald", @"Bunny"]
             }
             context:@{}
             integrations:@{}];
