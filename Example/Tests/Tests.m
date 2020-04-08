@@ -79,8 +79,7 @@ describe(@"SEGComScoreIntegration", ^{
             anonymousId:nil
             traits:@{ @"name" : @"Milhouse Van Houten",
                       @"gender" : @"male",
-                      @"emotion" : @"nerdy",
-            }
+                      @"emotion" : @"nerdy"}
             context:@{}
             integrations:@{}];
 
