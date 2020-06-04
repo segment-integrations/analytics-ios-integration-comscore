@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "Segment-ComScore"
-s.version          = "4.0.1"
+s.version          = "4.0.2"
 s.summary          = "ComScore Integration for Segment's analytics-ios library."
 
 s.description      = <<-DESC
@@ -21,6 +21,6 @@ s.requires_arc = true
 
 s.source_files = 'Segment-ComScore/Classes/**/*'
 
-s.dependency 'Analytics', '~> 3.6'
+s.dependency 'Analytics'
 s.dependency 'ComScore', '~> 6.0'
 end
