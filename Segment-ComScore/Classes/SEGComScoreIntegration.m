@@ -392,7 +392,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
                            @"ns_st_pr" : properties[@"program"] ?: @"*null",
                            @"ns_st_pn" : properties[@"pod_id"] ?: @"*null",
                            @"ns_st_ce" : properties[@"full_episode"] ?: @"*null",
-                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length") ?: @"*null",
+                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length") ?: @"0",
                            @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"ns_st_st" : properties[@"channel"] ?: @"*null",
                            @"ns_st_ddt" : integration[@"digitalAirdate"] ?: @"*null",
@@ -459,7 +459,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
 
     NSDictionary *map = @{ @"ns_st_ami" : properties[@"asset_id"] ?: @"*null",
                            @"ns_st_ad" : defaultAdType(properties, @"type") ?: @"1",
-                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length") ?: @"*null",
+                           @"ns_st_cl" : convertFromSecondsToMilliseconds(properties, @"total_length") ?: @"0",
                            @"ns_st_amt" : properties[@"title"] ?: @"*null",
                            @"ns_st_pu" : properties[@"publisher"] ?: @"*null",
                            @"c3" : integration[@"c3"] ?: @"*null",
