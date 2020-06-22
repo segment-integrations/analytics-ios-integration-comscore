@@ -83,11 +83,15 @@
 }
 
 +(BOOL)isDataValid:(id)data {
-    return (!![data isKindOfClass:[NSString class]] ||
-            (!![data isKindOfClass:[NSArray class]] && [data count]!= 0) ||
-            !![data isKindOfClass:[NSNumber class]] ||
-            (data != nil && [data length] != 0)
-        );
+    BOOL result = (!![data isKindOfClass:[NSString class]] ||
+                   (!![data isKindOfClass:[NSArray class]] && [data count]!= 0) ||
+                   !![data isKindOfClass:[NSNumber class]] ||
+                   (data != nil));
+    
+    if (result && [data respondsToSelector:@selector(length)]) {
+        result = ([data length] != 0);
+    }
+    return result;
 }
 
 - (void)identify:(SEGIdentifyPayload *)payload

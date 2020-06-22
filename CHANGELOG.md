@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 4.0.2 *(22nd June, 2020)*
+---------------------------------
+* [Fix] Issue where types that didn't respond to length would crash.
+* [Fix] Unpinned analytics-ios dependency.
+
 Version 4.0.1 *(30th March, 2020)*
 -------------------------------------------
 *(Supports ComScore 6.0.0)*
