@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 4.1.0 *(23rd June, 2020)*
+---------------------------------
+* [Minor Feature] Default value is now `0` when total length property is missing.
+
 Version 4.0.2 *(22nd June, 2020)*
 ---------------------------------
 * [Fix] Issue where types that didn't respond to length would crash.
