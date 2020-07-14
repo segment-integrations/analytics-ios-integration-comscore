@@ -34,7 +34,7 @@
         // Initialize empty dictionary where we'll store video labels
         // Doing so takes the place of calling self.streamAnalytics.configuration.labels,
         // since streamAnalytics no longer supports returning labels
-        self.configurationLabels = [[NSMutableDictionary alloc] init];
+        self.configurationLabels = [NSMutableDictionary new];
 
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
@@ -290,13 +290,15 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
         @"ns_st_ci" : properties[@"content_asset_id"] ?: @"0"
     };
 
+    NSMutableDictionary *mutableMap = [map mutableCopy];
+
     [self.streamAnalytics createPlaybackSession];
 
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
     [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
-    [self.configurationLabels addEntriesFromDictionary:map];
+    [self.configurationLabels setDictionary:mutableMap];
 
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
 }
@@ -309,7 +311,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     // [self.streamAnalytics.configuration addLabels:map]; TBD if needed
     [self.streamAnalytics setMetadata:playbackMetaData];
-    // [self.configurationLabels addEntriesFromDictionary:map]; TBD if needed
+    // [self.configurationLabels setDictionary:map]; TBD if needed
 
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
@@ -419,11 +421,12 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 - (void)videoContentStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
+    NSMutableDictionary *mutableMap = [map mutableCopy];
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
 
     [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:contentMetadata];
-    [self.configurationLabels addEntriesFromDictionary:map];
+    [self.configurationLabels setDictionary:mutableMap];
 
     SEGLog(@"[SCORStreamingAnalytics setMetadata:%@", contentMetadata);
 
@@ -457,7 +460,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 - (void)videoContentCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     [self.streamAnalytics notifyEnd];
-    [self.configurationLabels removeAllObjects];
+    self.configurationLabels = [NSMutableDictionary new];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
 }
 
