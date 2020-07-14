@@ -33,7 +33,7 @@
         self.streamingAnalyticsFactory = streamingAnalyticsFactory;
         // Initialize empty dictionary where we'll store video labels
         // Doing so takes the place of calling self.streamAnalytics.configuration.labels,
-        // since streamAnalytics no longer supports returning labels
+        // a getter method for labels, which Comscore has deprecated
         self.configurationLabels = [NSMutableDictionary new];
 
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
