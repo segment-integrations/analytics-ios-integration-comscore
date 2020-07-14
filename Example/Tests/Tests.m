@@ -745,8 +745,9 @@ describe(@"After Video Playback Started", ^{
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
-            // confirmed the below verification works, but fails b/c k:v pairs
-            // aren't in the same order
+            // confirmed the below comparison shows all labels are persisted
+            // in `integration.configurationLabels` as expected, but the test 
+            // fails b/c k:v pairs aren't in the same order
             // expect([integration.configurationLabels isEqualToDictionary:customLabels]).to.equal(@"true");
 
         });
