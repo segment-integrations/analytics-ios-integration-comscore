@@ -26,6 +26,7 @@
 @property (nonatomic, strong) Class scorAnalyticsClass;
 @property (nonatomic, strong) SCORStreamingAnalytics *streamAnalytics;
 @property (nonatomic) id<SEGStreamingAnalyticsFactory> streamingAnalyticsFactory;
+@property (nonatomic, copy) NSMutableDictionary *configurationLabels;
 NSNumber *convertFromKBPSToBPS(NSDictionary *src, NSString *key);
 
 
