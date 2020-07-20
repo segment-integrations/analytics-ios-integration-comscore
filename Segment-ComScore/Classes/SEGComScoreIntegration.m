@@ -31,7 +31,10 @@
         self.settings = settings;
         self.scorAnalyticsClass = scorAnalyticsClass;
         self.streamingAnalyticsFactory = streamingAnalyticsFactory;
-
+        // Initialize empty dictionary where we'll store video labels
+        // Doing so takes the place of calling self.streamAnalytics.configuration.labels,
+        // a getter method for labels, which Comscore has deprecated
+        self.configurationLabels = [NSMutableDictionary new];
 
         SCORPublisherConfiguration *config = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
             // publisherId is also known as c2 value
@@ -287,12 +290,15 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
         @"ns_st_ci" : properties[@"content_asset_id"] ?: @"0"
     };
 
+    NSMutableDictionary *mutableMap = [map mutableCopy];
+
     [self.streamAnalytics createPlaybackSession];
 
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
     [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:mutableMap];
 
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] createPlaybackSessionWithLabels: %@]", map);
 }
@@ -305,6 +311,7 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
 
     // [self.streamAnalytics.configuration addLabels:map]; TBD if needed
     [self.streamAnalytics setMetadata:playbackMetaData];
+    // [self.configurationLabels setDictionary:map]; TBD if needed
 
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
@@ -414,10 +421,12 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 - (void)videoContentStarted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     NSDictionary *map = returnMappedContentProperties(properties, integrations);
+    NSMutableDictionary *mutableMap = [map mutableCopy];
     SCORStreamingContentMetadata *contentMetadata = [self instantiateContentMetaData:map];
 
     [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:contentMetadata];
+    [self.configurationLabels setDictionary:mutableMap];
 
     SEGLog(@"[SCORStreamingAnalytics setMetadata:%@", contentMetadata);
 
@@ -435,8 +444,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
     // we need to call setAsset with the content metadata.  If ns_st_ad is not present, that means the last
     // observed event was related to content, in which case a setAsset call should not be made (because asset
     // did not change).
-    NSDictionary *labels = self.streamAnalytics.configuration.labels;
-    NSString *previousAdAssetId = [labels objectForKey:@"ns_st_ad"];
+    NSString *previousAdAssetId = [self.configurationLabels objectForKey:@"ns_st_ad"];
 
     if (previousAdAssetId) {
         [self.streamAnalytics setMetadata:contentMetadata];
@@ -452,6 +460,7 @@ NSDictionary *returnMappedContentProperties(NSDictionary *properties, NSDictiona
 - (void)videoContentCompleted:(NSDictionary *)properties withOptions:(NSDictionary *)integrations
 {
     [self.streamAnalytics notifyEnd];
+    self.configurationLabels = [NSMutableDictionary new];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyEnd]");
 }
 
@@ -484,8 +493,7 @@ NSDictionary *returnMappedAdProperties(NSDictionary *properties, NSDictionary *i
     // StreamingAnalytics's asset. This is because ns_st_ci will have already been set via asset_id in a
     // Content Started calls (if this is a mid or post-roll), or via content_asset_id on Video Playback
     // Started (if this is a pre-roll).
-    NSDictionary *labels = self.streamAnalytics.configuration.labels;
-    NSString *contentId = [labels objectForKey:@"ns_st_ci"] ?: @"0";
+    NSString *contentId = [self.configurationLabels objectForKey:@"ns_st_ci"] ?: @"0";
 
     NSMutableDictionary *mapWithContentId = [NSMutableDictionary dictionaryWithDictionary:map];
     [mapWithContentId setValue:contentId forKey:@"ns_st_ci"];

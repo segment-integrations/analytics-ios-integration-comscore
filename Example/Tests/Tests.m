@@ -186,6 +186,9 @@ describe(@"After Video Playback Started", ^{
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
+            expect(integration.configurationLabels).to.equal(@{  @"ns_st_ci" : @"1234",
+                                                                 @"ns_st_mp": @"youtube"
+                  });
         });
     
 
@@ -711,26 +714,27 @@ describe(@"After Video Playback Started", ^{
 
 
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{} context:@{} integrations:@{}];
+            NSDictionary *customLabels = @{  @"ns_st_ci" : @"0",
+                                             @"ns_st_ep" : @"*null",
+                                             @"ns_st_sn" : @"*null",
+                                             @"ns_st_en" : @"*null",
+                                             @"ns_st_ge" : @"*null",
+                                             @"ns_st_pr" : @"*null",
+                                             @"ns_st_cl" : @"0",
+                                             @"ns_st_ce" : @"*null",
+                                             @"ns_st_pu" : @"*null",
+                                             @"ns_st_st" : @"*null",
+                                             @"ns_st_pn" : @"*null",
+                                             @"c3" : @"*null",
+                                             @"c4" : @"*null",
+                                             @"c6" : @"*null",
+                                             @"ns_st_tdt" : @"*null",
+                                             @"ns_st_ddt" : @"*null",
+                                             @"ns_st_ct" : @"vc00" };
 
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
                        SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                           [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
-                                                      @"ns_st_ep" : @"*null",
-                                                      @"ns_st_sn" : @"*null",
-                                                      @"ns_st_en" : @"*null",
-                                                      @"ns_st_ge" : @"*null",
-                                                      @"ns_st_pr" : @"*null",
-                                                      @"ns_st_cl" : @"*0",
-                                                      @"ns_st_ce" : @"*null",
-                                                      @"ns_st_pu" : @"*null",
-                                                      @"ns_st_st" : @"*null",
-                                                      @"ns_st_pn" : @"*null",
-                                                      @"c3" : @"*null",
-                                                      @"c4" : @"*null",
-                                                      @"c6" : @"*null",
-                                                      @"ns_st_tdt" : @"*null",
-                                                      @"ns_st_ddt" : @"*null",
-                                                      @"ns_st_ct" : @"vc00" }];
+                           [builder setCustomLabels:customLabels];
                        }];
             
             [integration track:payload];
@@ -741,6 +745,8 @@ describe(@"After Video Playback Started", ^{
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
+
+            expect([integration.configurationLabels isEqualToDictionary:customLabels]).to.equal(@1);
 
         });
 
@@ -1034,6 +1040,7 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyEnd];
+            expect(integration.configurationLabels).to.equal(@{});
         });
 
         //#pragma Ad Events
