@@ -720,7 +720,7 @@ describe(@"After Video Playback Started", ^{
                                              @"ns_st_en" : @"*null",
                                              @"ns_st_ge" : @"*null",
                                              @"ns_st_pr" : @"*null",
-                                             @"ns_st_cl" : @"*0",
+                                             @"ns_st_cl" : @"0",
                                              @"ns_st_ce" : @"*null",
                                              @"ns_st_pu" : @"*null",
                                              @"ns_st_st" : @"*null",
@@ -745,8 +745,15 @@ describe(@"After Video Playback Started", ^{
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
-            // TODO: Implement test to compare `integration.configurationLabels` and `customLabels`
-            // Confirmed manaully that the two dictionaries contain the same k:v pairs
+
+            for (id key in integration.configurationLabels) {
+                id value = [integration.configurationLabels objectForKey:key];
+                
+                expect(value).to.equal([customLabels objectForKey:key]);
+            }
+            NSArray *configurationLabelKeys = [NSArray arrayWithObjects:[integration.configurationLabels allKeys], nil];
+            NSArray *customLabelKeys = [NSArray arrayWithObjects:[customLabels allKeys], nil];
+            expect([configurationLabelKeys count]).to.equal([customLabelKeys count]);
 
         });
 
