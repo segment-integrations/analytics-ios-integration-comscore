@@ -746,14 +746,7 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
 
-            for (id key in integration.configurationLabels) {
-                id value = [integration.configurationLabels objectForKey:key];
-                
-                expect(value).to.equal([customLabels objectForKey:key]);
-            }
-            NSArray *configurationLabelKeys = [NSArray arrayWithObjects:[integration.configurationLabels allKeys], nil];
-            NSArray *customLabelKeys = [NSArray arrayWithObjects:[customLabels allKeys], nil];
-            expect([configurationLabelKeys count]).to.equal([customLabelKeys count]);
+            expect([integration.configurationLabels isEqualToDictionary:customLabels]).to.equal(@1);
 
         });
 
