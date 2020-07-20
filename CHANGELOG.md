@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 4.1.0 *(20th July, 2020)*
+Version 4.2.0 *(20th July, 2020)*
 ---------------------------------
 *(Supports ComScore 6.0.0+)*
   * [Minor Fix] Remove references to `configuration.labels`, which SCORStreamingAnalytics class no longer exposes.
