@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 4.1.0 *(20th July, 2020)*
+---------------------------------
+*(Supports ComScore 6.0.0+)*
+  * [Minor Fix] Remove references to `configuration.labels`, which SCORStreamingAnalytics class no longer exposes.
+
 Version 4.1.0 *(23rd June, 2020)*
 ---------------------------------
 * [Minor Feature] Default value is now `0` when total length property is missing.
