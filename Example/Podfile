@@ -1,3 +1,4 @@
+platform :ios, '9.0'
 
 target 'Segment-ComScore_Example' do
   pod 'Segment-ComScore', :path => '../'
