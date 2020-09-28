@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 4.2.1 *(28th September, 2020)
+-------------------------------------
+* Fixes build issue when using Comscore 6.6+.
+
 Version 4.2.0 *(20th July, 2020)*
 ---------------------------------
 *(Supports ComScore 6.0.0+)*
