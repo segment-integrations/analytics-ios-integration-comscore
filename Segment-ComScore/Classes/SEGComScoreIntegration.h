@@ -7,8 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Analytics/SEGIntegration.h>
 #import <ComScore/ComScore.h>
+
+#if defined(__has_include) && __has_include(<Analytics/SEGAnalytics.h>)
+#import <Analytics/SEGIntegration.h>
+#else
+#import <Segment/SEGIntegration.h>
+#endif
+
 
 
 @protocol SEGStreamingAnalyticsFactory <NSObject>
