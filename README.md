@@ -5,6 +5,16 @@
 [![License](https://img.shields.io/cocoapods/l/Segment-ComScore.svg?style=flat)](http://cocoapods.org/pods/Segment-ComScore)
 [![Platform](https://img.shields.io/cocoapods/p/Segment-ComScore.svg?style=flat)](http://cocoapods.org/pods/Segment-ComScore)
 
+## NOTE
+
+This integration needs special care when building with anything lower than Xcode 12 due to the ComScore SDK.
+
+When using Xcode 11 or lower, you will need to add the following as the first line of your `[CP] Embed Pods Frameworks` phase:
+
+```
+export ARCHS="$(ARCHS_STANDARD)"
+```
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
