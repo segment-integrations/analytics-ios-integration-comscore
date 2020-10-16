@@ -333,7 +333,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export ARCHS=\"$(ARCHS_STANDARD)\"\n\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-frameworks.sh\"\n";
 		};
 		54E6C44137E073B1193A3FE6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -390,7 +390,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export ARCHS=\"$(ARCHS_STANDARD)\"\n\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Segment-ComScore_Example/Pods-Segment-ComScore_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F951B112C3EA87F573856FD5 /* [CP] Embed Pods Frameworks */ = {
@@ -511,7 +511,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
 		};
@@ -545,7 +545,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
 		};
