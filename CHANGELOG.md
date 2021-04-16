@@ -1,16 +1,16 @@
 Change Log
 ==========
 
-Version 4.4.0 *(16th April, 2021)
+Version 4.4.0 *(16th April, 2021)*
 -----------------------------------
 * Adds support for tvOS.
 
-Version 4.3.0 *(16th October, 2020)
+Version 4.3.0 *(16th October, 2020)*
 -----------------------------------
 * Adds support for analytics-ios 4.1.0.
 * Fixes issue w/ ComScore SDK by requiring Xcode 12 to build.
 
-Version 4.2.1 *(28th September, 2020)
+Version 4.2.1 *(28th September, 2020)*
 -------------------------------------
 * Fixes build issue when using Comscore 6.6+.
 
