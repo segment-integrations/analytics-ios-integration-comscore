@@ -314,9 +314,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
-    // [self.streamAnalytics.configuration addLabels:map]; TBD if needed
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
-    // [self.configurationLabels setDictionary:map]; TBD if needed
+    [self.configurationLabels setDictionary:map];
 
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
@@ -327,7 +327,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:map];
 
     [self.streamAnalytics notifyPause];
     SEGLog(@"[[SCORStreamingAnalytics streamAnalytics] notifyPause]");
@@ -338,7 +340,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:map];
 
     [self movePosition:properties];
     [self.streamAnalytics notifyBufferStart];
@@ -350,7 +354,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:map];
 
     [self movePosition:properties];
     [self.streamAnalytics notifyBufferStop];
@@ -362,7 +368,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:map];
 
     [self seekPosition:properties];
     [self.streamAnalytics notifySeekStart];
@@ -374,7 +382,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:map];
 
     [self seekPosition:properties];
     [self.streamAnalytics notifyPlay];
@@ -387,7 +397,9 @@ NSDictionary *returnMappedPlaybackProperties(NSDictionary *properties, NSDiction
     NSDictionary *map = returnMappedPlaybackProperties(properties, integrations);
     SCORStreamingContentMetadata *playbackMetaData = [self instantiateContentMetaData:map];
 
+    [self.streamAnalytics.configuration addLabels:map];
     [self.streamAnalytics setMetadata:playbackMetaData];
+    [self.configurationLabels setDictionary:map];
 
     [self movePosition:properties];
     [self.streamAnalytics notifyPlay];
