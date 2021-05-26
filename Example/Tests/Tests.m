@@ -155,11 +155,10 @@ describe(@"SEGComScoreIntegration", ^{
 
 #pragma Playback Events
 
-describe(@"After Video Playback Started", ^{
+    describe(@"After Video Playback Started", ^{
         beforeEach(^{
             integration.streamAnalytics = mockStreamingAnalytics;
         });
-
 
         it(@"videoPlaybackStarted", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Started" properties:@{
@@ -168,105 +167,160 @@ describe(@"After Video Playback Started", ^{
                 @"video_player" : @"youtube",
 
             } context:@{}
-                integrations:@{}];
-            
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                  [builder setCustomLabels:@{  @"ns_st_ci" : @"1234",
-                                               @"ns_st_mp": @"youtube"
-                  }];
-             }];
+                [builder setCustomLabels:@{  @"ns_st_ci" : @"1234",
+                                             @"ns_st_mp": @"youtube"
+                }];
+            }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) createPlaybackSession];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
             expect(integration.configurationLabels).to.equal(@{  @"ns_st_ci" : @"1234",
-                                                                 @"ns_st_mp": @"youtube"
-                  });
+                                                                 @"ns_st_mp" : @"youtube"
+                                                             });
         });
-    
 
-        it(@"videoPlaybackPaused", ^{
-
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused" properties:@{
-                @"content_asset_id" : @"7890",
-                @"ad_type" : @"mid-roll",
-                @"video_player" : @"vimeo",
-                @"position" : @30,
-                @"sound" : @100,
-                @"full_screen" : @YES,
-                @"bitrate" : @50
-            } context:@{}
+        it(@"videoPlaybackPaused - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"7890",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"position" : @30,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50 }
+                                                                      context:@{}
                                                                  integrations:@{
                                                                      @"com-score" : @{
-                                                                         @"c3" : @"test"
+                                                                             @"c3" : @"test"
                                                                      }
                                                                  }];
-            
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyPause];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"test",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"vimeo",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"*null",
+                                                                @"ns_st_ws" : @"full" });
+        });
+
+        it(@"videoPlaybackPaused", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Paused"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"7890",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"position" : @30,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50}
+                                                                      context:@{}
+                                                                 integrations:@{
+                                                                     @"com-score" : @{
+                                                                             @"c3" : @"test"
+                                                                     }
+                                                                 }];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                [builder setCustomLabels:@{ @"ns_st_ci": @"7890",
-                                             @"ns_st_mp" : @"vimeo",
-                                             @"ns_st_vo" : @"100",
-                                             @"ns_st_ws" : @"full",
-                                             @"ns_st_br" : @"50000",
-                                             @"c3" : @"test",
-                                             @"c4" : @"*null",
-                                             @"c6" : @"*null"
-                 }];
+                [builder setCustomLabels:@{
+                    @"ns_st_ci": @"7890",
+                    @"ns_st_mp" : @"vimeo",
+                    @"ns_st_vo" : @"100",
+                    @"ns_st_ws" : @"full",
+                    @"ns_st_br" : @"50000",
+                    @"c3" : @"test",
+                    @"c4" : @"*null",
+                    @"c6" : @"*null"
+                }];
             }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPause];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
+        });
+
+        it(@"videoPlaybackInterrupted - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"7890",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"position" : @30,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{
+                                                                     @"com-score" : @{
+                                                                             @"c3" : @"test"
+                                                                     }
+                                                                 }];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyPause];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"test",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"vimeo",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"*null",
+                                                                @"ns_st_ws" : @"full" });
         });
 
         it(@"videoPlaybackInterrupted", ^{
-
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted" properties:@{
-                @"content_asset_id" : @"7890",
-                @"ad_type" : @"mid-roll",
-                @"video_player" : @"vimeo",
-                @"position" : @30,
-                @"sound" : @100,
-                @"full_screen" : @YES,
-                @"bitrate" : @50
-            } context:@{}
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Interrupted"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"7890",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"position" : @30,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50
+                                                                   }
+                                                                      context:@{}
                                                                  integrations:@{
                                                                      @"com-score" : @{
-                                                                         @"c3" : @"test"
+                                                                             @"c3" : @"test"
                                                                      }
                                                                  }];
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                [builder setCustomLabels:@{@"ns_st_ci": @"7890",
-                                           @"ns_st_mp" : @"vimeo",
-                                           @"ns_st_vo" : @"100",
-                                           @"ns_st_ws" : @"full",
-                                           @"ns_st_br" : @"50000",
-                                           @"c3" : @"test",
-                                           @"c4" : @"*null",
-                                           @"c6" : @"*null"
-
-                            
-                            }];
+                [builder setCustomLabels:@{
+                    @"ns_st_ci": @"7890",
+                    @"ns_st_mp" : @"vimeo",
+                    @"ns_st_vo" : @"100",
+                    @"ns_st_ws" : @"full",
+                    @"ns_st_br" : @"50000",
+                    @"c3" : @"test",
+                    @"c4" : @"*null",
+                    @"c6" : @"*null"
+                }];
             }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPause];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -274,8 +328,38 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(contentMetaData));
         });
 
-        it(@"videoPlaybackBufferStarted with playPosition", ^{
+        it(@"videoPlaybackBufferStarted - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"2340",
+                                                                       @"ad_type" : @"post-roll",
+                                                                       @"video_player" : @"youtube",
+                                                                       @"position" : @190,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @NO,
+                                                                       @"bitrate" : @50
 
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{
+                                                                     @"com-score" : @{
+                                                                             @"c4" : @"test"
+                                                                     }
+                                                                 }];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyBufferStart];
+            [verify(mockStreamingAnalytics) startFromPosition:190];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"*null",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"youtube",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"test",
+                                                                @"ns_st_ws" : @"norm" });
+        });
+
+        it(@"videoPlaybackBufferStarted with playPosition", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
                 @"content_asset_id" : @"2340",
                 @"ad_type" : @"post-roll",
@@ -288,52 +372,10 @@ describe(@"After Video Playback Started", ^{
             } context:@{}
                                                                  integrations:@{
                                                                      @"com-score" : @{
-                                                                         @"c4" : @"test"
+                                                                             @"c4" : @"test"
                                                                      }
                                                                  }];
-            
-            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
-            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                [builder setCustomLabels:@{ @"ns_st_ci": @"2340",
-                                            @"ns_st_mp" : @"youtube",
-                                             @"ns_st_vo" : @"100",
-                                             @"ns_st_ws" : @"norm",
-                                             @"c3" : @"*null",
-                                             @"c4" : @"test",
-                                             @"c6" : @"*null",
-                                             @"ns_st_br" : @"50000" }];
-            }];
 
-
-            [integration track:payload];
-            [verify(mockStreamingAnalytics) notifyBufferStart];
-            [verify(mockStreamingAnalytics) startFromPosition:190];
-            
-            [mockStreamingAnalytics setMetadata:contentMetaData];
-            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
-            id argumentId = captor.value;
-            assertThat(argumentId, notNilValue());
-            assertThat(argumentId, is(contentMetaData));
-
-        });
-    
-        it(@"videoPlaybackBufferStarted fallback to method without position", ^{
-
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
-                @"content_asset_id" : @"2340",
-                @"ad_type" : @"post-roll",
-                @"video_player" : @"youtube",
-                @"sound" : @100,
-                @"full_screen" : @NO,
-                @"bitrate" : @50
-
-            } context:@{}
-                                                                 integrations:@{
-                                                                     @"com-score" : @{
-                                                                         @"c4" : @"test"
-                                                                     }
-                                                                 }];
-            
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci": @"2340",
@@ -349,7 +391,47 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyBufferStart];
-            
+            [verify(mockStreamingAnalytics) startFromPosition:190];
+
+            [mockStreamingAnalytics setMetadata:contentMetaData];
+            [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
+            id argumentId = captor.value;
+            assertThat(argumentId, notNilValue());
+            assertThat(argumentId, is(contentMetaData));
+        });
+
+        it(@"videoPlaybackBufferStarted fallback to method without position", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Started" properties:@{
+                @"content_asset_id" : @"2340",
+                @"ad_type" : @"post-roll",
+                @"video_player" : @"youtube",
+                @"sound" : @100,
+                @"full_screen" : @NO,
+                @"bitrate" : @50
+
+            } context:@{}
+                                                                 integrations:@{
+                                                                     @"com-score" : @{
+                                                                             @"c4" : @"test"
+                                                                     }
+                                                                 }];
+
+            HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                [builder setCustomLabels:@{ @"ns_st_ci": @"2340",
+                                            @"ns_st_mp" : @"youtube",
+                                            @"ns_st_vo" : @"100",
+                                            @"ns_st_ws" : @"norm",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"test",
+                                            @"c6" : @"*null",
+                                            @"ns_st_br" : @"50000" }];
+            }];
+
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyBufferStart];
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -357,12 +439,35 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(contentMetaData));
 
         });
-    
-    
-        
+
+        it(@"videoPlaybackBufferCompleted - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"1230",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"youtube",
+                                                                       @"position" : @90,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @NO,
+                                                                       @"bitrate" : @50
+
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{}];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyBufferStop];
+            [verify(mockStreamingAnalytics) startFromPosition:90];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"*null",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"youtube",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"*null",
+                                                                @"ns_st_ws" : @"norm" });
+        });
 
         it(@"videoPlaybackBufferCompleted with playPosition", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
                 @"content_asset_id" : @"1230",
                 @"ad_type" : @"mid-roll",
@@ -373,8 +478,8 @@ describe(@"After Video Playback Started", ^{
                 @"bitrate" : @50
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci": @"1230",
@@ -390,16 +495,15 @@ describe(@"After Video Playback Started", ^{
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyBufferStop];
             [verify(mockStreamingAnalytics) startFromPosition:90];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
         });
-    
-        it(@"videoPlaybackBufferCompleted fallsback to method without position", ^{
 
+        it(@"videoPlaybackBufferCompleted fallsback to method without position", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Buffer Completed" properties:@{
                 @"content_asset_id" : @"1230",
                 @"ad_type" : @"mid-roll",
@@ -409,8 +513,8 @@ describe(@"After Video Playback Started", ^{
                 @"bitrate" : @50
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci": @"1230",
@@ -433,8 +537,34 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(contentMetaData));
         });
 
-        it(@"videoPlaybackSeekStarted with seekPosition", ^{
+        it(@"videoPlaybackSeekStarted - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"6352",
+                                                                       @"ad_type" : @"pre-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"seek_position" : @20,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50
 
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{}];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifySeekStart];
+            [verify(mockStreamingAnalytics) startFromPosition:20];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"*null",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"vimeo",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"*null",
+                                                                @"ns_st_ws" : @"full" });
+        });
+
+        it(@"videoPlaybackSeekStarted with seekPosition", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
                 @"content_asset_id" : @"6352",
                 @"ad_type" : @"pre-roll",
@@ -445,33 +575,32 @@ describe(@"After Video Playback Started", ^{
                 @"bitrate" : @50
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-               [builder setCustomLabels:@{ @"ns_st_ci": @"6352",
-                                           @"ns_st_mp" : @"vimeo",
-                                           @"ns_st_vo" : @"100",
-                                           @"c3" : @"*null",
-                                           @"c4" : @"*null",
-                                           @"c6" : @"*null",
-                                           @"ns_st_ws" : @"full",
-                                           @"ns_st_br" : @"50000" }];
-           }];
+                [builder setCustomLabels:@{ @"ns_st_ci": @"6352",
+                                            @"ns_st_mp" : @"vimeo",
+                                            @"ns_st_vo" : @"100",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                                            @"ns_st_ws" : @"full",
+                                            @"ns_st_br" : @"50000" }];
+            }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifySeekStart];
             [verify(mockStreamingAnalytics) startFromPosition:20];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
         });
-    
-        it(@"videoPlaybackSeekStarted fallsback to method without seek_position", ^{
 
+        it(@"videoPlaybackSeekStarted fallsback to method without seek_position", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Started" properties:@{
                 @"content_asset_id" : @"6352",
                 @"ad_type" : @"pre-roll",
@@ -481,23 +610,23 @@ describe(@"After Video Playback Started", ^{
                 @"bitrate" : @50
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-               [builder setCustomLabels:@{ @"ns_st_ci": @"6352",
-                                           @"ns_st_mp" : @"vimeo",
-                                           @"ns_st_vo" : @"100",
-                                           @"c3" : @"*null",
-                                           @"c4" : @"*null",
-                                           @"c6" : @"*null",
-                                           @"ns_st_ws" : @"full",
-                                           @"ns_st_br" : @"50000" }];
-           }];
+                [builder setCustomLabels:@{ @"ns_st_ci": @"6352",
+                                            @"ns_st_mp" : @"vimeo",
+                                            @"ns_st_vo" : @"100",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                                            @"ns_st_ws" : @"full",
+                                            @"ns_st_br" : @"50000" }];
+            }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifySeekStart];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -505,21 +634,48 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(contentMetaData));
         });
 
+        it(@"videoPlaybackSeekCompleted - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"6352",
+                                                                       @"ad_type" : @"pre-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"seek_position" : @20,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50
+
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{}];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) notifyPlay];
+            [verify(mockStreamingAnalytics) startFromPosition:20];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"*null",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"vimeo",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"*null",
+                                                                @"ns_st_ws" : @"full" });
+        });
 
         it(@"videoPlaybackSeekCompleted with seekPosition", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"6352",
+                                                                       @"ad_type" : @"pre-roll",
+                                                                       @"video_player" : @"vimeo",
+                                                                       @"seek_position" : @20,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50
 
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
-                @"content_asset_id" : @"6352",
-                @"ad_type" : @"pre-roll",
-                @"video_player" : @"vimeo",
-                @"seek_position" : @20,
-                @"sound" : @100,
-                @"full_screen" : @YES,
-                @"bitrate" : @50
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{}];
 
-            } context:@{}
-                integrations:@{}];
-            
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci": @"6352",
@@ -535,16 +691,15 @@ describe(@"After Video Playback Started", ^{
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
             [verify(mockStreamingAnalytics) startFromPosition:20];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
         });
-    
-        it(@"videoPlaybackSeekCompleted fallsback to method without seek_position", ^{
 
+        it(@"videoPlaybackSeekCompleted fallsback to method without seek_position", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Seek Completed" properties:@{
                 @"content_asset_id" : @"6352",
                 @"ad_type" : @"pre-roll",
@@ -554,8 +709,8 @@ describe(@"After Video Playback Started", ^{
                 @"bitrate" : @50
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci": @"6352",
@@ -570,45 +725,71 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
+        });
+
+        it(@"videoPlaybackResumed - configuration labels", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"2141",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"youtube",
+                                                                       @"position" : @34,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50}
+                                                                      context:@{}
+                                                                 integrations:@{}];
+
+            [integration track:payload];
+            [verify(mockStreamingAnalytics) startFromPosition:34];
+            [verify(mockStreamingAnalytics) notifyPlay];
+            expect(integration.configurationLabels).to.equal(@{ @"ns_st_vo" : @"100",
+                                                                @"c3" : @"*null",
+                                                                @"c6" :  @"*null",
+                                                                @"ns_st_mp" : @"youtube",
+                                                                @"ns_st_br" : @"50000",
+                                                                @"c4" : @"*null",
+                                                                @"ns_st_ws" : @"full" });
         });
 
         it(@"videoPlaybackResumed with playPosition", ^{
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed"
+                                                                   properties:@{
+                                                                       @"content_asset_id" : @"2141",
+                                                                       @"ad_type" : @"mid-roll",
+                                                                       @"video_player" : @"youtube",
+                                                                       @"position" : @34,
+                                                                       @"sound" : @100,
+                                                                       @"full_screen" : @YES,
+                                                                       @"bitrate" : @50
 
-            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
-                @"content_asset_id" : @"2141",
-                @"ad_type" : @"mid-roll",
-                @"video_player" : @"youtube",
-                @"position" : @34,
-                @"sound" : @100,
-                @"full_screen" : @YES,
-                @"bitrate" : @50
+                                                                   }
+                                                                      context:@{}
+                                                                 integrations:@{}];
 
-            } context:@{}
-                integrations:@{}];
-            
-            
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                [builder setCustomLabels:@{ @"ns_st_ci": @"2141",
-                                            @"ns_st_mp" : @"vimeo",
-                                            @"ns_st_vo" : @"100",
-                                            @"c3" : @"*null",
-                                            @"c4" : @"*null",
-                                            @"c6" : @"*null",
-                                            @"ns_st_ws" : @"full",
-                                            @"ns_st_br" : @"50000"}];
+                [builder setCustomLabels:@{
+                    @"ns_st_ci": @"2141",
+                    @"ns_st_mp" : @"vimeo",
+                    @"ns_st_vo" : @"100",
+                    @"c3" : @"*null",
+                    @"c4" : @"*null",
+                    @"c6" : @"*null",
+                    @"ns_st_ws" : @"full",
+                    @"ns_st_br" : @"50000"}];
             }];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) startFromPosition:34];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -617,7 +798,6 @@ describe(@"After Video Playback Started", ^{
         });
 
         it(@"videoPlaybackResumed fallsback to method without position", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Playback Resumed" properties:@{
                 @"content_asset_id" : @"2141",
                 @"ad_type" : @"mid-roll",
@@ -628,7 +808,7 @@ describe(@"After Video Playback Started", ^{
 
             } context:@{}
                                                                  integrations:@{}];
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci": @"2141",
@@ -643,7 +823,7 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -654,7 +834,6 @@ describe(@"After Video Playback Started", ^{
         //#pragma Content Events
 
         it(@"videoContentStarted with playPosition", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{
                 @"asset_id" : @"3543",
                 @"pod_id" : @"65462",
@@ -671,12 +850,10 @@ describe(@"After Video Playback Started", ^{
             } context:@{}
                                                                  integrations:@{
                                                                      @"com-score" : @{
-                                                                         @"tvAirdate" : @"2017-05-22"
+                                                                             @"tvAirdate" : @"2017-05-22"
                                                                      }
                                                                  }];
-            
-            
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
@@ -701,7 +878,7 @@ describe(@"After Video Playback Started", ^{
             [integration track:payload];
             [verify(mockStreamingAnalytics) startFromPosition:22];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -711,8 +888,6 @@ describe(@"After Video Playback Started", ^{
         });
 
         it(@"videoContentStarted with default values", ^{
-
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{} context:@{} integrations:@{}];
             NSDictionary *customLabels = @{  @"ns_st_ci" : @"0",
                                              @"ns_st_ep" : @"*null",
@@ -733,13 +908,13 @@ describe(@"After Video Playback Started", ^{
                                              @"ns_st_ct" : @"vc00" };
 
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
-                       SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                           [builder setCustomLabels:customLabels];
-                       }];
-            
+            SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+                [builder setCustomLabels:customLabels];
+            }];
+
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -751,8 +926,6 @@ describe(@"After Video Playback Started", ^{
         });
 
         it(@"videoContentStarted fallsback to method without position", ^{
-
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{
                 @"asset_id" : @"3543",
                 @"pod_id" : @"65462",
@@ -768,10 +941,10 @@ describe(@"After Video Playback Started", ^{
             } context:@{}
                                                                  integrations:@{
                                                                      @"com-score" : @{
-                                                                         @"tvAirdate" : @"2017-05-22"
+                                                                             @"tvAirdate" : @"2017-05-22"
                                                                      }
                                                                  }];
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
@@ -795,7 +968,7 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -803,29 +976,27 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(contentMetaData));
 
         });
-    
+
         it(@"videoContentPlaying with adType", ^{
-
-
-               SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
-                   @"asset_id" : @"3543",
-                   @"pod_id" : @"65462",
-                   @"title" : @"Big Trouble in Little Sanchez",
-                   @"season" : @"2",
-                   @"episode" : @"7",
-                   @"type": @"pre-roll",
-                   @"genre" : @"cartoon",
-                   @"program" : @"Rick and Morty",
-                   @"total_length" : @400,
-                   @"full_episode" : @"true",
-                   @"publisher" : @"Turner Broadcasting Network",
-                   @"channel" : @"Cartoon Network"
-               } context:@{}
-                                                                    integrations:@{
-                                                                        @"com-score" : @{
-                                                                            @"tvAirdate" : @"2017-05-22"
-                                                                        }
-                                                                    }];
+            SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
+                @"asset_id" : @"3543",
+                @"pod_id" : @"65462",
+                @"title" : @"Big Trouble in Little Sanchez",
+                @"season" : @"2",
+                @"episode" : @"7",
+                @"type": @"pre-roll",
+                @"genre" : @"cartoon",
+                @"program" : @"Rick and Morty",
+                @"total_length" : @400,
+                @"full_episode" : @"true",
+                @"publisher" : @"Turner Broadcasting Network",
+                @"channel" : @"Cartoon Network"
+            } context:@{}
+                                                                 integrations:@{
+                                                                     @"com-score" : @{
+                                                                             @"tvAirdate" : @"2017-05-22"
+                                                                     }
+                                                                 }];
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
@@ -854,18 +1025,16 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:advertisingMetaData];
             [verifyCount(mockStreamingAnalytics, times(1)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(advertisingMetaData));
 
-           });
+        });
 
         it(@"videoContentPlaying with playPosition and without Ad Type", ^{
-
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
                 @"asset_id" : @"3543",
                 @"pod_id" : @"65462",
@@ -881,8 +1050,8 @@ describe(@"After Video Playback Started", ^{
                 @"position" : @50
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
@@ -906,7 +1075,7 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(1)) setMetadata:captor];
             id argumentId = captor.value;
@@ -916,7 +1085,6 @@ describe(@"After Video Playback Started", ^{
         });
 
         it(@"videoContentPlaying fallsback to method without position and without Ad Type", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Playing" properties:@{
                 @"asset_id" : @"3543",
                 @"pod_id" : @"65462",
@@ -931,8 +1099,8 @@ describe(@"After Video Playback Started", ^{
                 @"channel" : @"Cartoon Network"
 
             } context:@{}
-                integrations:@{}];
-            
+                                                                 integrations:@{}];
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
@@ -956,16 +1124,15 @@ describe(@"After Video Playback Started", ^{
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(1)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
         });
-    
-        it(@"videoContentStarted with missing total length", ^{
 
+        it(@"videoContentStarted with missing total length", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Started" properties:@{
                 @"asset_id" : @"3543",
                 @"pod_id" : @"65462",
@@ -981,12 +1148,10 @@ describe(@"After Video Playback Started", ^{
             } context:@{}
                                                                  integrations:@{
                                                                      @"com-score" : @{
-                                                                         @"tvAirdate" : @"2017-05-22"
+                                                                             @"tvAirdate" : @"2017-05-22"
                                                                      }
                                                                  }];
-            
-            
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
                 [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
@@ -1011,17 +1176,15 @@ describe(@"After Video Playback Started", ^{
             [integration track:payload];
             [verify(mockStreamingAnalytics) startFromPosition:22];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:contentMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(contentMetaData));
-
         });
 
         it(@"videoContentCompleted", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Content Completed" properties:@{
                 @"asset_id" : @"3543",
                 @"pod_id" : @"65462",
@@ -1036,7 +1199,7 @@ describe(@"After Video Playback Started", ^{
                 @"channel" : @"Cartoon Network",
                 @"position" : @100
             } context:@{}
-                integrations:@{}];
+                                                                 integrations:@{}];
 
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyEnd];
@@ -1046,7 +1209,6 @@ describe(@"After Video Playback Started", ^{
         //#pragma Ad Events
 
         it(@"videoAdStarted with playPosition and ns_st_ci value", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
                 @"content_asset_id": @"3543",
                 @"asset_id" : @"1231312",
@@ -1057,22 +1219,23 @@ describe(@"After Video Playback Started", ^{
                 @"publisher" : @"Adult Swim",
                 @"title" : @"Rick and Morty Ad"
             } context:@{}
-                integrations:@{}];
+                                                                 integrations:@{}];
 
             [integration track:payload];
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                         [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
-                                                     @"ns_st_cl" : @"110000",
-                                                     @"ns_st_pu" : @"Adult Swim",
-                                                     @"c3" : @"*null",
-                                                     @"c4" : @"*null",
-                                                     @"c6" : @"*null",
-                                                     @"ns_st_ddt" : @"*null",
-                                                     @"ns_st_ct" : @"vc00"}];
-                     }];
-            
+                [builder setCustomLabels:@{
+                    @"ns_st_ci" : @"3543",
+                    @"ns_st_cl" : @"110000",
+                    @"ns_st_pu" : @"Adult Swim",
+                    @"c3" : @"*null",
+                    @"c4" : @"*null",
+                    @"c6" : @"*null",
+                    @"ns_st_ddt" : @"*null",
+                    @"ns_st_ct" : @"vc00"}];
+            }];
+
             SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
                 [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
                 [builder setCustomLabels: @{
@@ -1089,7 +1252,7 @@ describe(@"After Video Playback Started", ^{
 
             [verify(mockStreamingAnalytics) startFromPosition:43];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:advertisingMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -1097,7 +1260,7 @@ describe(@"After Video Playback Started", ^{
             assertThat(argumentId, is(advertisingMetaData));
 
         });
-    
+
         it(@"videoAdStarted fallsback to @'1' without correct type value", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
                 @"asset_id" : @"1231312",
@@ -1106,21 +1269,21 @@ describe(@"After Video Playback Started", ^{
                 @"total_length" : @110,
                 @"title" : @"Rick and Morty Ad"
             } context:@{}
-                integrations:@{}];
+                                                                 integrations:@{}];
 
             [integration track:payload];
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                         [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
-                                                     @"ns_st_cl" : @"110000",
-                                                     @"ns_st_pu" : @"*null",
-                                                     @"c3" : @"*null",
-                                                     @"c4" : @"*null",
-                                                     @"c6" : @"*null",
-                                                     @"ns_st_ct" : @"va00"}];
-                     }];
-            
+                [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
+                                            @"ns_st_cl" : @"110000",
+                                            @"ns_st_pu" : @"*null",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                                            @"ns_st_ct" : @"va00"}];
+            }];
+
             SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
                 [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
                 [builder setCustomLabels: @{
@@ -1136,7 +1299,7 @@ describe(@"After Video Playback Started", ^{
             }];
 
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:advertisingMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
@@ -1145,8 +1308,6 @@ describe(@"After Video Playback Started", ^{
         });
 
         it(@"videoAdStarted maps adClassificationType value passed in integrations object", ^{
-
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
                 @"asset_id" : @"1231312",
                 @"pod_id" : @"43434234534",
@@ -1157,23 +1318,22 @@ describe(@"After Video Playback Started", ^{
 
             } context:@{}
                                                                  integrations:@{ @"com-score" : @{
-                                                                     @"adClassificationType" : @"va12"
+                                                                                         @"adClassificationType" : @"va12"
                                                                  } }];
 
             [integration track:payload];
-            
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                         [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
-                                                     @"ns_st_cl" : @"110000",
-                                                     @"ns_st_pu" : @"*null",
-                                                     @"c3" : @"*null",
-                                                     @"c4" : @"*null",
-                                                     @"c6" : @"*null",
-                                                    }];
-                     }];
-            
+                [builder setCustomLabels:@{ @"ns_st_ci" : @"0",
+                                            @"ns_st_cl" : @"110000",
+                                            @"ns_st_pu" : @"*null",
+                                            @"c3" : @"*null",
+                                            @"c4" : @"*null",
+                                            @"c6" : @"*null",
+                }];
+            }];
+
             SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
                 [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
                 [builder setCustomLabels: @{
@@ -1190,17 +1350,15 @@ describe(@"After Video Playback Started", ^{
 
             [verify(mockStreamingAnalytics) notifyPlay];
             [verify(mockStreamingAnalytics) startFromPosition:110];
-            
-            
+
             [mockStreamingAnalytics setMetadata:advertisingMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(advertisingMetaData));
         });
-    
-        it(@"videoAdStarted with missing total length", ^{
 
+        it(@"videoAdStarted with missing total length", ^{
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Started" properties:@{
                 @"content_asset_id": @"3543",
                 @"asset_id" : @"1231312",
@@ -1210,22 +1368,23 @@ describe(@"After Video Playback Started", ^{
                 @"publisher" : @"Adult Swim",
                 @"title" : @"Rick and Morty Ad"
             } context:@{}
-                integrations:@{}];
+                                                                 integrations:@{}];
 
             [integration track:payload];
-            
+
             HCArgumentCaptor *captor = [[HCArgumentCaptor alloc] init];
             SCORStreamingContentMetadata *contentMetaData = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
-                         [builder setCustomLabels:@{ @"ns_st_ci" : @"3543",
-                                                     @"ns_st_cl" : @"0",
-                                                     @"ns_st_pu" : @"Adult Swim",
-                                                     @"c3" : @"*null",
-                                                     @"c4" : @"*null",
-                                                     @"c6" : @"*null",
-                                                     @"ns_st_ddt" : @"*null",
-                                                     @"ns_st_ct" : @"vc00"}];
-                     }];
-            
+                [builder setCustomLabels:@{
+                    @"ns_st_ci" : @"3543",
+                    @"ns_st_cl" : @"0",
+                    @"ns_st_pu" : @"Adult Swim",
+                    @"c3" : @"*null",
+                    @"c4" : @"*null",
+                    @"c6" : @"*null",
+                    @"ns_st_ddt" : @"*null",
+                    @"ns_st_ct" : @"vc00"}];
+            }];
+
             SCORStreamingAdvertisementMetadata * advertisingMetaData = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
                 [builder setMediaType: SCORStreamingAdvertisementTypeBrandedOnDemandMidRoll];
                 [builder setCustomLabels: @{
@@ -1242,18 +1401,15 @@ describe(@"After Video Playback Started", ^{
 
             [verify(mockStreamingAnalytics) startFromPosition:43];
             [verify(mockStreamingAnalytics) notifyPlay];
-            
+
             [mockStreamingAnalytics setMetadata:advertisingMetaData];
             [verifyCount(mockStreamingAnalytics, times(2)) setMetadata:captor];
             id argumentId = captor.value;
             assertThat(argumentId, notNilValue());
             assertThat(argumentId, is(advertisingMetaData));
-
         });
-    
 
         it(@"videoAdPlaying with playPosition", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
                 @"asset_id" : @"1231312",
                 @"pod_id" : @"43434234534",
@@ -1262,17 +1418,14 @@ describe(@"After Video Playback Started", ^{
                 @"position" : @50,
                 @"title" : @"Rick and Morty Ad",
             } context:@{}
-                integrations:@{}];
-
+                                                                 integrations:@{}];
             [integration track:payload];
 
             [verify(mockStreamingAnalytics) startFromPosition:50];
             [verify(mockStreamingAnalytics) notifyPlay];
-
         });
 
         it(@"videoAdPlaying fallsback to method without position", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Playing" properties:@{
                 @"asset_id" : @"1231312",
                 @"pod_id" : @"43434234534",
@@ -1280,14 +1433,12 @@ describe(@"After Video Playback Started", ^{
                 @"total_length" : @110,
                 @"title" : @"Rick and Morty Ad"
             } context:@{}
-                integrations:@{}];
-
+                                                                 integrations:@{}];
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyPlay];
         });
 
         it(@"videoAdCompleted", ^{
-
             SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:@"Video Ad Completed" properties:@{
                 @"asset_id" : @"1231312",
                 @"pod_id" : @"43434234534",
@@ -1296,8 +1447,7 @@ describe(@"After Video Playback Started", ^{
                 @"title" : @"Rick and Morty Ad"
 
             } context:@{}
-                integrations:@{}];
-
+                                                                 integrations:@{}];
             [integration track:payload];
             [verify(mockStreamingAnalytics) notifyEnd];
         });
