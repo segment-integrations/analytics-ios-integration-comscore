@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 4.4.1 *(4th June, 2021)*
+-----------------------------------
+* Ensures labels are set for all playback events.
+
 Version 4.4.0 *(16th April, 2021)*
 -----------------------------------
 * Adds support for tvOS.
