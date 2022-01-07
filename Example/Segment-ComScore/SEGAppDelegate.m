@@ -18,7 +18,6 @@
     [SEGAnalytics debug:YES];
     SEGAnalyticsConfiguration *configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:@"ACIG3kwqCUsWZBfYxZDu0anuGwP3XtWW"];
     configuration.trackApplicationLifecycleEvents = YES;
-    configuration.trackAttributionData = YES;
     configuration.flushAt = 1;
     [configuration use:[SEGComScoreIntegrationFactory instance]];
     [SEGAnalytics setupWithConfiguration:configuration];
