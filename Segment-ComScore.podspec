@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "Segment-ComScore"
-s.version          = "4.4.1"
+s.version          = "4.4.2"
 s.summary          = "ComScore Integration for Segment's analytics-ios library."
 
 s.description      = <<-DESC

@@ -1,5 +1,8 @@
 Change Log
 ==========
+Version 4.4.2 *(17th February, 2022)*
+-----------------------------------
+* Bumps ComScore dependency to 4.10.0
 
 Version 4.4.1 *(4th June, 2021)*
 -----------------------------------
