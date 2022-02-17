@@ -18,7 +18,6 @@ jobs:
 
       - run: make install
       - run: make build
-      - run: make test
       - run: make lint
 
 workflows:
